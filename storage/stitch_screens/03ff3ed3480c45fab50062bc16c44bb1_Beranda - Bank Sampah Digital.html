@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bank Sampah - Kelola Sampah Jadi Berkah</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#72796e",
+                    "secondary": "#3e6a00",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#121c2a",
+                    "secondary-fixed": "#b9f474",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#303c34",
+                    "inverse-surface": "#27313f",
+                    "on-tertiary-container": "#b9c6bb",
+                    "tertiary-container": "#47534a",
+                    "on-primary-container": "#9dd090",
+                    "surface-variant": "#d9e3f6",
+                    "inverse-primary": "#a1d494",
+                    "primary-fixed": "#bcf0ae",
+                    "on-primary-fixed": "#002201",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary": "#154212",
+                    "surface-tint": "#3b6934",
+                    "surface-dim": "#d0dbed",
+                    "on-secondary-fixed": "#0f2000",
+                    "error": "#ba1a1a",
+                    "background": "#f8f9ff",
+                    "secondary-container": "#b9f474",
+                    "surface-container-highest": "#d9e3f6",
+                    "tertiary-fixed": "#d9e6da",
+                    "on-secondary-fixed-variant": "#2e4f00",
+                    "secondary-fixed-dim": "#9ed75b",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#437000",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "outline-variant": "#c2c9bb",
+                    "surface-container-high": "#dee9fc",
+                    "on-primary-fixed-variant": "#23501e",
+                    "on-tertiary-fixed-variant": "#3e4a41",
+                    "tertiary-fixed-dim": "#bdcabe",
+                    "on-tertiary-fixed": "#131e17",
+                    "on-surface-variant": "#42493e",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-container": "#2d5a27",
+                    "on-surface": "#121c2a",
+                    "primary-fixed-dim": "#a1d494",
+                    "surface": "#f8f9ff",
+                    "surface-container": "#e6eeff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#eff4ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px",
+                    "2xl": "1rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "base": "4px",
+                    "3xl": "64px",
+                    "lg": "24px",
+                    "2xl": "48px",
+                    "container-max": "1280px",
+                    "xs": "4px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                    "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                    "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                    "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                    "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                    "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                    "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .ambient-shadow {
+            box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim font-headline-md text-headline-md font-label-md text-label-md border-b border-outline-variant dark:border-outline flat no shadows sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto h-16">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+                Bank Sampah
+            </div>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 hover:bg-surface-container-high transition-all duration-300" href="#">Beranda</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 hover:bg-surface-container-high rounded-md px-md py-sm" href="#">Jadwal</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 hover:bg-surface-container-high rounded-md px-md py-sm" href="#">Harga</a>
+</nav>
+<div class="flex items-center">
+<button class="bg-primary-container text-on-primary font-label-md text-label-md px-lg py-sm rounded-full hover:bg-opacity-90 transition-all duration-300">
+                    Masuk
+                </button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative bg-surface-container-lowest overflow-hidden py-3xl md:py-48">
+<div class="absolute inset-0 z-0">
+<img alt="Hero Background" class="w-full h-full object-cover opacity-20 object-center" data-alt="A lush, expansive green landscape featuring rolling hills and vibrant, healthy trees under a bright, clear blue sky. The scene conveys a sense of pristine nature, environmental preservation, and sustainability. The lighting is sunny and optimistic, fitting for a modern 'clean-tech' green aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFipZ7CKoXf9maPMYrNuax2FvCG3XTiTfZPwSzlHhZfemty9ZMg8cL9kmBiqAVfvDC5HtsfDP6Qra2RaYoiZUBMyNn60MAVCLhjsfrWSYkgbcHF1WWK6Vu9njjv3WTgacXEY5DFSo5WbO1sNEmcNOzhsSWncYh5q5vFm1ZE0Qr86E7qDoxhIWMS5PJM46outfmFp9vPKoB0sOqN5SaZ6LRV_RjqIZNfalg_FSrkpaH0P5RhjiPGLhc4ov28ldhukmLIRI_E5ejvo0"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-container-max mx-auto px-lg md:px-xl grid grid-cols-1 md:grid-cols-2 gap-2xl items-center">
+<div class="space-y-lg">
+<h1 class="font-display-lg text-display-lg text-primary">
+                        Kelola Sampah <br/><span class="text-secondary">Jadi Berkah</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                        Ubah kebiasaan membuang menjadi menabung. Bergabunglah dengan kami untuk melestarikan lingkungan sambil membangun simpanan yang bermanfaat bagi masa depan Anda.
+                    </p>
+<div class="pt-md">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-xl py-md rounded-full shadow-lg hover:bg-surface-tint transition-all duration-300">
+                            Daftar Sekarang
+                        </button>
+</div>
+</div>
+<div class="hidden md:block relative">
+<div class="glass-panel rounded-2xl p-xl ambient-shadow transform rotate-3 hover:rotate-0 transition-transform duration-500 max-w-md mx-auto">
+<div class="flex items-center gap-md mb-lg">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">savings</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Total Tabungan Anda</p>
+<p class="font-title-lg text-title-lg text-primary font-bold">Rp 1.250.000</p>
+</div>
+</div>
+<div class="w-full h-2 bg-tertiary-fixed rounded-full overflow-hidden mb-sm">
+<div class="h-full bg-gradient-to-r from-primary-container to-secondary w-3/4 rounded-full"></div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-right">Target Tercapai 75%</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Workflow Section (Alur Kerja) -->
+<section class="py-3xl bg-surface">
+<div class="max-w-container-max mx-auto px-lg md:px-xl">
+<div class="text-center mb-2xl space-y-sm">
+<h2 class="font-headline-lg text-headline-lg md:font-headline-lg text-primary">Alur Kerja Kami</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Tiga langkah mudah untuk mulai berkontribusi pada lingkungan dan ekonomi Anda.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest rounded-2xl p-xl ambient-shadow text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300">
+<div class="w-16 h-16 mx-auto bg-surface-container-high text-primary rounded-full flex items-center justify-center mb-lg group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">app_registration</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-sm">1. Daftar</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Buat akun dengan mudah melalui platform kami untuk mulai melacak kontribusi Anda.
+                        </p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest rounded-2xl p-xl ambient-shadow text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300">
+<div class="w-16 h-16 mx-auto bg-surface-container-high text-primary rounded-full flex items-center justify-center mb-lg group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">recycling</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-sm">2. Setor Sampah</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Bawa sampah terpilah Anda ke fasilitas kami. Kami akan menimbang dan mencatat nilainya.
+                        </p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest rounded-2xl p-xl ambient-shadow text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300">
+<div class="w-16 h-16 mx-auto bg-surface-container-high text-primary rounded-full flex items-center justify-center mb-lg group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-sm">3. Tarik Saldo</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Nikmati hasil tabungan Anda. Tarik saldo kapan saja saat Anda membutuhkannya.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Operational Schedule Section -->
+<section class="py-3xl bg-surface-container-low">
+<div class="max-w-container-max mx-auto px-lg md:px-xl">
+<div class="flex flex-col md:flex-row items-center gap-2xl">
+<div class="flex-1 space-y-lg">
+<h2 class="font-headline-lg text-headline-lg text-primary">Jadwal Operasional</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Kunjungi kami pada jam operasional untuk menyetorkan sampah Anda. Tim kami siap membantu proses penimbangan dan pencatatan dengan cepat dan akurat.
+                        </p>
+<div class="bg-surface-container-lowest rounded-2xl p-xl ambient-shadow border border-outline-variant/30">
+<div class="flex items-center gap-md border-b border-outline-variant/30 pb-md mb-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">event_available</span>
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">Hari Buka</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Senin - Sabtu</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">Jam Layanan</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">08:00 - 16:00 WIB</p>
+</div>
+</div>
+<div class="mt-lg pt-md border-t border-outline-variant/30 flex items-center gap-sm text-error">
+<span class="material-symbols-outlined text-sm">info</span>
+<span class="font-label-sm text-label-sm">Tutup pada hari Minggu dan Libur Nasional.</span>
+</div>
+</div>
+</div>
+<div class="flex-1 w-full relative h-[400px] rounded-2xl overflow-hidden ambient-shadow">
+<img alt="Fasilitas Bank Sampah" class="absolute inset-0 w-full h-full object-cover" data-alt="A modern, clean recycling sorting facility with neatly organized bins labeled for different materials. Bright, natural lighting illuminates the space, emphasizing cleanliness and organization. The aesthetic is industrial yet fresh and eco-friendly, featuring green accents consistent with a professional waste management system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJh2uBsObhwMx9-u57-01Lp70WoYYsg5NR0zD631Ai18X3WXFWzmxh7IziIAv3moGwJItUfUtcW31FO2q5r-CgW5sixJTChkLrKWpORfVIfW8iIDF-lQ2IBWHpDlIPf1HjyHjGW6TgEOyYoQkruK5Ouokmivn2JVZIg3OVCKkHenPu0HNWkQfm0mB3hzEA8QUK888AuUDs-dtqw684LROZtOpt6ZUExeWoFQd31m-PUNsSZ-T4fa7J1qAI3lhLOCAGxZpS2bdXj7k"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-tertiary-container text-on-surface dark:text-on-tertiary-container font-body-md text-body-md flat no shadows w-full mt-auto">
+<div class="w-full py-xl px-lg md:px-xl flex flex-col md:flex-row justify-between items-start gap-lg max-w-container-max mx-auto">
+<div class="space-y-sm max-w-sm">
+<div class="font-title-lg text-title-lg font-bold text-primary dark:text-primary-fixed-dim mb-md">
+                    Bank Sampah
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-tertiary-container">
+                    © 2024 Bank Sampah Digital. Mengelola Sampah, Menabung Kebaikan.
+                </p>
+</div>
+<nav class="flex flex-col md:flex-row gap-lg md:gap-2xl font-label-sm text-label-sm">
+<div class="flex flex-col gap-sm">
+<a class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded outline-none" href="#">Tentang Kami</a>
+<a class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded outline-none" href="#">Kebijakan Privasi</a>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded outline-none" href="#">Syarat &amp; Ketentuan</a>
+<a class="text-on-surface-variant dark:text-on-tertiary-container hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded outline-none" href="#">Hubungi Kami</a>
+</div>
+</nav>
+</div>
+</footer>
+</body></html>

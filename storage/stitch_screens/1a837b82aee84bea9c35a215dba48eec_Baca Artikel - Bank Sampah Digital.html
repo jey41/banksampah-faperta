@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bank Sampah - Baca Artikel</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e6eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed-dim": "#a1d494",
+                        "on-surface": "#121c2a",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#3e4a41",
+                        "tertiary-fixed-dim": "#bdcabe",
+                        "on-surface-variant": "#42493e",
+                        "on-tertiary-fixed": "#131e17",
+                        "primary-container": "#2d5a27",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c2c9bb",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-container": "#437000",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dee9fc",
+                        "on-primary-fixed-variant": "#23501e",
+                        "background": "#f8f9ff",
+                        "secondary-container": "#b9f474",
+                        "on-secondary-fixed-variant": "#2e4f00",
+                        "tertiary-fixed": "#d9e6da",
+                        "surface-container-highest": "#d9e3f6",
+                        "secondary-fixed-dim": "#9ed75b",
+                        "surface-tint": "#3b6934",
+                        "primary": "#154212",
+                        "surface-dim": "#d0dbed",
+                        "on-secondary-fixed": "#0f2000",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#d9e3f6",
+                        "on-primary-container": "#9dd090",
+                        "inverse-primary": "#a1d494",
+                        "tertiary-container": "#47534a",
+                        "on-primary-fixed": "#002201",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#bcf0ae",
+                        "error-container": "#ffdad6",
+                        "outline": "#72796e",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#121c2a",
+                        "secondary": "#3e6a00",
+                        "secondary-fixed": "#b9f474",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#b9c6bb",
+                        "inverse-surface": "#27313f",
+                        "tertiary": "#303c34"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "container-max": "1280px",
+                        "2xl": "48px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ambient-shadow {
+            box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08);
+        }
+        
+        /* Custom typography for article reading flow */
+        .article-content p {
+            margin-bottom: 1.5rem;
+            color: theme('colors.on-surface-variant');
+        }
+        .article-content h2 {
+            font-family: theme('fontFamily.title-lg');
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-weight: 600;
+            color: theme('colors.on-surface');
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-outline-variant sticky top-0 z-50 w-full transition-shadow duration-300">
+<div class="flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto h-16">
+<!-- Brand -->
+<a class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-sm hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">eco</span>
+                Bank Sampah
+            </a>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-300 hover:bg-surface-container-high px-3 py-2 rounded-md" href="#">Beranda</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-300 hover:bg-surface-container-high px-3 py-2 rounded-md" href="#">Jadwal</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-300 hover:bg-surface-container-high px-3 py-2 rounded-md" href="#">Harga</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-sm">
+<button class="font-label-md text-label-md bg-primary-container text-on-primary px-4 py-2 rounded-full hover:brightness-110 transition-all duration-300 hidden md:block">
+                    Masuk
+                </button>
+<button class="md:hidden p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full">
+<!-- Hero Image Header -->
+<div class="w-full max-w-container-max mx-auto px-md md:px-xl pt-lg pb-xl">
+<div class="relative w-full h-[300px] md:h-[500px] rounded-[2rem] overflow-hidden ambient-shadow bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="A bright, high-resolution photograph of clean, sorted recyclable materials like glass bottles, paper, and clear plastics arranged neatly on a pristine white surface. The lighting is soft, natural, and high-key, creating a modern, optimistic aesthetic. The overall mood is organized, eco-friendly, and professional, reflecting a systematic approach to environmental sustainability. Subtle green leafy accents are visible in the blurred background to emphasize the biophilic connection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM3p-d8LDp0mfUHZB0eqD3WhbI0ApnkQreHMfbWQOQlYh4R7ON9sSGQhOekVDuFusZgYctUSitdldfYwagIr6u338T4jKXneIMwL6JRttYF_mxs8rfEQ-CWSmbPPOwpcEq7w4BezAyvBbALTJgbQPM6R8pdJrJ6Zm4B8SzcnaOjYlRcgqHcQLSXuz5_TtoamvYYhBbpB7ZU-K7MRhJCSBtSwcpqCPt1w8QCIarALqi0tHglwmBjxgOP08xyL8bJqNhTe920AVO47E"/>
+<!-- Category Badge Overlay -->
+<div class="absolute top-lg left-lg">
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm bg-opacity-90">Edukasi</span>
+</div>
+</div>
+</div>
+<!-- Article Container -->
+<article class="max-w-[800px] mx-auto px-md md:px-lg pb-3xl">
+<!-- Article Header Data -->
+<header class="mb-xl text-center md:text-left">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-md">
+                    Cara Memilah Sampah Rumah Tangga yang Benar
+                </h1>
+<div class="flex flex-wrap items-center justify-center md:justify-start gap-md text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>12 Okt 2023</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span>Ditulis oleh <span class="font-semibold text-primary">Admin</span></span>
+</div>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">timer</span>
+<span>4 menit baca</span>
+</div>
+</div>
+</header>
+<!-- Text Content -->
+<div class="article-content font-body-lg text-body-lg leading-relaxed">
+<p>
+                    Pengelolaan sampah yang baik dimulai dari lingkup terkecil, yaitu rumah tangga. Memilah sampah tidak hanya memudahkan proses daur ulang, tetapi juga merupakan langkah nyata dalam menjaga kelestarian lingkungan dan kesehatan keluarga. Di banyak negara maju, pemilahan sampah di rumah sudah menjadi kewajiban yang ketat. Di Indonesia, kesadaran ini mulai tumbuh melalui berbagai inisiatif, termasuk kehadiran Bank Sampah.
+                </p>
+<p>
+                    Langkah pertama yang paling krusial adalah memahami kategori dasar sampah. Secara umum, sampah dibagi menjadi dua jenis utama: organik dan anorganik. Sampah organik adalah limbah yang mudah membusuk seperti sisa makanan, sayuran, kulit buah, dan dedaunan. Sedangkan sampah anorganik adalah material yang sulit terurai oleh alam, seperti plastik, kaca, logam, dan kertas.
+                </p>
+<h2>1. Siapkan Tempat Sampah Terpisah</h2>
+<p>
+                    Jangan satukan semua limbah dalam satu wadah. Sediakan minimal dua tempat sampah di rumah Anda. Gunakan wadah berwarna hijau untuk sampah organik dan wadah berwarna kuning atau biru untuk sampah anorganik. Untuk tingkat lanjutan, Anda bisa menyediakan wadah ketiga khusus untuk sampah B3 (Bahan Berbahaya dan Beracun) seperti baterai bekas, lampu neon, atau wadah bahan kimia pembersih.
+                </p>
+<div class="my-xl p-lg bg-surface-container-low border border-outline-variant rounded-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container opacity-20 rounded-bl-full pointer-events-none"></div>
+<div class="flex items-start gap-md relative z-10">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-xs">Tips Praktis</h3>
+<p class="font-body-md text-body-md text-on-surface-variant m-0">Bersihkan sisa makanan atau cairan dari kemasan plastik atau botol kaca sebelum dibuang ke tempat sampah anorganik. Kemasan yang bersih akan mencegah timbulnya bau tidak sedap dan tidak mengundang serangga, sekaligus meningkatkan nilai jual saat disetorkan ke Bank Sampah.</p>
+</div>
+</div>
+</div>
+<h2>2. Kelola Sampah Organik Menjadi Kompos</h2>
+<p>
+                    Sampah organik sebenarnya adalah sumber daya yang bernilai. Alih-alih membuangnya ke TPA (Tempat Pembuangan Akhir), Anda dapat mengolahnya menjadi pupuk kompos yang menyuburkan tanaman di halaman rumah. Proses pengomposan cukup sederhana; Anda hanya membutuhkan komposter (bisa berupa tong berlaci), sedikit tanah, dan cairan bio-aktivator (EM4) untuk mempercepat proses dekomposisi.
+                </p>
+<h2>3. Kumpulkan dan Setorkan ke Bank Sampah</h2>
+<p>
+                    Sampah anorganik yang telah dipilah, dibersihkan, dan dikeringkan (seperti kardus, botol PET, kaleng aluminium) memiliki nilai ekonomis. Kumpulkan secara rapi di area penyimpanan yang kering. Setelah terkumpul cukup banyak, bawa ke Bank Sampah terdekat. Melalui sistem Bank Sampah, limbah anorganik Anda akan ditimbang dan dikonversi menjadi saldo tabungan. Ini adalah konsep <i>Circular Economy</i> di mana limbah berubah menjadi aset.
+                </p>
+<p>
+                    Memulai kebiasaan baru memang membutuhkan sedikit usaha ekstra di awal. Namun, dengan sistematisasi yang konsisten, memilah sampah akan menjadi rutinitas harian yang ringan. Mari kita ciptakan ekosistem lingkungan yang lebih bersih dan sehat, dimulai dari dapur rumah kita sendiri.
+                </p>
+</div>
+<!-- Author / Share Bento Card -->
+<div class="mt-2xl pt-lg border-t border-outline-variant flex flex-col sm:flex-row justify-between items-center gap-lg">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary overflow-hidden">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">face</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Penulis</div>
+<div class="font-title-lg text-title-lg text-on-surface">Tim Edukasi Bank Sampah</div>
+</div>
+</div>
+<div class="flex gap-sm">
+<button aria-label="Bagikan artikel" class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-all hover:ambient-shadow">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button aria-label="Simpan artikel" class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-all hover:ambient-shadow">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+</div>
+</article>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest w-full mt-auto">
+<div class="w-full py-xl px-lg md:px-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-lg max-w-container-max mx-auto">
+<!-- Brand & Copyright -->
+<div class="flex flex-col gap-sm">
+<div class="font-title-lg text-title-lg font-bold text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">eco</span>
+                    Bank Sampah
+                </div>
+<p class="font-label-sm text-label-sm text-on-surface-variant max-w-sm">
+                    © 2024 Bank Sampah Digital. Mengelola Sampah, Menabung Kebaikan.
+                </p>
+</div>
+<!-- Footer Links -->
+<nav class="flex flex-wrap gap-md md:gap-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:outline-none rounded-sm" href="#">Tentang Kami</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:outline-none rounded-sm" href="#">Kebijakan Privasi</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:outline-none rounded-sm" href="#">Syarat &amp; Ketentuan</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:outline-none rounded-sm" href="#">Hubungi Kami</a>
+</nav>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Penarikan Saldo - Bank Sampah</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#d9e3f6",
+                        "on-primary-container": "#9dd090",
+                        "inverse-primary": "#a1d494",
+                        "tertiary-container": "#47534a",
+                        "on-primary-fixed": "#002201",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#bcf0ae",
+                        "secondary-fixed": "#b9f474",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#b9c6bb",
+                        "inverse-surface": "#27313f",
+                        "tertiary": "#303c34",
+                        "outline": "#72796e",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#121c2a",
+                        "secondary": "#3e6a00",
+                        "on-secondary-fixed-variant": "#2e4f00",
+                        "tertiary-fixed": "#d9e6da",
+                        "surface-container-highest": "#d9e3f6",
+                        "secondary-fixed-dim": "#9ed75b",
+                        "background": "#f8f9ff",
+                        "secondary-container": "#b9f474",
+                        "on-secondary-fixed": "#0f2000",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3b6934",
+                        "primary": "#154212",
+                        "surface-dim": "#d0dbed",
+                        "on-surface-variant": "#42493e",
+                        "on-tertiary-fixed": "#131e17",
+                        "primary-container": "#2d5a27",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed-variant": "#3e4a41",
+                        "tertiary-fixed-dim": "#bdcabe",
+                        "surface-container-high": "#dee9fc",
+                        "on-primary-fixed-variant": "#23501e",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c2c9bb",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-container": "#437000",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container": "#e6eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed-dim": "#a1d494",
+                        "on-surface": "#121c2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "container-max": "1280px",
+                        "2xl": "48px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "3xl": "64px",
+                        "md": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F9FBF9; }
+        .shadow-ambient { box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08); }
+        .focus-ring:focus-within {
+            box-shadow: 0 0 0 2px #8BC34A;
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- Dashboard Layout Wrapper -->
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full w-72 bg-surface-container-lowest border-r border-outline-variant fixed left-0 top-0 z-40 p-lg gap-md shrink-0 transition-all duration-300">
+<!-- Brand / Header -->
+<div class="flex items-center gap-md mb-xl">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary" data-icon="eco">eco</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Bank Sampah</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Eco-Friendly Banking</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-sm flex-1">
+<a class="flex items-center gap-md text-on-surface-variant px-md py-sm rounded-xl hover:bg-surface-variant transition-colors duration-300 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Ringkasan</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-md py-sm rounded-xl hover:bg-surface-variant transition-colors duration-300 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+<span class="font-label-md text-label-md">Setoran</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-xl px-md py-sm font-bold scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-md text-label-md">Penarikan</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-md py-sm rounded-xl hover:bg-surface-variant transition-colors duration-300 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Riwayat</span>
+</a>
+</div>
+<!-- CTA -->
+<div class="mt-auto">
+<button class="w-full bg-[#8BC34A] text-[#1F2937] hover:brightness-110 font-label-md text-label-md py-md rounded-xl transition-all duration-300 shadow-sm flex justify-center items-center gap-sm">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                    Setor Sampah
+                </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col md:ml-72 min-h-screen relative w-full transition-all duration-300">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-lg py-md sticky top-0 z-30 bg-surface/80 backdrop-blur-md shadow-sm">
+<!-- Mobile Menu Button & Title -->
+<div class="flex items-center gap-md">
+<button class="md:hidden text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h2 class="font-title-lg text-title-lg text-primary font-semibold">Dasbor Nasabah</h2>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<div class="p-lg md:p-2xl flex-1 max-w-container-max mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-xl">
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-sm">Penarikan Saldo</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Cairkan saldo tabungan sampah Anda ke rekening atau e-wallet.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg lg:gap-gutter">
+<!-- Balance Summary Card (Left Column) -->
+<div class="lg:col-span-4 flex flex-col gap-lg">
+<div class="bg-surface rounded-2xl p-lg shadow-ambient relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container opacity-5 rounded-bl-full -mr-16 -mt-16 transition-transform duration-500 group-hover:scale-110"></div>
+<div class="flex items-center gap-sm mb-md">
+<div class="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Total Saldo Tersedia</span>
+</div>
+<h4 class="font-display-lg text-display-lg text-primary mb-xs">Rp 450.000</h4>
+<p class="font-label-sm text-label-sm text-outline">Siap ditarik kapan saja</p>
+<div class="mt-md pt-md border-t border-outline-variant/30">
+<div class="flex justify-between items-center text-sm">
+<span class="font-body-md text-body-md text-on-surface-variant">Target Bulanan</span>
+<span class="font-label-md text-label-md text-primary">Rp 500.000</span>
+</div>
+<div class="w-full h-2 bg-[#E8F5E9] rounded-full mt-sm overflow-hidden">
+<div class="h-full rounded-full w-[90%] bg-gradient-to-r from-[#2D5A27] to-[#8BC34A]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Withdrawal Form (Right Column) -->
+<div class="lg:col-span-8">
+<div class="bg-surface rounded-2xl p-lg md:p-xl shadow-ambient border border-transparent hover:border-primary/20 transition-all duration-300">
+<form action="#" class="flex flex-col gap-lg" method="POST">
+<!-- Amount Input -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-background" for="amount">Jumlah Penarikan (Rp)</label>
+<div class="relative focus-ring rounded-xl transition-shadow duration-300">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="font-body-md text-body-md text-on-surface-variant">Rp</span>
+</div>
+<input class="block w-full pl-12 pr-md py-md border border-outline-variant rounded-xl bg-surface text-on-background font-body-lg text-body-lg focus:outline-none focus:border-transparent transition-colors" id="amount" name="amount" placeholder="0" required="" type="number"/>
+</div>
+<div class="flex gap-sm mt-xs">
+<button class="px-sm py-xs bg-surface-container rounded font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant transition-colors" onclick="document.getElementById('amount').value = 50000" type="button">Rp 50k</button>
+<button class="px-sm py-xs bg-surface-container rounded font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant transition-colors" onclick="document.getElementById('amount').value = 100000" type="button">Rp 100k</button>
+<button class="px-sm py-xs bg-surface-container rounded font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant transition-colors" onclick="document.getElementById('amount').value = 450000" type="button">Tarik Semua</button>
+</div>
+</div>
+<!-- Instructions Textarea -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-background flex justify-between items-end" for="instructions">
+                                        Instruksi Pencairan
+                                        <span class="font-label-sm text-label-sm text-outline font-normal">Wajib diisi</span>
+</label>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-xs">Masukkan detail bank atau e-wallet (Contoh: BCA 12345678 a.n Budi / GoPay 08123456789)</p>
+<div class="focus-ring rounded-xl transition-shadow duration-300">
+<textarea class="block w-full p-md border border-outline-variant rounded-xl bg-surface text-on-background font-body-md text-body-md focus:outline-none focus:border-transparent resize-y transition-colors" id="instructions" name="instructions" placeholder="Detail rekening/e-wallet Anda..." required="" rows="4"></textarea>
+</div>
+</div>
+<!-- Disclaimer -->
+<div class="bg-surface-container-low rounded-lg p-md flex items-start gap-md mt-sm">
+<span class="material-symbols-outlined text-primary mt-xs shrink-0" data-icon="info">info</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                                        Proses pencairan membutuhkan waktu maksimal 1x24 jam hari kerja. Pastikan nomor rekening atau e-wallet yang Anda masukkan sudah benar. Kesalahan input bukan tanggung jawab Bank Sampah.
+                                    </p>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-[#8BC34A] text-[#1F2937] hover:brightness-110 font-label-md text-label-md py-md px-lg rounded-xl transition-all duration-300 shadow-sm mt-md flex justify-center items-center gap-sm" type="submit">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+                                    Ajukan Penarikan
+                                </button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

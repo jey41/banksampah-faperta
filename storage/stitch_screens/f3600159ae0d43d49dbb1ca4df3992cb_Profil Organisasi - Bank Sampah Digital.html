@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profil Organisasi - Bank Sampah</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e6eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed-dim": "#a1d494",
+                        "on-surface": "#121c2a",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#3e4a41",
+                        "tertiary-fixed-dim": "#bdcabe",
+                        "on-surface-variant": "#42493e",
+                        "on-tertiary-fixed": "#131e17",
+                        "primary-container": "#2d5a27",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c2c9bb",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-container": "#437000",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dee9fc",
+                        "on-primary-fixed-variant": "#23501e",
+                        "background": "#f8f9ff",
+                        "secondary-container": "#b9f474",
+                        "on-secondary-fixed-variant": "#2e4f00",
+                        "tertiary-fixed": "#d9e6da",
+                        "surface-container-highest": "#d9e3f6",
+                        "secondary-fixed-dim": "#9ed75b",
+                        "surface-tint": "#3b6934",
+                        "primary": "#154212",
+                        "surface-dim": "#d0dbed",
+                        "on-secondary-fixed": "#0f2000",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#d9e3f6",
+                        "on-primary-container": "#9dd090",
+                        "inverse-primary": "#a1d494",
+                        "tertiary-container": "#47534a",
+                        "on-primary-fixed": "#002201",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#bcf0ae",
+                        "error-container": "#ffdad6",
+                        "outline": "#72796e",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#121c2a",
+                        "secondary": "#3e6a00",
+                        "secondary-fixed": "#b9f474",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#b9c6bb",
+                        "inverse-surface": "#27313f",
+                        "tertiary": "#303c34"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "container-max": "1280px",
+                        "2xl": "48px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .ambient-shadow {
+            box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08);
+        }
+        .bento-hover:hover {
+            box-shadow: 0px 8px 30px rgba(45, 90, 39, 0.15);
+            border: 1px solid rgba(45, 90, 39, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim docked full-width top-0 border-b border-outline-variant dark:border-outline flat no shadows sticky z-50">
+<div class="flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto h-16">
+<!-- Brand Logo -->
+<a class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed flex items-center gap-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">recycling</span>
+                Bank Sampah
+            </a>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden md:flex gap-lg">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">Beranda</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">Jadwal</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">Harga</a>
+</nav>
+<!-- Trailing Action -->
+<div class="flex items-center gap-md">
+<button class="bg-primary-container text-on-primary hover:bg-opacity-90 transition-all duration-300 px-lg py-sm rounded-full font-label-md text-label-md hidden md:block">
+                    Masuk
+                </button>
+<button class="md:hidden text-on-surface-variant hover:text-primary p-xs rounded-full hover:bg-surface-container-high transition-all duration-300">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col px-lg md:px-2xl py-2xl max-w-container-max mx-auto w-full gap-2xl">
+<!-- Hero Section -->
+<section class="text-center max-w-3xl mx-auto space-y-md">
+<h1 class="font-display-lg text-display-lg text-primary">Tentang Kami</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                Bank Sampah Digital berdedikasi untuk menciptakan lingkungan yang lebih bersih dan sehat melalui pengelolaan sampah yang terintegrasi, transparan, dan memberikan nilai ekonomis bagi masyarakat.
+            </p>
+</section>
+<!-- Visi & Misi Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Visi Card -->
+<div class="bg-surface-container-lowest rounded-[32px] p-xl ambient-shadow bento-hover transition-all duration-300 flex flex-col gap-md">
+<div class="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">visibility</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary">Visi Kami</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Menjadi pionir dalam pengelolaan sampah digital di Indonesia yang mewujudkan ekonomi sirkular berkelanjutan dan mengedukasi masyarakat akan pentingnya pelestarian lingkungan melalui teknologi yang mudah diakses.
+                </p>
+</div>
+<!-- Misi Card -->
+<div class="bg-surface-container-lowest rounded-[32px] p-xl ambient-shadow bento-hover transition-all duration-300 flex flex-col gap-md">
+<div class="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">flag</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary">Misi Kami</h2>
+<ul class="font-body-md text-body-md text-on-surface-variant list-disc pl-md space-y-sm">
+<li>Menyediakan platform digital yang mempermudah proses penyetoran dan pemantauan saldo sampah.</li>
+<li>Membangun kesadaran kolektif masyarakat tentang pemilahan sampah dari rumah.</li>
+<li>Berkolaborasi dengan pemerintah dan sektor swasta untuk daur ulang yang efektif.</li>
+<li>Memberikan nilai tambah ekonomis yang adil dan transparan bagi setiap nasabah.</li>
+</ul>
+</div>
+</section>
+<!-- Statistik -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-md md:gap-lg bg-surface-container-low p-xl rounded-[32px] mt-lg">
+<div class="text-center space-y-xs">
+<h3 class="font-headline-lg text-headline-lg text-primary">5k+</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Nasabah Aktif</p>
+</div>
+<div class="text-center space-y-xs border-l border-outline-variant/30">
+<h3 class="font-headline-lg text-headline-lg text-primary">120t</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Sampah Didaur Ulang</p>
+</div>
+<div class="text-center space-y-xs md:border-l border-outline-variant/30">
+<h3 class="font-headline-lg text-headline-lg text-primary">50+</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Mitra Pengepul</p>
+</div>
+<div class="text-center space-y-xs border-l border-outline-variant/30">
+<h3 class="font-headline-lg text-headline-lg text-primary">Rp 2M</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Total Nilai Ekonomi</p>
+</div>
+</section>
+<!-- Kontak & Lokasi Asymmetric Layout -->
+<section class="mt-xl">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-lg text-center md:text-left">Kontak &amp; Lokasi</h2>
+<div class="flex flex-col md:flex-row gap-lg">
+<!-- Info Kolom -->
+<div class="flex-1 flex flex-col gap-lg">
+<!-- Alamat -->
+<div class="bg-surface-container-lowest rounded-[24px] p-lg ambient-shadow flex gap-md items-start">
+<div class="w-10 h-10 bg-secondary-container rounded-full flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-xs">Kantor Pusat</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                                Gedung Hijau Lantai 3<br/>
+                                Jl. Sudirman No. 123, Senayan<br/>
+                                Jakarta Selatan, 12190
+                            </p>
+</div>
+</div>
+<!-- Operasional & Kontak Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-lg">
+<div class="bg-surface-container-lowest rounded-[24px] p-lg ambient-shadow flex flex-col gap-md">
+<div class="flex items-center gap-sm text-primary">
+<span class="material-symbols-outlined">schedule</span>
+<span class="font-title-lg text-title-lg">Jam Operasional</span>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant space-y-xs">
+<p class="flex justify-between"><span>Senin - Jumat:</span> <span>08:00 - 16:00</span></p>
+<p class="flex justify-between"><span>Sabtu:</span> <span>08:00 - 13:00</span></p>
+<p class="flex justify-between text-error"><span>Minggu &amp; Libur:</span> <span>Tutup</span></p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[24px] p-lg ambient-shadow flex flex-col gap-md">
+<div class="flex items-center gap-sm text-primary">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-title-lg text-title-lg">Hubungi Kami</span>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant space-y-sm mt-auto">
+<a class="flex items-center gap-sm hover:text-primary transition-colors" href="mailto:halo@banksampah.id">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+                                    halo@banksampah.id
+                                </a>
+<a class="flex items-center gap-sm hover:text-primary transition-colors" href="tel:+6281112345678">
+<span class="material-symbols-outlined text-[20px]">call</span>
+                                    +62 811 1234 5678 (WhatsApp)
+                                </a>
+</div>
+</div>
+</div>
+</div>
+<!-- Peta Kolom (Image Placeholder) -->
+<div class="flex-1 md:max-w-md h-[400px] md:h-auto rounded-[32px] overflow-hidden relative ambient-shadow group">
+<img alt="Peta Lokasi" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A clean, modern top-down map interface showing an urban area with lush green parks and clearly defined streets. The map style is minimalist, using a light mode aesthetic with soft pastel tones, primarily subtle greens and off-whites, aligning perfectly with a clean-tech environmental application. A stylized location marker pinpointing a central area adds a touch of focus." data-location="Jakarta Selatan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmcYpxAKLCQexKxNR02QLd7rHyeA6cOhuktKRzg2cz1rZK0o8zhogVDQN-nOHpAcy8EtVqeqKFZDPoYqYBkwtZSARBfO0TDAjtr6Q-7N8bzY8kpYqsYMl5FvLRf77r5oDQvGCzoB69Vv2QFoF88hbuK7IkHGP2tksGInzLqo-zeXGBSYifTU3x4sq34W8xqwtLq_npQgabGpvpHVMNcguT6iM-ttfKMD5ywVvpbC3P1MowFOeiWQ0ilM6NMsH0Nk1O9n6aNsQmaZo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-lg">
+<button class="bg-surface-container-lowest text-primary px-md py-sm rounded-full font-label-md text-label-md flex items-center gap-xs hover:bg-surface-container-low transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">directions</span>
+                            Dapatkan Petunjuk Arah
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-tertiary-container full-width">
+<div class="w-full py-xl px-lg md:px-xl flex flex-col md:flex-row justify-between items-start gap-lg max-w-container-max mx-auto">
+<!-- Brand Info -->
+<div class="flex flex-col gap-sm max-w-sm">
+<span class="font-title-lg text-title-lg font-bold text-primary dark:text-primary-fixed-dim">
+                    Bank Sampah
+                </span>
+<p class="font-body-md text-body-md text-on-surface dark:text-on-tertiary-container">
+                    © 2024 Bank Sampah Digital. Mengelola Sampah, Menabung Kebaikan.
+                </p>
+</div>
+<!-- Links -->
+<div class="flex flex-col gap-sm">
+<a class="font-label-sm text-label-sm text-primary dark:text-secondary-fixed font-semibold hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded outline-none" href="#">
+                    Tentang Kami
+                </a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-tertiary-container hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded outline-none" href="#">
+                    Kebijakan Privasi
+                </a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-tertiary-container hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded outline-none" href="#">
+                    Syarat &amp; Ketentuan
+                </a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-tertiary-container hover:text-primary hover:underline transition-all duration-300 focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded outline-none" href="#">
+                    Hubungi Kami
+                </a>
+</div>
+</div>
+</footer>
+</body></html>

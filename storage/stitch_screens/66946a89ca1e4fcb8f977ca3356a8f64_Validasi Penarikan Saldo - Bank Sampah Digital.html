@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Validasi Penarikan - Bank Sampah Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#3b6934",
+                      "on-primary-container": "#9dd090",
+                      "primary-container": "#2d5a27",
+                      "surface-variant": "#d9e3f6",
+                      "surface-dim": "#d0dbed",
+                      "error": "#ba1a1a",
+                      "background": "#f8f9ff",
+                      "surface-container": "#e6eeff",
+                      "inverse-primary": "#a1d494",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#bcf0ae",
+                      "tertiary-fixed-dim": "#bdcabe",
+                      "outline-variant": "#c2c9bb",
+                      "surface": "#f8f9ff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-secondary-fixed-variant": "#2e4f00",
+                      "tertiary": "#303c34",
+                      "on-error": "#ffffff",
+                      "secondary": "#3e6a00",
+                      "inverse-surface": "#27313f",
+                      "on-tertiary-container": "#b9c6bb",
+                      "on-primary-fixed-variant": "#23501e",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-container": "#47534a",
+                      "tertiary-fixed": "#d9e6da",
+                      "surface-bright": "#f8f9ff",
+                      "outline": "#72796e",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "on-surface": "#121c2a",
+                      "on-tertiary-fixed-variant": "#3e4a41",
+                      "primary-fixed-dim": "#a1d494",
+                      "on-tertiary-fixed": "#131e17",
+                      "on-primary": "#ffffff",
+                      "on-background": "#121c2a",
+                      "surface-container-low": "#eff4ff",
+                      "primary": "#154212",
+                      "surface-container-highest": "#d9e3f6",
+                      "surface-container-high": "#dee9fc",
+                      "on-secondary-fixed": "#0f2000",
+                      "secondary-fixed-dim": "#9ed75b",
+                      "on-surface-variant": "#42493e",
+                      "on-primary-fixed": "#002201",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#b9f474",
+                      "secondary-container": "#b9f474",
+                      "on-secondary-container": "#437000"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "3xl": "64px",
+                      "base": "4px",
+                      "2xl": "48px",
+                      "sm": "8px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: #f8f9ff; }
+        .shadow-ambient { box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08); }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden bg-background text-on-background font-body-md">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-md px-sm bg-surface-container-lowest dark:bg-surface-container-highest border-r border-outline-variant shadow-sm docked h-screen w-64 left-0">
+<div class="flex items-center gap-3 px-3 py-4 mb-6">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<div>
+<h1 class="text-title-lg font-title-lg font-black text-primary">Admin Panel</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Petugas Pusat</p>
+</div>
+</div>
+<button class="w-full mb-6 bg-[#8BC34A] hover:bg-[#7cb342] text-[#1F2937] py-3 px-4 rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+            Setor Sampah
+        </button>
+<ul class="flex-1 space-y-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-4 border-primary bg-secondary-container/20 transition-all duration-300 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long" data-weight="fill" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+                    Transaksi
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                    Nasabah
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+                    Laporan
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Pengaturan
+                </a>
+</li>
+</ul>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Keluar
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-lg h-16 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline docked full-width top-0 flat no shadows shrink-0">
+<div class="flex items-center gap-4">
+<h2 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed hidden md:block">Bank Sampah Admin</h2>
+<button class="md:hidden text-on-surface-variant p-2 -ml-2 rounded-lg hover:bg-surface-container-low transition-colors duration-300 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h2 class="text-title-lg font-title-lg font-bold text-primary md:hidden">Validasi Penarikan</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 rounded-full bg-surface-container-low border-none focus:ring-2 focus:ring-[#8BC34A] text-on-surface font-body-md transition-all 300ms cubic-bezier(0.4, 0, 0.2, 1) w-64" placeholder="Cari transaksi..." type="text"/>
+</div>
+<button class="text-primary dark:text-primary-fixed p-2 rounded-full hover:bg-surface-container-low transition-colors duration-300 active:scale-95 transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-primary dark:text-primary-fixed p-2 rounded-full hover:bg-surface-container-low transition-colors duration-300 active:scale-95 transition-all hidden sm:block">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden ml-2 border border-outline-variant">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of an administrator in a well-lit modern office space. The lighting is soft and bright, emphasizing a clean, trustworthy aesthetic. The individual wears neat, business-casual attire against a muted, light background that subtly incorporates very soft greenery out of focus. The overall mood is confident and reliable, aligning perfectly with a modern corporate-biophilic light mode UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_hQfLDoibFVFtLtDy6faHUdow3z-9RcDaN2yCMrAc0IKRynkP9vzEf0gMN91vPw1mmSzoHmY01OhCsOQNsX637E49vGHtMd2ciFhv8qx3gFHZzM5dRcZjQYSc-WQizKiWhj4cnYgHQaoFWntTBJ2utLZv0Yxc_QH-Rpz2ceDX6oY4_oQgvgUgBooGoxdDAwXHdALHyVSw2RjpA7ZbRa779r6-nFTxbIvEdpZSi2RvmS5NNq_f7-fIGMXn22eywOtnHj0xO2h81sU"/>
+</div>
+</div>
+</header>
+<!-- Main Scrollable Content -->
+<main class="flex-1 overflow-y-auto p-4 md:p-lg lg:p-xl scroll-smooth">
+<div class="max-w-container-max mx-auto space-y-lg">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-xl">
+<div>
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-1">Validasi Penarikan</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Tinjau dan proses pengajuan tarik tunai nasabah.</p>
+</div>
+<div class="flex gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-4 py-2 bg-surface border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container transition-all 300ms flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+                            Filter
+                        </button>
+</div>
+</div>
+<!-- Stats Summary Bento -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
+<div class="bg-surface rounded-2xl p-lg shadow-ambient relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300 border border-transparent hover:border-primary/20">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-container/5 rounded-full blur-2xl group-hover:bg-primary-container/10 transition-colors duration-300"></div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Menunggu</h3>
+</div>
+<p class="font-display-lg text-display-lg text-primary">12</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2">Pengajuan perlu ditinjau</p>
+</div>
+<div class="bg-surface rounded-2xl p-lg shadow-ambient relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300 border border-transparent hover:border-primary/20">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-[#8BC34A]/5 rounded-full blur-2xl group-hover:bg-[#8BC34A]/10 transition-colors duration-300"></div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Disetujui Hari Ini</h3>
+</div>
+<p class="font-display-lg text-display-lg text-secondary">45</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2">Total Rp 2.450.000</p>
+</div>
+<div class="bg-surface rounded-2xl p-lg shadow-ambient relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300 border border-transparent hover:border-primary/20">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-error/5 rounded-full blur-2xl group-hover:bg-error/10 transition-colors duration-300"></div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-error-container/50 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Ditolak Hari Ini</h3>
+</div>
+<p class="font-display-lg text-display-lg text-error">3</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2">Perlu perhatian lebih lanjut</p>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface rounded-2xl shadow-ambient overflow-hidden border border-transparent hover:border-primary/20 transition-all duration-300">
+<div class="p-md border-b border-outline-variant bg-surface-container-lowest flex justify-between items-center">
+<h3 class="font-title-lg text-title-lg text-on-surface">Daftar Pengajuan</h3>
+<span class="px-3 py-1 bg-surface-container rounded-full text-primary font-label-sm text-label-sm">Total 12 data</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md border-b border-outline-variant">
+<th class="px-md py-3 font-medium">Nama Nasabah</th>
+<th class="px-md py-3 font-medium">Nominal</th>
+<th class="px-md py-3 font-medium">Metode Pencairan</th>
+<th class="px-md py-3 font-medium hidden md:table-cell">Catatan Nasabah</th>
+<th class="px-md py-3 font-medium text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-secondary/5 transition-colors duration-200">
+<td class="px-md py-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">BW</div>
+<div>
+<p class="font-medium">Budi Wijaya</p>
+<p class="text-xs text-on-surface-variant">NSB-2023-089</p>
+</div>
+</div>
+</td>
+<td class="px-md py-sm font-medium text-primary">Rp 150.000</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center gap-1 px-2 py-1 bg-surface-container rounded-md text-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="account_balance">account_balance</span>
+                                            Transfer Bank
+                                        </span>
+</td>
+<td class="px-md py-sm text-on-surface-variant text-sm hidden md:table-cell max-w-[200px] truncate" title="Butuh cepat untuk beli buku anak">Butuh cepat untuk beli buku anak</td>
+<td class="px-md py-sm">
+<div class="flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full bg-[#E8F5E9] text-primary hover:bg-primary hover:text-white flex items-center justify-center transition-colors duration-300" title="Setujui">
+<span class="material-symbols-outlined text-[18px]" data-icon="check">check</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container text-error hover:bg-error hover:text-white flex items-center justify-center transition-colors duration-300" onclick="document.getElementById('rejectModal').classList.remove('hidden')" title="Tolak">
+<span class="material-symbols-outlined text-[18px]" data-icon="close">close</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-secondary/5 transition-colors duration-200">
+<td class="px-md py-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">SA</div>
+<div>
+<p class="font-medium">Siti Aminah</p>
+<p class="text-xs text-on-surface-variant">NSB-2023-112</p>
+</div>
+</div>
+</td>
+<td class="px-md py-sm font-medium text-primary">Rp 50.000</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center gap-1 px-2 py-1 bg-surface-container rounded-md text-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="payments">payments</span>
+                                            Tunai (Kantor)
+                                        </span>
+</td>
+<td class="px-md py-sm text-on-surface-variant text-sm hidden md:table-cell max-w-[200px] truncate" title="-">-</td>
+<td class="px-md py-sm">
+<div class="flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full bg-[#E8F5E9] text-primary hover:bg-primary hover:text-white flex items-center justify-center transition-colors duration-300" title="Setujui">
+<span class="material-symbols-outlined text-[18px]" data-icon="check">check</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container text-error hover:bg-error hover:text-white flex items-center justify-center transition-colors duration-300" onclick="document.getElementById('rejectModal').classList.remove('hidden')" title="Tolak">
+<span class="material-symbols-outlined text-[18px]" data-icon="close">close</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-secondary/5 transition-colors duration-200">
+<td class="px-md py-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">RK</div>
+<div>
+<p class="font-medium">Rudi Kurniawan</p>
+<p class="text-xs text-on-surface-variant">NSB-2024-005</p>
+</div>
+</div>
+</td>
+<td class="px-md py-sm font-medium text-primary">Rp 250.000</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center gap-1 px-2 py-1 bg-surface-container rounded-md text-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="account_balance_wallet">account_balance_wallet</span>
+                                            E-Wallet
+                                        </span>
+</td>
+<td class="px-md py-sm text-on-surface-variant text-sm hidden md:table-cell max-w-[200px] truncate" title="Mohon segera diproses, terima kasih">Mohon segera diproses, ter...</td>
+<td class="px-md py-sm">
+<div class="flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full bg-[#E8F5E9] text-primary hover:bg-primary hover:text-white flex items-center justify-center transition-colors duration-300" title="Setujui">
+<span class="material-symbols-outlined text-[18px]" data-icon="check">check</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container text-error hover:bg-error hover:text-white flex items-center justify-center transition-colors duration-300" onclick="document.getElementById('rejectModal').classList.remove('hidden')" title="Tolak">
+<span class="material-symbols-outlined text-[18px]" data-icon="close">close</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination (Simplified) -->
+<div class="p-md border-t border-outline-variant bg-surface flex justify-between items-center">
+<span class="text-sm text-on-surface-variant">Menampilkan 1-3 dari 12</span>
+<div class="flex gap-1">
+<button class="p-1 rounded bg-surface-container-low text-on-surface-variant hover:bg-surface-variant disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-1 rounded bg-surface-container-low text-on-surface-variant hover:bg-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Reject Modal Pop-up -->
+<div class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity" id="rejectModal">
+<div class="bg-surface rounded-2xl w-full max-w-md shadow-2xl transform transition-all scale-100 opacity-100">
+<div class="p-md border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-error flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+                    Tolak Pengajuan
+                </h3>
+<button class="text-on-surface-variant hover:text-on-surface rounded-full p-1 hover:bg-surface-variant transition-colors" onclick="document.getElementById('rejectModal').classList.add('hidden')">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="p-lg space-y-4">
+<p class="font-body-md text-body-md text-on-surface">Anda yakin ingin menolak pengajuan penarikan ini? Silakan masukkan alasan penolakan untuk diinformasikan kepada nasabah.</p>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block" for="rejectReason">Alasan Penolakan <span class="text-error">*</span></label>
+<textarea class="w-full p-3 rounded-lg bg-surface border border-outline focus:ring-2 focus:ring-[#8BC34A] focus:border-transparent outline-none transition-all duration-300 resize-none font-body-md text-on-surface" id="rejectReason" placeholder="Contoh: Saldo tidak mencukupi setelah dipotong biaya admin..." rows="3"></textarea>
+</div>
+</div>
+<div class="p-md border-t border-outline-variant bg-surface-container-lowest flex justify-end gap-3 rounded-b-2xl">
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-variant transition-colors" onclick="document.getElementById('rejectModal').classList.add('hidden')">
+                    Batal
+                </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md bg-error text-white hover:bg-error/90 transition-colors shadow-sm">
+                    Konfirmasi Tolak
+                </button>
+</div>
+</div>
+</div>
+<script>
+        // Simple script to handle modal closing on outside click
+        document.getElementById('rejectModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+    </script>
+</body></html>

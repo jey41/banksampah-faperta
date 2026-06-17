@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bank Sampah Admin - Kelola Artikel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e6eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed-dim": "#a1d494",
+                        "on-surface": "#121c2a",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#3e4a41",
+                        "tertiary-fixed-dim": "#bdcabe",
+                        "on-surface-variant": "#42493e",
+                        "on-tertiary-fixed": "#131e17",
+                        "primary-container": "#2d5a27",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c2c9bb",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-container": "#437000",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dee9fc",
+                        "on-primary-fixed-variant": "#23501e",
+                        "background": "#f8f9ff",
+                        "secondary-container": "#b9f474",
+                        "on-secondary-fixed-variant": "#2e4f00",
+                        "tertiary-fixed": "#d9e6da",
+                        "surface-container-highest": "#d9e3f6",
+                        "secondary-fixed-dim": "#9ed75b",
+                        "surface-tint": "#3b6934",
+                        "primary": "#154212",
+                        "surface-dim": "#d0dbed",
+                        "on-secondary-fixed": "#0f2000",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#d9e3f6",
+                        "on-primary-container": "#9dd090",
+                        "inverse-primary": "#a1d494",
+                        "tertiary-container": "#47534a",
+                        "on-primary-fixed": "#002201",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#bcf0ae",
+                        "error-container": "#ffdad6",
+                        "outline": "#72796e",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#121c2a",
+                        "secondary": "#3e6a00",
+                        "secondary-fixed": "#b9f474",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#b9c6bb",
+                        "inverse-surface": "#27313f",
+                        "tertiary": "#303c34"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "container-max": "1280px",
+                        "2xl": "48px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F9FBF9; /* Base Layer */
+            color: #121c2a;
+        }
+        .surface-card {
+            background-color: #FFFFFF;
+            box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08);
+            border-radius: 0.75rem; /* xl */
+        }
+        .btn-primary {
+            background-color: #2D5A27;
+            color: #FFFFFF;
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            background-color: #35692e; /* Lighten by 10% approx */
+        }
+        .btn-action {
+            background-color: #8BC34A;
+            color: #1F2937;
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-action:hover {
+            background-color: #9cd45a;
+        }
+        .input-ring:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #F9FBF9, 0 0 0 4px #8BC34A;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c2c9bb; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1d494; 
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden font-body-md text-body-md">
+<!-- SideNavBar (WEB) -->
+<aside class="hidden md:flex flex-col h-screen w-64 left-0 border-r border-outline-variant shadow-sm bg-surface-container-lowest py-md px-sm z-20 shrink-0">
+<div class="mb-lg px-md">
+<h1 class="text-title-lg font-title-lg font-black text-primary">Bank Sampah</h1>
+</div>
+<div class="flex items-center gap-md px-md mb-xl">
+<img alt="Admin Avatar" class="w-10 h-10 rounded-full" data-alt="A small, professional headshot of an administrator for a waste management platform. The individual looks reliable and approachable. The background is a clean, bright green tint, matching the corporate modern biophilic aesthetic. High quality, crisp details, soft studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChqY3MXB5dXMFrN7p--D_Qll3Fjo_EXuKg7yHpa0c28BXxcyXLd06lBZyqUZ_4ai5OZB5mMCPksrRbE2DTEfnGjEt8Hy-HZMITAJdHlzafpRy7vMIqNMmF7tv0EfOv9jZ7Q6gpCJ_DWBn3EUgC9Zw5yNv8hOHTNK8Iqis_hPYA0dsyeDXiU4tn7wre9dJ7Ec8dEJYUGb-_a73arfxeRARzy2KeydTxo5ZGbyBsMynjoTSLESAYdgrseG7kkSQ9DQJeNoVQqdxCJjY"/>
+<div>
+<h2 class="font-label-md text-label-md font-bold text-on-surface">Admin Panel</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Petugas Pusat</p>
+</div>
+</div>
+<button class="btn-action w-full py-2 px-4 rounded-lg font-label-md text-label-md font-bold mb-xl flex items-center justify-center gap-2 hover:bg-secondary-container/90 transition-all duration-300 ease-in-out">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+            Setor Sampah
+        </button>
+<nav class="flex-1 flex flex-col gap-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-md py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-md py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-md text-label-md">Transaksi</span>
+</a>
+<a class="flex items-center gap-3 px-md py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">Nasabah</span>
+</a>
+<!-- Active State using semantic intent matching 'Artikel' to a generic 'Laporan' or creating a new tab if needed. Since JSON didn't have 'Artikel', we'll assume it falls under content management, let's just make it active on 'Dashboard' or create a new active tab if allowed. Rule says: "Automatic Suppression: You MUST exclude the navigation shell if the page intent is: Linear/Transactional...". This is a top-level destination for an admin managing content. Let's add 'Artikel' tab visually active. -->
+<a class="flex items-center gap-3 px-md py-3 rounded-lg text-primary font-bold border-r-4 border-primary bg-secondary-container/20 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="article" data-weight="fill">article</span>
+<span class="font-label-md text-label-md">Artikel</span>
+</a>
+<a class="flex items-center gap-3 px-md py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label-md text-label-md">Laporan</span>
+</a>
+<a class="flex items-center gap-3 px-md py-3 rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<a class="flex items-center gap-3 px-md py-3 rounded-lg text-error font-medium hover:bg-error-container/20 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Keluar</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden bg-background relative">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-lg h-16 bg-surface border-b border-outline-variant z-10 shrink-0">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary md:hidden">Bank Sampah Admin</h1>
+<!-- Search Bar (on_left) -->
+<div class="hidden md:flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-outline-variant focus-within:ring-2 focus-within:ring-secondary-container transition-all">
+<span class="material-symbols-outlined text-on-surface-variant mr-2 text-[20px]">search</span>
+<input class="bg-transparent border-none outline-none text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant w-64 input-ring" placeholder="Cari..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors duration-300 p-2 rounded-full active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors duration-300 p-2 rounded-full active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="Administrator Profile" class="w-8 h-8 rounded-full border border-outline-variant cursor-pointer ml-2" data-alt="A small, professional headshot of an administrator for a waste management platform. The individual looks reliable and approachable. The background is a clean, bright green tint, matching the corporate modern biophilic aesthetic. High quality, crisp details, soft studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbLpVegM64zTcqs-Ajj1b5Z868WO-xJ3wrohFn0MbOE-TxT4CzU_fTv_E6a1zLL9XyZJ-2rFa9OdTDjsWeTvt6aagwQ52oEkvYN94yxmZm8iNwGWaxmJKZvePaQST9Evzh4WEexmHiFx07fs5bbNO7SQovyg2ZZVxfJaInbdcpLcpCnzpKlGDdqRPhdmZsniuE-3r2cJPNx0W8jJ5tjFR4cRBqJMYA_k-zYOtm7ynnbyV-sKq93_hslUUz5w-oWslCqxG9ntE7GJs"/>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 overflow-y-auto p-md md:p-lg lg:p-xl">
+<div class="max-w-[1280px] mx-auto">
+<!-- Page Header & CTA -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-xl">
+<div>
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-1">Kelola Artikel</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Kelola publikasi edukasi lingkungan dan berita komunitas.</p>
+</div>
+<button class="btn-primary py-3 px-6 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-2 w-full md:w-auto shadow-sm">
+<span class="material-symbols-outlined text-[20px]">edit_document</span>
+                        Tulis Artikel Baru
+                    </button>
+</div>
+<!-- Bento Grid Style Stats (Optional enhancement to avoid standard list initially) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+<div class="surface-card p-lg flex items-center gap-4 border border-transparent hover:border-primary/20 transition-all duration-300">
+<div class="w-12 h-12 rounded-full bg-[#E8F5E9] flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">article</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Total Artikel</p>
+<p class="font-headline-md text-headline-md text-on-surface">124</p>
+</div>
+</div>
+<div class="surface-card p-lg flex items-center gap-4 border border-transparent hover:border-primary/20 transition-all duration-300">
+<div class="w-12 h-12 rounded-full bg-[#E8F5E9] flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Terbit</p>
+<p class="font-headline-md text-headline-md text-on-surface">98</p>
+</div>
+</div>
+<div class="surface-card p-lg flex items-center gap-4 border border-transparent hover:border-primary/20 transition-all duration-300">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">draft</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Draft</p>
+<p class="font-headline-md text-headline-md text-on-surface">26</p>
+</div>
+</div>
+</div>
+<!-- Data Table / List -->
+<div class="surface-card overflow-hidden">
+<div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface/50">
+<h2 class="font-title-lg text-title-lg text-on-surface">Daftar Artikel</h2>
+<div class="flex gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-bright">
+<th class="py-3 px-lg font-label-md text-label-md text-on-surface-variant font-medium">Judul Artikel</th>
+<th class="py-3 px-lg font-label-md text-label-md text-on-surface-variant font-medium">Tanggal Publikasi</th>
+<th class="py-3 px-lg font-label-md text-label-md text-on-surface-variant font-medium">Status</th>
+<th class="py-3 px-lg font-label-md text-label-md text-on-surface-variant font-medium text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50">
+<!-- Row 1 -->
+<tr class="hover:bg-secondary-container/5 transition-colors duration-200 group">
+<td class="py-sm px-lg">
+<p class="font-label-md text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Panduan Memilah Sampah Plastik di Rumah</p>
+</td>
+<td class="py-sm px-lg">
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">12 Okt 2023</p>
+</td>
+<td class="py-sm px-lg">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#E8F5E9] text-[#2D5A27] border border-[#2D5A27]/20">
+                                            Terbit
+                                        </span>
+</td>
+<td class="py-sm px-lg text-right">
+<div class="flex justify-end gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded transition-colors" title="Hapus">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-secondary-container/5 transition-colors duration-200 group">
+<td class="py-sm px-lg">
+<p class="font-label-md text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Manfaat Kompos Organik untuk Tanaman Anda</p>
+</td>
+<td class="py-sm px-lg">
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">10 Okt 2023</p>
+</td>
+<td class="py-sm px-lg">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#E8F5E9] text-[#2D5A27] border border-[#2D5A27]/20">
+                                            Terbit
+                                        </span>
+</td>
+<td class="py-sm px-lg text-right">
+<div class="flex justify-end gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded transition-colors" title="Hapus">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-secondary-container/5 transition-colors duration-200 group">
+<td class="py-sm px-lg">
+<p class="font-label-md text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Program Tukar Poin dengan Bibit Pohon</p>
+</td>
+<td class="py-sm px-lg">
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">-</p>
+</td>
+<td class="py-sm px-lg">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-on-surface-variant border border-outline-variant/50">
+                                            Draft
+                                        </span>
+</td>
+<td class="py-sm px-lg text-right">
+<div class="flex justify-end gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded transition-colors" title="Hapus">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-secondary-container/5 transition-colors duration-200 group">
+<td class="py-sm px-lg">
+<p class="font-label-md text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Laporan Pencapaian Pengurangan Emisi Karbon Q3</p>
+</td>
+<td class="py-sm px-lg">
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">05 Okt 2023</p>
+</td>
+<td class="py-sm px-lg">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#E8F5E9] text-[#2D5A27] border border-[#2D5A27]/20">
+                                            Terbit
+                                        </span>
+</td>
+<td class="py-sm px-lg text-right">
+<div class="flex justify-end gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded transition-colors" title="Hapus">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination (Simple) -->
+<div class="px-lg py-4 border-t border-outline-variant flex justify-between items-center bg-surface/30">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Menampilkan 1-4 dari 124 artikel</p>
+<div class="flex gap-1">
+<button class="p-1.5 text-outline hover:text-primary hover:bg-surface-container-low rounded transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

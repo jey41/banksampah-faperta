@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bank Sampah - Pengajuan Setoran</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#d9e3f6",
+                        "on-primary-container": "#9dd090",
+                        "inverse-primary": "#a1d494",
+                        "tertiary-container": "#47534a",
+                        "on-primary-fixed": "#002201",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#bcf0ae",
+                        "secondary-fixed": "#b9f474",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#b9c6bb",
+                        "inverse-surface": "#27313f",
+                        "tertiary": "#303c34",
+                        "outline": "#72796e",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#121c2a",
+                        "secondary": "#3e6a00",
+                        "on-secondary-fixed-variant": "#2e4f00",
+                        "tertiary-fixed": "#d9e6da",
+                        "surface-container-highest": "#d9e3f6",
+                        "secondary-fixed-dim": "#9ed75b",
+                        "background": "#f8f9ff",
+                        "secondary-container": "#b9f474",
+                        "on-secondary-fixed": "#0f2000",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3b6934",
+                        "primary": "#154212",
+                        "surface-dim": "#d0dbed",
+                        "on-surface-variant": "#42493e",
+                        "on-tertiary-fixed": "#131e17",
+                        "primary-container": "#2d5a27",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed-variant": "#3e4a41",
+                        "tertiary-fixed-dim": "#bdcabe",
+                        "surface-container-high": "#dee9fc",
+                        "on-primary-fixed-variant": "#23501e",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c2c9bb",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-container": "#437000",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container": "#e6eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed-dim": "#a1d494",
+                        "on-surface": "#121c2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "container-max": "1280px",
+                        "2xl": "48px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "3xl": "64px",
+                        "md": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .shadow-ambient {
+            box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08);
+        }
+        .form-input:focus, .form-select:focus {
+            box-shadow: 0 0 0 2px #8BC34A;
+            border-color: #8BC34A;
+        }
+        .drag-active {
+            border-color: #8BC34A !important;
+            background-color: #f1f8e9 !important;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline docked left-0 h-full w-72 flex-col p-lg gap-md fixed">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary text-3xl">eco</span>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Bank Sampah</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Eco-Friendly Banking</p>
+</div>
+</div>
+<div class="flex flex-col gap-xs flex-grow">
+<a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-md py-sm hover:bg-surface-variant dark:hover:bg-surface-container-high transition-colors duration-300 rounded-xl scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Ringkasan</span>
+</a>
+<a class="flex items-center gap-md bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl px-md py-sm font-bold scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+<span class="font-label-md text-label-md">Setoran</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-md py-sm hover:bg-surface-variant dark:hover:bg-surface-container-high transition-colors duration-300 rounded-xl scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Penarikan</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-md py-sm hover:bg-surface-variant dark:hover:bg-surface-container-high transition-colors duration-300 rounded-xl scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Riwayat</span>
+</a>
+</div>
+<button class="w-full bg-[#8BC34A] text-[#1F2937] hover:brightness-90 transition-all duration-300 font-label-md text-label-md py-sm rounded-lg flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">add_circle</span>
+            Setor Sampah
+        </button>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-72 min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface/80 backdrop-blur-md shadow-sm dark:shadow-none docked top-0 full-width flex justify-between items-center w-full px-lg py-md sticky top-0 z-50">
+<h2 class="font-title-lg text-title-lg text-primary dark:text-inverse-primary font-semibold">Pengajuan Setoran</h2>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 p-md md:p-lg overflow-y-auto">
+<div class="max-w-2xl mx-auto">
+<div class="bg-surface-container-lowest rounded-2xl shadow-ambient p-lg md:p-xl border border-outline-variant/30">
+<div class="mb-lg">
+<h3 class="font-title-lg text-title-lg text-primary mb-xs">Form Pengajuan Setoran Sampah</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Lengkapi data di bawah ini untuk memulai proses setoran sampah Anda. Pastikan berat dan foto sesuai.</p>
+</div>
+<form action="#" class="space-y-lg" method="POST">
+<!-- Input Group: Jenis Sampah -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-sm" for="waste_type">Jenis Sampah</label>
+<div class="relative">
+<select class="form-select block w-full pl-md pr-10 py-sm text-body-md border-outline-variant rounded-lg bg-surface-bright text-on-surface focus:ring-secondary focus:border-secondary transition-all duration-300 appearance-none" id="waste_type" name="waste_type">
+<option disabled="" selected="" value="">Pilih jenis sampah...</option>
+<option value="plastik">Plastik (Botol, Gelas, dll)</option>
+<option value="kertas">Kertas &amp; Kardus</option>
+<option value="logam">Logam (Kaleng, Besi)</option>
+<option value="kaca">Kaca</option>
+<option value="elektronik">Sampah Elektronik (E-Waste)</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-md text-on-surface-variant">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Input Group: Berat Sampah -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-sm" for="weight">Perkiraan Berat (kg)</label>
+<div class="relative rounded-lg shadow-sm">
+<input class="form-input block w-full pl-md pr-12 py-sm text-body-md border-outline-variant rounded-lg bg-surface-bright text-on-surface focus:ring-secondary focus:border-secondary transition-all duration-300" id="weight" name="weight" placeholder="0.0" step="0.1" type="number"/>
+<div class="absolute inset-y-0 right-0 pr-md flex items-center pointer-events-none">
+<span class="text-on-surface-variant font-body-md">kg</span>
+</div>
+</div>
+<p class="mt-xs font-label-sm text-label-sm text-on-surface-variant">Gunakan titik untuk desimal (contoh: 1.5).</p>
+</div>
+<!-- Drag and Drop Upload -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-sm">Unggah Foto Bukti Sampah</label>
+<div class="mt-1 flex justify-center px-lg py-xl border-2 border-outline-variant border-dashed rounded-xl bg-surface-bright hover:bg-surface-container-low transition-colors duration-300 cursor-pointer relative group" id="drop-zone">
+<div class="space-y-sm text-center">
+<div class="mx-auto h-12 w-12 text-outline-variant group-hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl">upload_file</span>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant">
+<span class="font-semibold text-primary">Klik untuk unggah</span> atau seret dan lepas foto di sini
+                                    </div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                                        PNG, JPG, GIF maksimal 5MB
+                                    </p>
+</div>
+<input accept="image/*" class="sr-only" id="file-upload" name="file-upload" type="file"/>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-md">
+<button class="w-full flex justify-center py-md px-lg border border-transparent rounded-lg shadow-sm font-label-md text-label-md text-white bg-primary-container hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-container transition-all duration-300 items-center gap-sm" type="submit">
+<span class="material-symbols-outlined">send</span>
+                                Kirim Pengajuan
+                            </button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation (Hidden on md and up) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-surface-container-lowest border-t border-outline-variant z-50 flex justify-around py-sm px-md pb-safe shadow-[0_-4px_20px_rgba(45,90,39,0.05)]">
+<a class="flex flex-col items-center gap-xs p-sm text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm text-[10px]">Ringkasan</span>
+</a>
+<a class="flex flex-col items-center gap-xs p-sm text-primary" href="#">
+<div class="bg-secondary-container px-md py-xs rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<span class="font-label-sm text-label-sm text-[10px] font-bold">Setoran</span>
+</a>
+<a class="flex flex-col items-center gap-xs p-sm text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm text-[10px]">Penarikan</span>
+</a>
+<a class="flex flex-col items-center gap-xs p-sm text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-sm text-label-sm text-[10px]">Riwayat</span>
+</a>
+</nav>
+<script>
+        // Simple drag and drop visual feedback
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-upload');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('drag-active');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('drag-active');
+        }
+
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            
+            if(files.length > 0) {
+                 // Update input text vaguely
+                 const textDiv = dropZone.querySelector('.text-center div:nth-child(2)');
+                 textDiv.innerHTML = `<span class="font-semibold text-primary">${files[0].name}</span> terpilih`;
+            }
+        }
+        
+        fileInput.addEventListener('change', function(e) {
+            if(this.files.length > 0) {
+                 const textDiv = dropZone.querySelector('.text-center div:nth-child(2)');
+                 textDiv.innerHTML = `<span class="font-semibold text-primary">${this.files[0].name}</span> terpilih`;
+            }
+        });
+    </script>
+</body></html>

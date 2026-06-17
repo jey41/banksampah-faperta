@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bank Sampah - Ringkasan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#d9e3f6",
+                        "on-primary-container": "#9dd090",
+                        "inverse-primary": "#a1d494",
+                        "tertiary-container": "#47534a",
+                        "on-primary-fixed": "#002201",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#bcf0ae",
+                        "secondary-fixed": "#b9f474",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#b9c6bb",
+                        "inverse-surface": "#27313f",
+                        "tertiary": "#303c34",
+                        "outline": "#72796e",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#121c2a",
+                        "secondary": "#3e6a00",
+                        "on-secondary-fixed-variant": "#2e4f00",
+                        "tertiary-fixed": "#d9e6da",
+                        "surface-container-highest": "#d9e3f6",
+                        "secondary-fixed-dim": "#9ed75b",
+                        "background": "#f8f9ff",
+                        "secondary-container": "#b9f474",
+                        "on-secondary-fixed": "#0f2000",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#3b6934",
+                        "primary": "#154212",
+                        "surface-dim": "#d0dbed",
+                        "on-surface-variant": "#42493e",
+                        "on-tertiary-fixed": "#131e17",
+                        "primary-container": "#2d5a27",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed-variant": "#3e4a41",
+                        "tertiary-fixed-dim": "#bdcabe",
+                        "surface-container-high": "#dee9fc",
+                        "on-primary-fixed-variant": "#23501e",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c2c9bb",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-container": "#437000",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container": "#e6eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed-dim": "#a1d494",
+                        "on-surface": "#121c2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "container-max": "1280px",
+                        "2xl": "48px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "3xl": "64px",
+                        "md": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .ambient-shadow {
+            box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08);
+        }
+
+        .active-card:hover {
+            box-shadow: 0px 8px 30px rgba(45, 90, 39, 0.15);
+            border: 1px solid rgba(21, 66, 18, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full w-72 bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline p-lg gap-md shrink-0">
+<div class="flex items-center gap-sm mb-xl">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined filled">eco</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Bank Sampah</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Eco-Friendly Banking</p>
+</div>
+</div>
+<div class="flex flex-col gap-sm flex-1">
+<!-- Active Tab: Ringkasan -->
+<a class="flex items-center gap-md bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl px-md py-sm font-bold scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Ringkasan</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-md py-sm hover:bg-surface-variant dark:hover:bg-surface-container-high transition-colors duration-300 rounded-xl hover:bg-surface-variant/50" href="#">
+<span class="material-symbols-outlined">eco</span>
+<span class="font-label-md text-label-md">Setoran</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-md py-sm hover:bg-surface-variant dark:hover:bg-surface-container-high transition-colors duration-300 rounded-xl hover:bg-surface-variant/50" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Penarikan</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-md py-sm hover:bg-surface-variant dark:hover:bg-surface-container-high transition-colors duration-300 rounded-xl hover:bg-surface-variant/50" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Riwayat</span>
+</a>
+</div>
+<button class="mt-auto bg-primary-container text-on-primary font-label-md text-label-md py-md px-lg rounded-full hover:brightness-110 transition-all duration-300 flex justify-center items-center gap-sm">
+<span class="material-symbols-outlined">add_circle</span>
+            Setor Sampah
+        </button>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-lg py-md sticky top-0 z-50 bg-surface/80 backdrop-blur-md shadow-sm dark:shadow-none shrink-0">
+<h2 class="font-title-lg text-title-lg text-primary dark:text-inverse-primary font-bold hidden md:block">Dasbor Nasabah</h2>
+<!-- Mobile Menu Button (Visible only on md-) -->
+<button class="md:hidden text-primary p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-title-lg text-title-lg text-primary dark:text-inverse-primary font-bold md:hidden">Bank Sampah</h2>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<input class="bg-surface-container-low border-outline-variant rounded-full py-2 px-4 pl-10 text-sm focus:ring-2 focus:ring-[#8BC34A] focus:border-transparent transition-all outline-none text-on-surface placeholder:text-on-surface-variant/50" placeholder="Cari..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/70 text-[20px]">search</span>
+</div>
+<button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer active:opacity-70 p-2 rounded-full hover:bg-surface-variant/30 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer active:opacity-70 p-1 rounded-full border-2 border-transparent hover:border-primary">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover" data-alt="A close up portrait photo of a professional adult looking directly at the camera, brightly lit against a neutral studio background. The style is clean, modern corporate photography suitable for an avatar or profile picture, reflecting a trustworthy and approachable demeanor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcYLmEC9rjb8k3hPjHEwiJFgtT9jpBn9dyKMOTJTyYkFfpvsiDKcEff6M6KfbkntuTHAxIS4zuIqyq5aYc5zNlMRTh1WjaCFHZ24YNgvs4UkPVnA9oKRMDU5eZy8tCLs59K5PLum3dT50iwLfPTlnRkkN18s90HG39Qlh9Drh8KbygEmb_Ym07pBsBdhoCnpElh0YZH_t7A8po3ZKLNCGPM6PB0O7TThldy7ZnwaMa3tYvfVS2MU2ermrRPcL5GbhHSWWzBLMlIrM"/>
+</button>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<main class="flex-1 overflow-y-auto p-4 md:p-lg lg:p-2xl">
+<div class="max-w-container-max mx-auto space-y-lg">
+<!-- Bento Grid Layout for Dashboard Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Main Balance Card (Spans 8 cols on large screens) -->
+<div class="md:col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-[24px] p-lg ambient-shadow active-card transition-all duration-300 relative overflow-hidden group">
+<!-- Decorative background element -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary-container/20 rounded-full blur-3xl group-hover:bg-secondary-container/30 transition-colors duration-500 pointer-events-none"></div>
+<div class="flex flex-col h-full justify-between relative z-10">
+<div>
+<div class="flex items-center gap-sm mb-4">
+<div class="w-10 h-10 rounded-full bg-[#E8F5E9] text-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined filled">account_balance_wallet</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface-variant">Saldo Saat Ini</h3>
+</div>
+<div class="font-display-lg text-display-lg text-primary tracking-tight">
+                                    Rp 125.000
+                                </div>
+<p class="font-body-md text-body-md text-secondary mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                    +Rp 15.000 minggu ini
+                                </p>
+</div>
+<div class="flex flex-wrap gap-md mt-xl">
+<button class="flex-1 sm:flex-none bg-primary-container text-white hover:brightness-110 font-label-md text-label-md py-3 px-6 rounded-xl transition-all duration-300 shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">recycling</span>
+                                    Setor Sampah
+                                </button>
+<button class="flex-1 sm:flex-none bg-[#8BC34A] text-[#1F2937] hover:brightness-95 font-label-md text-label-md py-3 px-6 rounded-xl transition-all duration-300 shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">payments</span>
+                                    Tarik Saldo
+                                </button>
+</div>
+</div>
+</div>
+<!-- Impact Card (Spans 4 cols) -->
+<div class="md:col-span-6 lg:col-span-4 bg-primary text-white rounded-[24px] p-lg ambient-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container to-primary opacity-50"></div>
+<!-- Abstract biophilic pattern overlay -->
+<div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgcj0iMSIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==')]"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-xl">
+<h3 class="font-title-lg text-title-lg text-inverse-primary">Dampak Lingkungan</h3>
+<span class="material-symbols-outlined filled text-secondary-fixed">energy_savings_leaf</span>
+</div>
+<div class="space-y-md">
+<div>
+<p class="font-label-sm text-label-sm text-tertiary-fixed-dim uppercase tracking-wider mb-1">Total Berat Sampah</p>
+<p class="font-headline-lg text-headline-lg">45.2 <span class="text-lg font-normal text-inverse-primary">kg</span></p>
+</div>
+<div class="w-full bg-tertiary-container/50 rounded-full h-2 mb-1">
+<div class="bg-gradient-to-r from-secondary-fixed-dim to-secondary-fixed h-2 rounded-full" style="width: 75%"></div>
+</div>
+<p class="font-label-sm text-label-sm text-tertiary-fixed-dim text-right">Target Bulanan: 60kg</p>
+</div>
+</div>
+</div>
+<!-- Recent Activity Chart Area (Full width) -->
+<div class="md:col-span-12 bg-surface-container-lowest rounded-[24px] p-lg ambient-shadow">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-title-lg text-title-lg text-primary">Aktivitas Setoran</h3>
+<button class="text-primary hover:bg-surface-variant/50 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Pseudo-chart visualization -->
+<div class="h-48 flex items-end justify-between gap-2 sm:gap-4 px-2">
+<!-- Bars -->
+<div class="w-full flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-full bg-surface-container hover:bg-primary-container/20 rounded-t-md transition-colors relative h-[30%]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">2.5 kg</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sen</span>
+</div>
+<div class="w-full flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-full bg-surface-container hover:bg-primary-container/20 rounded-t-md transition-colors relative h-[50%]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">4.2 kg</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sel</span>
+</div>
+<div class="w-full flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-full bg-surface-container hover:bg-primary-container/20 rounded-t-md transition-colors relative h-[20%]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">1.8 kg</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rab</span>
+</div>
+<div class="w-full flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-full bg-primary-container rounded-t-md transition-all shadow-[0_0_15px_rgba(45,90,39,0.3)] relative h-[80%]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">7.5 kg</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">Kam</span>
+</div>
+<div class="w-full flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-full bg-surface-container hover:bg-primary-container/20 rounded-t-md transition-colors relative h-[45%]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">3.9 kg</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Jum</span>
+</div>
+<div class="w-full flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-full bg-surface-container hover:bg-primary-container/20 rounded-t-md transition-colors relative h-[15%]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">1.2 kg</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sab</span>
+</div>
+<div class="w-full flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-full bg-surface-container hover:bg-primary-container/20 rounded-t-md transition-colors relative h-[5%]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">0.5 kg</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Min</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

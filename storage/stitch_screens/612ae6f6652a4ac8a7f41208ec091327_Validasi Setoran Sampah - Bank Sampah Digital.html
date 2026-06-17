@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bank Sampah Admin - Validasi Setoran</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config from Guidelines -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#3b6934",
+                        "on-primary-container": "#9dd090",
+                        "primary-container": "#2d5a27",
+                        "surface-variant": "#d9e3f6",
+                        "surface-dim": "#d0dbed",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e6eeff",
+                        "inverse-primary": "#a1d494",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#bcf0ae",
+                        "tertiary-fixed-dim": "#bdcabe",
+                        "outline-variant": "#c2c9bb",
+                        "surface": "#f8f9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary-fixed-variant": "#2e4f00",
+                        "tertiary": "#303c34",
+                        "on-error": "#ffffff",
+                        "secondary": "#3e6a00",
+                        "inverse-surface": "#27313f",
+                        "on-tertiary-container": "#b9c6bb",
+                        "on-primary-fixed-variant": "#23501e",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#47534a",
+                        "tertiary-fixed": "#d9e6da",
+                        "surface-bright": "#f8f9ff",
+                        "outline": "#72796e",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#121c2a",
+                        "on-tertiary-fixed-variant": "#3e4a41",
+                        "primary-fixed-dim": "#a1d494",
+                        "on-tertiary-fixed": "#131e17",
+                        "on-primary": "#ffffff",
+                        "on-background": "#121c2a",
+                        "surface-container-low": "#eff4ff",
+                        "primary": "#154212",
+                        "surface-container-highest": "#d9e3f6",
+                        "surface-container-high": "#dee9fc",
+                        "on-secondary-fixed": "#0f2000",
+                        "secondary-fixed-dim": "#9ed75b",
+                        "on-surface-variant": "#42493e",
+                        "on-primary-fixed": "#002201",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#b9f474",
+                        "secondary-container": "#b9f474",
+                        "on-secondary-container": "#437000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "3xl": "64px",
+                        "base": "4px",
+                        "2xl": "48px",
+                        "sm": "8px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter", "sans-serif"],
+                        "display-lg": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "title-lg": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        .ambient-shadow {
+            box-shadow: 0px 4px 20px rgba(45, 90, 39, 0.08);
+        }
+        /* Custom scrollbar for table */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #c2c9bb; /* outline-variant */
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-hidden selection:bg-primary/20 selection:text-primary">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<nav class="hidden md:flex flex-col h-full py-md px-sm bg-surface-container-lowest border-r border-outline-variant docked w-64 left-0 shadow-sm flex-shrink-0 z-20 transition-all duration-300 ease-in-out">
+<!-- Header -->
+<div class="flex items-center gap-md px-sm mb-lg">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img alt="Admin Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of an administrator in a clean, modern office setting. The lighting is soft and bright, emphasizing a trustworthy and systematic corporate appearance. Subtle green biophilic elements are visible in the slightly blurred background, reinforcing the sustainable waste management brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAVuOckLruHINELpo9XhquAUqfE3J92CzJoNtxE9bvDC6JdGRu9N6ef4r-r-FOSz0ry8heW1udqOYB26zhnXXGUq95AGVQSuujvoDD9SA_7XfthpS6uiddKiFk5heEzZdvQbAQdCF12p_4RYgHqY6Vq3l53CVgCAlSH2D2acboDxbY1iHf_ahrqB9-mLuYMGEeGQwKM9nqOS228nfwmMNh2J1AE-chUr0GvxXEoDZRc916cdXWU0wqTRxX5EsJluA2lxra6l8x7AM"/>
+</div>
+<div class="flex flex-col">
+<span class="text-title-lg font-title-lg font-black text-primary">Admin Panel</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Petugas Pusat</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Active State: Transaksi -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold border-r-4 border-primary bg-secondary-container/20 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined icon-fill">receipt_long</span>
+<span class="font-label-md text-label-md">Transaksi</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">group</span>
+<span class="font-label-md text-label-md">Nasabah</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">assessment</span>
+<span class="font-label-md text-label-md">Laporan</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant font-medium hover:bg-secondary-container/10 hover:text-primary transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</a>
+</div>
+<!-- CTA Button -->
+<div class="mt-auto px-sm pt-md pb-sm">
+<button class="w-full bg-[#8BC34A] text-[#1F2937] hover:bg-[#7cb042] font-label-md text-label-md py-sm rounded-lg flex items-center justify-center gap-sm transition-all duration-300 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+                Setor Sampah
+            </button>
+</div>
+<!-- Footer Tab -->
+<div class="px-sm pb-sm mt-sm border-t border-outline-variant/50 pt-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-error font-medium hover:bg-error-container/20 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Keluar</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col min-w-0 bg-background overflow-hidden relative">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-lg h-16 bg-surface border-b border-outline-variant docked full-width top-0 flat no shadows z-10 flex-shrink-0">
+<div class="flex items-center gap-md">
+<!-- Mobile Menu Toggle (Visible only on mobile) -->
+<button class="md:hidden p-xs text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Bank Sampah Admin</h1>
+</div>
+<div class="flex items-center gap-sm">
+<!-- Trailing Actions -->
+<button class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors duration-300 active:scale-95 relative group">
+<span class="material-symbols-outlined group-hover:text-primary">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border border-surface"></span>
+</button>
+<button class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors duration-300 active:scale-95 group">
+<span class="material-symbols-outlined group-hover:text-primary">settings</span>
+</button>
+<!-- Profile Image -->
+<div class="ml-sm w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant/30 hidden sm:block">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of an administrator in a clean, modern office setting. The lighting is soft and bright, emphasizing a trustworthy and systematic corporate appearance. Subtle green biophilic elements are visible in the slightly blurred background, reinforcing the sustainable waste management brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1MUB1yS2KJOWN4bvC_ubzMNssHn1lrAQPFTxaqtqTktjZ4LF_i58fLBcpMcESWsm_IyaeX3ZKha_omGhqzpsnK_Df5aOh-3bQEw0N7N9KsG3cXmAJRNBb0p4XEo1EI7o-fuB4IdSecoB2nlhgK8m0_XrzWCw7a6ugMKfCmCbCOc_OSQIsGcqiS_HY9jc2NEGIR_KHuhDozR7IvOtxGnVr0TJIwUnAKi_H32LtT0r7AbPmjKUsUnrrTFf_UYiF-Su3B7xmkHvq5Cw"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-md md:p-lg lg:p-xl flex flex-col gap-lg">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-sm mb-sm">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background tracking-tight">Validasi Setoran</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Tinjau dan konfirmasi antrean setoran sampah dari nasabah.</p>
+</div>
+<!-- Simple Metric/Pill -->
+<div class="bg-surface-container-low border border-outline-variant/30 px-md py-sm rounded-full flex items-center gap-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed"></span>
+<span class="font-label-md text-label-md text-on-surface">12 Antrean Menunggu</span>
+</div>
+</div>
+<!-- Main Data Table Card -->
+<div class="bg-surface rounded-2xl ambient-shadow border border-outline-variant/20 overflow-hidden flex flex-col">
+<!-- Card Header/Filter Area -->
+<div class="px-md py-sm border-b border-outline-variant/30 flex justify-between items-center bg-surface-bright">
+<h3 class="font-title-lg text-title-lg text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">inbox</span>
+                        Daftar Antrean Masuk
+                    </h3>
+<div class="flex gap-sm">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded-md border border-outline-variant/50 bg-surface">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="overflow-x-auto custom-scrollbar w-full">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant/40">
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Nasabah</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Jenis Sampah</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-right">Berat Estimasi (kg)</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-center">Pratinjau Foto</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider w-40">Input Berat Riil</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-center">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Row 1 -->
+<tr class="hover:bg-secondary-container/5 transition-colors duration-200 group">
+<td class="py-sm px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed font-label-sm font-bold">BR</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Budi Raharjo</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">NSB-8821</span>
+</div>
+</div>
+</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center gap-xs px-2 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-primary">recycling</span>
+                                        Plastik PET
+                                    </span>
+</td>
+<td class="py-sm px-md text-right font-body-md text-body-md text-on-surface">
+                                    4.5
+                                </td>
+<td class="py-sm px-md text-center">
+<div class="w-12 h-12 rounded-lg bg-surface-variant border border-outline-variant/30 overflow-hidden inline-block cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="Foto Sampah" class="w-full h-full object-cover" data-alt="A clear, top-down photograph showing a neat pile of compressed PET plastic water bottles ready for recycling. The scene is brightly lit with cool, objective lighting typical of a modern, clean waste management facility. The color palette emphasizes the transparent blues and greens of the plastic against a neutral light grey surface, reflecting a systematic and trustworthy approach to sustainability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNKlAA7lZRnME929rSBZXpcVjjnvRQXbYC6Bh-bcBXDKvAsAJCUdEUoQbzBaC6xrqVRbSSjkI2D9JJEsusWxCT4GZEadOzOmua6SxAZFn0mCKsQ_AN2azyHKVXzaw8ShFY-XOHfYEGopXAhMJiC3IUAXFFrjMt-SMV5XpbFaTUzluoLqw4opvuz2HVlA8JGR3QLuPDrsXztFT8bJE0y8T2PH809yuqAIvd5xxrgolyl3TR49sWhRjoOQp8qPveKmepUXiZWJI92Jo"/>
+</div>
+</td>
+<td class="py-sm px-md">
+<div class="relative w-32">
+<input class="w-full bg-surface border border-outline-variant rounded-md py-xs px-sm font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline/50" placeholder="0.0" step="0.1" type="number"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-label-sm">kg</span>
+</div>
+</td>
+<td class="py-sm px-md text-center">
+<div class="flex items-center justify-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+<button class="bg-primary text-on-primary hover:bg-primary/90 font-label-md text-label-md px-md py-xs rounded-md transition-all shadow-sm active:scale-95 flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">check</span>
+                                            Setujui
+                                        </button>
+<button class="text-error border border-error/50 hover:bg-error-container hover:border-error font-label-md text-label-md px-md py-xs rounded-md transition-all active:scale-95 flex items-center gap-xs bg-surface" onclick="openRejectModal('NSB-8821', 'Budi Raharjo')">
+<span class="material-symbols-outlined text-[18px]">close</span>
+                                            Tolak
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-secondary-container/5 transition-colors duration-200 group">
+<td class="py-sm px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center text-on-primary-fixed font-label-sm font-bold">SA</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Siti Aminah</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">NSB-9014</span>
+</div>
+</div>
+</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center gap-xs px-2 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-tertiary">inventory_2</span>
+                                        Kardus Bekas
+                                    </span>
+</td>
+<td class="py-sm px-md text-right font-body-md text-body-md text-on-surface">
+                                    12.0
+                                </td>
+<td class="py-sm px-md text-center">
+<div class="w-12 h-12 rounded-lg bg-surface-variant border border-outline-variant/30 overflow-hidden inline-block cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="Foto Sampah" class="w-full h-full object-cover" data-alt="A focused, bright photograph of cleanly folded and stacked cardboard boxes tied securely with twine, resting on an industrial scale. The lighting is even and natural, highlighting the textures of the brown cardboard. The setting is a highly organized, modern warehouse space, conveying a biophilic edge through cleanliness and a sense of responsible resource management." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQWpJMYzeg8_vyFamJQ8AJTIrJ2enE7g72RTCKGmu12CWYBXvrLtVbMCSteCRSyxjcWo87BKQl8k05uS7Os0YMKpyN9Xyh614fqx7SD5abGbeZ2VXbQLjV6HnPoyR7BIosNJIJ_OAujjEE_L9BBhdRyISnXpulooKUEpBqXkjTarSDHR87ukQHn5kKueCkdp3M-O5skvq6P0XHiXe1ppGmXjQN7NdL5e0OyiaHN8Ua8SWOnhfbC6w6nEtTPWjXiMdkMyCKgNWAgj4"/>
+</div>
+</td>
+<td class="py-sm px-md">
+<div class="relative w-32">
+<input class="w-full bg-surface border border-outline-variant rounded-md py-xs px-sm font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline/50" placeholder="0.0" step="0.1" type="number"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-label-sm">kg</span>
+</div>
+</td>
+<td class="py-sm px-md text-center">
+<div class="flex items-center justify-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+<button class="bg-primary text-on-primary hover:bg-primary/90 font-label-md text-label-md px-md py-xs rounded-md transition-all shadow-sm active:scale-95 flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">check</span>
+                                            Setujui
+                                        </button>
+<button class="text-error border border-error/50 hover:bg-error-container hover:border-error font-label-md text-label-md px-md py-xs rounded-md transition-all active:scale-95 flex items-center gap-xs bg-surface" onclick="openRejectModal('NSB-9014', 'Siti Aminah')">
+<span class="material-symbols-outlined text-[18px]">close</span>
+                                            Tolak
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-secondary-container/5 transition-colors duration-200 group">
+<td class="py-sm px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-label-sm font-bold">DF</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Deni Firman</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">NSB-4410</span>
+</div>
+</div>
+</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center gap-xs px-2 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-outline">hardware</span>
+                                        Logam/Besi
+                                    </span>
+</td>
+<td class="py-sm px-md text-right font-body-md text-body-md text-on-surface">
+                                    8.2
+                                </td>
+<td class="py-sm px-md text-center">
+<div class="w-12 h-12 rounded-lg bg-surface-variant border border-outline-variant/30 overflow-hidden inline-block cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center bg-surface-dim">
+<span class="material-symbols-outlined text-outline-variant">image_not_supported</span>
+</div>
+</td>
+<td class="py-sm px-md">
+<div class="relative w-32">
+<input class="w-full bg-surface border border-outline-variant rounded-md py-xs px-sm font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline/50" placeholder="0.0" step="0.1" type="number"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-label-sm">kg</span>
+</div>
+</td>
+<td class="py-sm px-md text-center">
+<div class="flex items-center justify-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+<button class="bg-primary text-on-primary hover:bg-primary/90 font-label-md text-label-md px-md py-xs rounded-md transition-all shadow-sm active:scale-95 flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">check</span>
+                                            Setujui
+                                        </button>
+<button class="text-error border border-error/50 hover:bg-error-container hover:border-error font-label-md text-label-md px-md py-xs rounded-md transition-all active:scale-95 flex items-center gap-xs bg-surface" onclick="openRejectModal('NSB-4410', 'Deni Firman')">
+<span class="material-symbols-outlined text-[18px]">close</span>
+                                            Tolak
+                                        </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer -->
+<div class="px-md py-sm border-t border-outline-variant/30 bg-surface flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Menampilkan 1-3 dari 12 antrean</span>
+<div class="flex gap-xs">
+<button class="p-xs rounded-md text-on-surface-variant hover:bg-surface-container disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="p-xs rounded-md text-on-surface-variant hover:bg-surface-container">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty State Example (Hidden by default, structure provided) -->
+<!--
+            <div class="flex-1 flex flex-col items-center justify-center text-center p-xl">
+                <div class="w-32 h-32 rounded-full bg-surface-container flex items-center justify-center mb-md shadow-sm">
+                    <span class="material-symbols-outlined text-[48px] text-primary/50">verified</span>
+                </div>
+                <h3 class="font-title-lg text-title-lg text-on-surface mb-xs">Semua Setoran Telah Divalidasi</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Kerja bagus! Belum ada antrean setoran baru saat ini. Mari wujudkan lingkungan yang lebih bersih.</p>
+            </div>
+            -->
+</main>
+</div>
+</div>
+<!-- Modal Penolakan Setoran (Hidden Overlay) -->
+<div class="fixed inset-0 bg-on-background/40 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-md" id="rejectModal">
+<!-- Modal Card -->
+<div class="bg-surface w-full max-w-md rounded-2xl p-lg shadow-xl border border-outline-variant/20 transform scale-95 transition-transform duration-300 flex flex-col" id="rejectModalCard">
+<!-- Header -->
+<div class="flex justify-between items-start mb-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined icon-fill">warning</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Tolak Setoran</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">Nasabah: <span class="font-medium text-on-surface" id="modalNasabahName">...</span></p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container p-xs rounded-full transition-colors" onclick="closeRejectModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Form Area -->
+<div class="flex flex-col gap-sm mb-lg">
+<label class="font-label-md text-label-md text-on-surface font-medium" for="alasanPenolakan">Alasan Penolakan <span class="text-error">*</span></label>
+<textarea class="w-full bg-background border border-outline-variant rounded-lg p-sm font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-error focus:border-transparent transition-all placeholder:text-outline/50 resize-none custom-scrollbar" id="alasanPenolakan" placeholder="Masukkan alasan spesifik (misal: sampah belum dipilah, jenis sampah tidak diterima)..." rows="4"></textarea>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Alasan ini akan dikirimkan sebagai notifikasi kepada nasabah.</p>
+</div>
+<!-- Actions -->
+<div class="flex justify-end gap-sm mt-auto">
+<button class="px-md py-sm rounded-lg font-label-md text-label-md text-on-surface-variant border border-outline-variant hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-outline" onclick="closeRejectModal()">
+                Batal
+            </button>
+<button class="px-md py-sm rounded-lg font-label-md text-label-md bg-error text-on-error hover:bg-error/90 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-error focus:ring-offset-2 focus:ring-offset-surface flex items-center gap-xs" onclick="confirmRejection()">
+                Konfirmasi Tolak
+            </button>
+</div>
+</div>
+</div>
+<script>
+    // Minimal Vanilla JS for Modal Interaction
+    const modal = document.getElementById('rejectModal');
+    const modalCard = document.getElementById('rejectModalCard');
+    const nameSpan = document.getElementById('modalNasabahName');
+    const textarea = document.getElementById('alasanPenolakan');
+
+    function openRejectModal(id, name) {
+        nameSpan.textContent = `${name} (${id})`;
+        textarea.value = ''; // Reset
+        
+        // Show modal
+        modal.classList.remove('hidden');
+        // Trigger reflow
+        void modal.offsetWidth;
+        
+        // Add active classes for animation
+        modal.classList.remove('opacity-0');
+        modal.classList.add('opacity-100');
+        modalCard.classList.remove('scale-95');
+        modalCard.classList.add('scale-100');
+        
+        // Focus textarea slightly delayed
+        setTimeout(() => textarea.focus(), 100);
+    }
+
+    function closeRejectModal() {
+        // Remove active classes
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
+        modalCard.classList.remove('scale-100');
+        modalCard.classList.add('scale-95');
+        
+        // Wait for transition to finish before hiding
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }
+
+    function confirmRejection() {
+        const reason = textarea.value.trim();
+        if(!reason) {
+            // Simple validation feedback
+            textarea.classList.add('ring-2', 'ring-error');
+            setTimeout(() => textarea.classList.remove('ring-2', 'ring-error'), 1000);
+            return;
+        }
+        
+        // Mock action success
+        const btn = event.currentTarget;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> Memproses...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            closeRejectModal();
+            // In real app, would remove row or refresh data here
+        }, 800);
+    }
+
+    // Close on backdrop click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeRejectModal();
+        }
+    });
+</script>
+</body></html>
