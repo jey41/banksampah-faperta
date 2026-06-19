@@ -23,10 +23,22 @@ class WithdrawalsTable
                     ->searchable()
                     ->sortable()
                     ->label('Nasabah'),
+                TextColumn::make('withdrawal_method')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'tunai' => 'success',
+                        'transfer_bank' => 'info',
+                        default => 'gray',
+                    })
+                    ->label('Metode'),
                 TextColumn::make('amount')
                     ->money('IDR', locale: 'id')
                     ->sortable()
                     ->label('Jumlah Penarikan'),
+                TextColumn::make('admin_fee')
+                    ->money('IDR', locale: 'id')
+                    ->sortable()
+                    ->label('Biaya Admin'),
                 TextColumn::make('bank_name')
                     ->searchable()
                     ->label('Bank/E-Wallet'),

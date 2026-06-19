@@ -16,6 +16,15 @@ class TrashPriceForm
                     ->required()
                     ->maxLength(255)
                     ->label('Nama Sampah'),
+                Select::make('category_type')
+                    ->options([
+                        'umum' => 'Umum',
+                        'donasi' => 'Donasi',
+                    ])
+                    ->required()
+                    ->default('umum')
+                    ->label('Tipe Kategori')
+                    ->helperText('"Umum" tersedia untuk setor biasa. "Donasi" khusus program donasi.'),
                 Select::make('category')
                     ->options([
                         'plastik' => 'Plastik',

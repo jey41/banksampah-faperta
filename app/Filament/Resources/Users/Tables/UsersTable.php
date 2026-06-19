@@ -50,6 +50,35 @@ class UsersTable
                     ->label('No. Rekening')
                     ->searchable()
                     ->placeholder('-'),
+                TextColumn::make('umur')
+                    ->sortable()
+                    ->label('Umur')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('gender')
+                    ->label('Jenis Kelamin')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('status_pekerjaan')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'bekerja' => 'success',
+                        'tidak_bekerja' => 'gray',
+                        'pelajar' => 'info',
+                        'mahasiswa' => 'warning',
+                        'pensiun' => 'primary',
+                        default => 'gray',
+                    })
+                    ->label('Status Pekerjaan')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('universitas')
+                    ->label('Universitas')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('fakultas')
+                    ->label('Fakultas')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('pendidikan_terakhir')
+                    ->badge()
+                    ->label('Pendidikan Terakhir')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('saldo')
                     ->money('IDR', locale: 'id')
                     ->sortable()

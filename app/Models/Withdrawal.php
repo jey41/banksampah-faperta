@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Withdrawal extends Model
 {
-    protected $fillable = ['user_id', 'amount', 'bank_name', 'account_number', 'account_name', 'status', 'validated_by', 'notes'];
+    protected $fillable = ['user_id', 'amount', 'withdrawal_method', 'admin_fee', 'bank_name', 'bank_type', 'account_number', 'account_name', 'status', 'validated_by', 'notes'];
 
     protected $casts = [
         'amount' => 'integer',
+        'admin_fee' => 'integer',
     ];
 
     public function user(): BelongsTo
@@ -21,5 +23,10 @@ class Withdrawal extends Model
     public function validator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'validated_by');
+    }
+
+    public function history(): HasMany
+    {
+        return $this->hasMany(WithdrawalHistory::class);
     }
 }

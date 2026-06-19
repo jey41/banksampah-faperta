@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Deposit extends Model
 {
-    protected $fillable = ['user_id', 'total_price', 'weight_total', 'status', 'is_donation', 'notes', 'validated_by'];
+    protected $fillable = ['user_id', 'total_price', 'weight_total', 'status', 'is_donation', 'donation_category', 'notes', 'validated_by'];
 
     protected $casts = [
         'total_price' => 'integer',

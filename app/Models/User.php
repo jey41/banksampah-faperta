@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
-#[Fillable(['name', 'email', 'password', 'role', 'status', 'phone', 'address', 'saldo', 'account_no'])]
+#[Fillable(['name', 'email', 'password', 'role', 'status', 'phone', 'address', 'saldo', 'account_no', 'umur', 'gender', 'status_pekerjaan', 'universitas', 'fakultas', 'pendidikan_terakhir'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser
 {
@@ -43,6 +43,7 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'saldo' => 'integer',
+            'umur' => 'integer',
         ];
     }
 

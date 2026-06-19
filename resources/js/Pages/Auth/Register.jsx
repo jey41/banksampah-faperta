@@ -10,6 +10,12 @@ export default function Register() {
         password_confirmation: '',
         phone: '',
         address: '',
+        umur: '',
+        gender: '',
+        status_pekerjaan: '',
+        universitas: '',
+        fakultas: '',
+        pendidikan_terakhir: '',
     });
 
     const submit = (e) => {
@@ -120,6 +126,135 @@ export default function Register() {
                                     />
                                 </div>
                                 <InputError message={errors.address} className="mt-1" />
+                            </div>
+
+                            {/* Demografi */}
+                            <div className="border-t border-outline-variant/20 pt-4">
+                                <p className="text-sm font-semibold text-on-surface mb-3">Data Demografi</p>
+                            </div>
+
+                            <div>
+                                <label htmlFor="umur" className="block text-sm font-bold text-on-surface">
+                                    Umur
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        id="umur"
+                                        type="number"
+                                        name="umur"
+                                        value={data.umur}
+                                        onChange={(e) => setData('umur', e.target.value)}
+                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                        placeholder="18"
+                                        min="1"
+                                        max="150"
+                                    />
+                                </div>
+                                <InputError message={errors.umur} className="mt-1" />
+                            </div>
+
+                            <div>
+                                <label htmlFor="gender" className="block text-sm font-bold text-on-surface">
+                                    Jenis Kelamin
+                                </label>
+                                <div className="mt-1">
+                                    <select
+                                        id="gender"
+                                        name="gender"
+                                        value={data.gender}
+                                        onChange={(e) => setData('gender', e.target.value)}
+                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface bg-white"
+                                    >
+                                        <option value="">Pilih jenis kelamin</option>
+                                        <option value="L">Laki-laki</option>
+                                        <option value="P">Perempuan</option>
+                                    </select>
+                                </div>
+                                <InputError message={errors.gender} className="mt-1" />
+                            </div>
+
+                            <div>
+                                <label htmlFor="status_pekerjaan" className="block text-sm font-bold text-on-surface">
+                                    Status Pekerjaan
+                                </label>
+                                <div className="mt-1">
+                                    <select
+                                        id="status_pekerjaan"
+                                        name="status_pekerjaan"
+                                        value={data.status_pekerjaan}
+                                        onChange={(e) => setData('status_pekerjaan', e.target.value)}
+                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface bg-white"
+                                    >
+                                        <option value="">Pilih status pekerjaan</option>
+                                        <option value="bekerja">Bekerja</option>
+                                        <option value="tidak_bekerja">Tidak Bekerja</option>
+                                        <option value="pelajar">Pelajar</option>
+                                        <option value="mahasiswa">Mahasiswa</option>
+                                        <option value="pensiun">Pensiun</option>
+                                        <option value="lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                                <InputError message={errors.status_pekerjaan} className="mt-1" />
+                            </div>
+
+                            <div>
+                                <label htmlFor="universitas" className="block text-sm font-bold text-on-surface">
+                                    Universitas / Instansi
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        id="universitas"
+                                        type="text"
+                                        name="universitas"
+                                        value={data.universitas}
+                                        onChange={(e) => setData('universitas', e.target.value)}
+                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                        placeholder="Nama universitas atau instansi"
+                                    />
+                                </div>
+                                <InputError message={errors.universitas} className="mt-1" />
+                            </div>
+
+                            <div>
+                                <label htmlFor="fakultas" className="block text-sm font-bold text-on-surface">
+                                    Fakultas / Jurusan
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        id="fakultas"
+                                        type="text"
+                                        name="fakultas"
+                                        value={data.fakultas}
+                                        onChange={(e) => setData('fakultas', e.target.value)}
+                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                        placeholder="Nama fakultas atau jurusan"
+                                    />
+                                </div>
+                                <InputError message={errors.fakultas} className="mt-1" />
+                            </div>
+
+                            <div>
+                                <label htmlFor="pendidikan_terakhir" className="block text-sm font-bold text-on-surface">
+                                    Pendidikan Terakhir
+                                </label>
+                                <div className="mt-1">
+                                    <select
+                                        id="pendidikan_terakhir"
+                                        name="pendidikan_terakhir"
+                                        value={data.pendidikan_terakhir}
+                                        onChange={(e) => setData('pendidikan_terakhir', e.target.value)}
+                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface bg-white"
+                                    >
+                                        <option value="">Pilih pendidikan terakhir</option>
+                                        <option value="sd">SD</option>
+                                        <option value="smp">SMP</option>
+                                        <option value="sma">SMA/SMK</option>
+                                        <option value="s1">S1</option>
+                                        <option value="s2">S2</option>
+                                        <option value="s3">S3</option>
+                                    </select>
+                                </div>
+                                <InputError message={errors.pendidikan_terakhir} className="mt-1" />
                             </div>
 
                             <div>

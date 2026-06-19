@@ -6,6 +6,7 @@ use App\Models\TrashPrice;
 use App\Models\Deposit;
 use App\Models\DepositItem;
 use App\Models\Withdrawal;
+use App\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -26,7 +27,7 @@ class NasabahController extends Controller
             ->concat($deposits->map(fn($d) => [
                 'id' => $d->id,
                 'type' => 'deposit',
-                'title' => 'Setor Sampah',
+                'title' => 'Donasi Sampah',
                 'amount' => $d->total_price,
                 'weight' => $d->weight_total,
                 'status' => $d->status,
@@ -67,10 +68,12 @@ class NasabahController extends Controller
 
     public function deposit(): Response
     {
-        $prices = TrashPrice::orderBy('category')->orderBy('name')->get();
+        $pricesUmum = TrashPrice::where('category_type', 'umum')->orderBy('category')->orderBy('name')->get();
+        $pricesDonasi = TrashPrice::where('category_type', 'donasi')->orderBy('category')->orderBy('name')->get();
 
         return Inertia::render('Nasabah/Deposit', [
-            'prices' => $prices,
+            'pricesUmum' => $pricesUmum,
+            'pricesDonasi' => $pricesDonasi,
         ]);
     }
 
@@ -81,7 +84,7 @@ class NasabahController extends Controller
             'items.*.trash_price_id' => 'required|exists:trash_prices,id',
             'items.*.weight' => 'required|numeric|min:0.1',
             'notes' => 'nullable|string|max:1000',
-            'is_donation' => 'nullable|boolean',
+            'donation_category' => 'required|in:umum,donasi',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -99,10 +102,13 @@ class NasabahController extends Controller
 
                 $itemsToCreate[] = [
                     'trash_price_id' => $trashPrice->id,
+                    'item_name' => $trashPrice->name,
+                    'item_category' => $trashPrice->category,
+                    'item_category_type' => $trashPrice->category_type,
                     'weight' => $itemWeight,
                     'price_per_unit' => $trashPrice->price_buy,
                     'total_price' => $itemPrice,
-                    'total_carbon' => $itemWeight * $trashPrice->carbon_factor,
+                    'total_carbon' => $itemWeight * ($trashPrice->carbon_factor ?? 0),
                 ];
             }
 
@@ -111,7 +117,8 @@ class NasabahController extends Controller
                 'total_price' => $totalPrice,
                 'weight_total' => $weightTotal,
                 'status' => 'pending',
-                'is_donation' => $request->boolean('is_donation', false),
+                'is_donation' => true, // Always donation now
+                'donation_category' => $request->donation_category,
                 'notes' => $request->notes,
             ]);
 
@@ -120,7 +127,7 @@ class NasabahController extends Controller
             }
         });
 
-        return redirect()->route('nasabah.dashboard')->with('success', 'Pengajuan setoran berhasil dibuat!');
+        return redirect()->route('nasabah.dashboard')->with('success', 'Pengajuan donasi sampah berhasil dibuat!');
     }
 
     public function withdraw(): Response
@@ -136,18 +143,29 @@ class NasabahController extends Controller
         
         $request->validate([
             'amount' => 'required|integer|min:10000|max:' . $user->saldo,
-            'bank_name' => 'required|string|max:255',
-            'account_number' => 'required|string|max:255',
-            'account_name' => 'required|string|max:255',
+            'withdrawal_method' => 'required|in:tunai,transfer_bank',
+            'bank_name' => 'required_if:withdrawal_method,transfer_bank|string|max:255',
+            'bank_type' => 'nullable|in:btn,lainnya',
+            'account_number' => 'required_if:withdrawal_method,transfer_bank|string|max:255',
+            'account_name' => 'required_if:withdrawal_method,transfer_bank|string|max:255',
             'notes' => 'nullable|string|max:1000',
         ]);
+
+        // Check operational hours (08:00-16:00)
+        if (!TransactionService::isWithinOperationalHours()) {
+            return redirect()->back()->withErrors([
+                'withdrawal_method' => 'Pengajuan penarikan hanya dapat dilakukan pada jam operasional 08:00 - 16:00.',
+            ])->withInput();
+        }
 
         Withdrawal::create([
             'user_id' => $user->id,
             'amount' => $request->amount,
-            'bank_name' => $request->bank_name,
-            'account_number' => $request->account_number,
-            'account_name' => $request->account_name,
+            'withdrawal_method' => $request->withdrawal_method,
+            'bank_name' => $request->withdrawal_method === 'tunai' ? 'Tunai' : $request->bank_name,
+            'bank_type' => $request->withdrawal_method === 'tunai' ? null : $request->bank_type,
+            'account_number' => $request->withdrawal_method === 'tunai' ? '-' : $request->account_number,
+            'account_name' => $request->withdrawal_method === 'tunai' ? auth()->user()->name : $request->account_name,
             'status' => 'pending',
             'notes' => $request->notes,
         ]);
@@ -166,7 +184,7 @@ class NasabahController extends Controller
             ->concat($deposits->map(fn($d) => [
                 'id' => $d->id,
                 'type' => 'deposit',
-                'title' => 'Setor Sampah',
+                'title' => 'Donasi Sampah',
                 'amount' => $d->total_price,
                 'weight' => $d->weight_total,
                 'status' => $d->status,

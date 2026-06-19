@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // 1. Seed Users
         $admin = User::create([
             'name' => 'Admin Bank Sampah',
-            'email' => 'admin@banksampah.com',
+            'email' => 'admin@bsfp.com',
             'password' => Hash::make('admin123'),
             'role' => 'admin',
             'status' => 'verified',
@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
         $petugas = User::create([
             'name' => 'Petugas Mamat',
-            'email' => 'petugas@banksampah.com',
+            'email' => 'petugas@bsfp.com',
             'password' => Hash::make('password'),
             'role' => 'petugas',
             'status' => 'verified',
@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
 
         $nasabah = User::create([
             'name' => 'Budi Raharjo',
-            'email' => 'nasabah@gmail.com',
+            'email' => 'nasabah@bsfp.com',
             'password' => Hash::make('password'),
             'role' => 'nasabah',
             'status' => 'verified',
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
         // Extra pending nasabah for testing verification
         User::create([
             'name' => 'Dewi Lestari',
-            'email' => 'dewi@gmail.com',
+            'email' => 'dewi@bsfp.com',
             'password' => Hash::make('password'),
             'role' => 'nasabah',
             'status' => 'pending',
@@ -73,6 +73,7 @@ class DatabaseSeeder extends Seeder
         $t1 = TrashPrice::create([
             'name' => 'Plastik PET (Botol Bening)',
             'category' => 'plastik',
+            'category_type' => 'umum',
             'price_buy' => 4000,
             'price_sell' => 6000,
             'unit' => 'kg',
@@ -81,6 +82,7 @@ class DatabaseSeeder extends Seeder
         $t2 = TrashPrice::create([
             'name' => 'Plastik Campuran (Berwarna)',
             'category' => 'plastik',
+            'category_type' => 'umum',
             'price_buy' => 2000,
             'price_sell' => 3500,
             'unit' => 'kg',
@@ -89,6 +91,7 @@ class DatabaseSeeder extends Seeder
         $t3 = TrashPrice::create([
             'name' => 'Kardus Bekas',
             'category' => 'kertas',
+            'category_type' => 'umum',
             'price_buy' => 3000,
             'price_sell' => 4500,
             'unit' => 'kg',
@@ -97,6 +100,7 @@ class DatabaseSeeder extends Seeder
         $t4 = TrashPrice::create([
             'name' => 'Kertas HVS/Dokumen',
             'category' => 'kertas',
+            'category_type' => 'umum',
             'price_buy' => 2500,
             'price_sell' => 4000,
             'unit' => 'kg',
@@ -105,6 +109,7 @@ class DatabaseSeeder extends Seeder
         $t5 = TrashPrice::create([
             'name' => 'Minyak Jelantah',
             'category' => 'minyak_jelantah',
+            'category_type' => 'umum',
             'price_buy' => 7500,
             'price_sell' => 11000,
             'unit' => 'L',
@@ -113,6 +118,7 @@ class DatabaseSeeder extends Seeder
         $t6 = TrashPrice::create([
             'name' => 'Besi Tua / Logam Campur',
             'category' => 'logam',
+            'category_type' => 'umum',
             'price_buy' => 5000,
             'price_sell' => 8000,
             'unit' => 'kg',
@@ -121,6 +127,7 @@ class DatabaseSeeder extends Seeder
         $t7 = TrashPrice::create([
             'name' => 'Botol Kaca Bening',
             'category' => 'kaca',
+            'category_type' => 'umum',
             'price_buy' => 1000,
             'price_sell' => 2000,
             'unit' => 'kg',
@@ -158,6 +165,7 @@ class DatabaseSeeder extends Seeder
             'total_price' => 40000,
             'weight_total' => 6.50,
             'status' => 'approved',
+            'donation_category' => 'umum',
             'notes' => 'Setoran diserahkan langsung di loket utama.',
             'validated_by' => $petugas->id,
             'created_at' => now()->subDays(5),
@@ -188,6 +196,7 @@ class DatabaseSeeder extends Seeder
             'total_price' => 15000,
             'weight_total' => 2.00,
             'status' => 'approved',
+            'donation_category' => 'umum',
             'notes' => 'Minyak jelantah kualitas baik.',
             'validated_by' => $petugas->id,
             'created_at' => now()->subDays(2),
@@ -209,6 +218,7 @@ class DatabaseSeeder extends Seeder
             'total_price' => 21000, // Estimated
             'weight_total' => 5.00, // Estimated
             'status' => 'pending',
+            'donation_category' => 'umum',
             'notes' => 'Pengajuan setoran plastik botol.',
             'created_at' => now()->subHours(5),
             'updated_at' => now()->subHours(5),
@@ -237,7 +247,10 @@ class DatabaseSeeder extends Seeder
         Withdrawal::create([
             'user_id' => $nasabah->id,
             'amount' => 100000,
+            'withdrawal_method' => 'transfer_bank',
+            'admin_fee' => 2500,
             'bank_name' => 'Bank Mandiri',
+            'bank_type' => 'mandiri',
             'account_number' => '1330099887766',
             'account_name' => 'Budi Raharjo',
             'status' => 'approved',
@@ -251,7 +264,10 @@ class DatabaseSeeder extends Seeder
         Withdrawal::create([
             'user_id' => $nasabah->id,
             'amount' => 50000,
+            'withdrawal_method' => 'tunai',
+            'admin_fee' => 0,
             'bank_name' => 'GOPAY',
+            'bank_type' => 'lainnya',
             'account_number' => '08987654321',
             'account_name' => 'Budi Raharjo',
             'status' => 'pending',

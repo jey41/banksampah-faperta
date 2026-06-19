@@ -18,13 +18,40 @@ class WithdrawalForm
                     ->options(User::where('role', 'nasabah')->pluck('name', 'id'))
                     ->required()
                     ->label('Nasabah'),
+                Select::make('withdrawal_method')
+                    ->options([
+                        'tunai' => 'Tunai (Ambil di Lokasi)',
+                        'transfer_bank' => 'Transfer Bank / E-Wallet',
+                    ])
+                    ->required()
+                    ->default('tunai')
+                    ->label('Metode Penarikan')
+                    ->live(),
                 TextInput::make('amount')
                     ->numeric()
                     ->required()
                     ->label('Jumlah Penarikan (Rp)'),
+                TextInput::make('admin_fee')
+                    ->numeric()
+                    ->disabled()
+                    ->default(0)
+                    ->label('Biaya Admin (Rp)')
+                    ->helperText('Otomatis Rp2.500 untuk bank non-BTN'),
                 TextInput::make('bank_name')
                     ->required()
                     ->label('Bank / E-Wallet'),
+                Select::make('bank_type')
+                    ->options([
+                        'btn' => 'BTN',
+                        'bca' => 'BCA',
+                        'mandiri' => 'Mandiri',
+                        'bni' => 'BNI',
+                        'bri' => 'BRI',
+                        'bpr' => 'BPR',
+                        'lainnya' => 'Lainnya',
+                    ])
+                    ->label('Jenis Bank')
+                    ->helperText('BTN = bebas biaya admin'),
                 TextInput::make('account_number')
                     ->required()
                     ->label('No. Rekening / No. HP'),

@@ -36,6 +36,12 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:1000',
+            'umur' => 'nullable|integer|min:1|max:150',
+            'gender' => 'nullable|string|in:L,P',
+            'status_pekerjaan' => 'nullable|string|max:255',
+            'universitas' => 'nullable|string|max:255',
+            'fakultas' => 'nullable|string|max:255',
+            'pendidikan_terakhir' => 'nullable|string|max:255',
         ]);
 
         $user = User::create([
@@ -44,6 +50,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'address' => $request->address,
+            'umur' => $request->umur,
+            'gender' => $request->gender,
+            'status_pekerjaan' => $request->status_pekerjaan,
+            'universitas' => $request->universitas,
+            'fakultas' => $request->fakultas,
+            'pendidikan_terakhir' => $request->pendidikan_terakhir,
             'role' => 'nasabah',
             'status' => 'pending', // Pending verification by admin
             'saldo' => 0,

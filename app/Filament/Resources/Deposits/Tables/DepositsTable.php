@@ -35,6 +35,15 @@ class DepositsTable
                     ->suffix(' kg/L')
                     ->sortable()
                     ->label('Total Berat'),
+                TextColumn::make('donation_category')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'umum' => 'info',
+                        'donasi' => 'success',
+                        default => 'gray',
+                    })
+                    ->label('Kategori')
+                    ->toggleable(),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {

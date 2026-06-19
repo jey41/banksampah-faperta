@@ -8,8 +8,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use App\Models\User;
 
-use Filament\Forms\Components\Toggle;
-
 class DepositForm
 {
     public static function configure(Schema $schema): Schema
@@ -36,10 +34,15 @@ class DepositForm
                     ])
                     ->required()
                     ->label('Status'),
-                Toggle::make('is_donation')
-                    ->label('Sedekah/Donasi Sampah')
-                    ->helperText('Jika aktif, saldo hasil setoran tidak akan masuk ke rekening nasabah.')
-                    ->default(false),
+                Select::make('donation_category')
+                    ->options([
+                        'umum' => 'Umum',
+                        'donasi' => 'Donasi',
+                    ])
+                    ->required()
+                    ->default('umum')
+                    ->label('Kategori Donasi')
+                    ->helperText('"Umum" setor sampah biasa (saldo masuk rekening). "Donasi" hasil setor disumbangkan.'),
                 Textarea::make('notes')
                     ->maxLength(65535)
                     ->label('Catatan'),

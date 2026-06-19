@@ -3,12 +3,14 @@ import { Head, Link, useForm, router } from '@inertiajs/react';
 import NasabahLayout from '@/Layouts/NasabahLayout';
 import InputError from '@/Components/InputError';
 
-export default function Deposit({ prices = [] }) {
+export default function Deposit({ pricesUmum = [], pricesDonasi = [] }) {
     const [rows, setRows] = useState([{ id: Date.now(), trash_price_id: '', weight: '' }]);
     const [processing, setProcessing] = useState(false);
     const [errors, setErrors] = useState({});
     const [notes, setNotes] = useState('');
-    const [isDonation, setIsDonation] = useState(false);
+    const [donationCategory, setDonationCategory] = useState('umum');
+
+    const activePrices = donationCategory === 'umum' ? pricesUmum : pricesDonasi;
 
     const addRow = () => {
         setRows([...rows, { id: Date.now(), trash_price_id: '', weight: '' }]);
@@ -28,7 +30,7 @@ export default function Deposit({ prices = [] }) {
     // Calculate estimated total price
     const calculateTotal = () => {
         return rows.reduce((sum, row) => {
-            const trash = prices.find(p => p.id === parseInt(row.trash_price_id));
+            const trash = activePrices.find(p => p.id === parseInt(row.trash_price_id));
             const w = parseFloat(row.weight);
             if (trash && w) {
                 return sum + (w * trash.price_buy);
@@ -64,7 +66,7 @@ export default function Deposit({ prices = [] }) {
         router.post(route('nasabah.deposit.store'), {
             items: formattedItems,
             notes: notes,
-            is_donation: isDonation,
+            donation_category: donationCategory,
         }, {
             preserveScroll: true,
             onError: (errs) => setErrors(errs),
@@ -74,7 +76,7 @@ export default function Deposit({ prices = [] }) {
 
     return (
         <NasabahLayout>
-            <Head title="Setor Sampah - Bank Sampah Faperta" />
+            <Head title="Setoran Donasi - Bank Sampah Faperta" />
 
             <div className="flex items-center gap-xs mt-sm text-primary">
                 <Link href="/nasabah/dashboard" className="flex items-center hover:underline font-bold text-[14px]">
@@ -84,15 +86,82 @@ export default function Deposit({ prices = [] }) {
             </div>
 
             <div className="space-y-xs">
-                <h1 className="text-[24px] font-bold text-primary tracking-tight">Pengajuan Setor Sampah</h1>
+                <h1 className="text-[24px] font-bold text-primary tracking-tight">Setoran Donasi Sampah</h1>
                 <p className="text-sm text-on-surface-variant leading-relaxed">
-                    Pilih kategori sampah yang ingin Anda setorkan dan masukkan estimasi beratnya.
+                    Donasikan sampah Anda untuk kebaikan lingkungan dan sosial. Pilih kategori donasi dan jenis sampah yang ingin disetorkan.
                 </p>
             </div>
 
             <form onSubmit={submit}>
+                {/* Donation Category Selector */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+                    <button
+                        type="button"
+                        onClick={() => { setDonationCategory('umum'); setRows([{ id: Date.now(), trash_price_id: '', weight: '' }]); }}
+                        className={`relative rounded-3xl p-md border-2 transition-all text-left ${
+                            donationCategory === 'umum'
+                            ? 'border-primary bg-primary/5 shadow-md'
+                            : 'border-outline-variant/30 bg-white hover:border-primary/40 shadow-sm'
+                        }`}
+                    >
+                        <div className="flex items-start gap-sm">
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
+                                donationCategory === 'umum' ? 'bg-primary text-white' : 'bg-surface-container-low text-on-surface-variant'
+                            }`}>
+                                <span className="material-symbols-outlined text-[24px]">delete</span>
+                            </div>
+                            <div className="flex-1">
+                                <h3 className={`text-[15px] font-bold ${donationCategory === 'umum' ? 'text-primary' : 'text-on-surface'}`}>
+                                    Sampah Umum
+                                </h3>
+                                <p className="text-[11px] text-on-surface-variant leading-relaxed mt-1">
+                                    Sampah anorganik umum seperti plastik, kertas, kaca, dan logam untuk didaur ulang.
+                                </p>
+                                <span className="inline-block mt-2 text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                                    {pricesUmum.length} jenis sampah
+                                </span>
+                            </div>
+                            {donationCategory === 'umum' && (
+                                <span className="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+                            )}
+                        </div>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => { setDonationCategory('donasi'); setRows([{ id: Date.now(), trash_price_id: '', weight: '' }]); }}
+                        className={`relative rounded-3xl p-md border-2 transition-all text-left ${
+                            donationCategory === 'donasi'
+                            ? 'border-secondary bg-secondary/5 shadow-md'
+                            : 'border-outline-variant/30 bg-white hover:border-secondary/40 shadow-sm'
+                        }`}
+                    >
+                        <div className="flex items-start gap-sm">
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
+                                donationCategory === 'donasi' ? 'bg-secondary text-white' : 'bg-surface-container-low text-on-surface-variant'
+                            }`}>
+                                <span className="material-symbols-outlined text-[24px]">volunteer_activism</span>
+                            </div>
+                            <div className="flex-1">
+                                <h3 className={`text-[15px] font-bold ${donationCategory === 'donasi' ? 'text-secondary' : 'text-on-surface'}`}>
+                                    Sampah Donasi
+                                </h3>
+                                <p className="text-[11px] text-on-surface-variant leading-relaxed mt-1">
+                                    Sampah khusus untuk program donasi sosial dan pemberdayaan masyarakat.
+                                </p>
+                                <span className="inline-block mt-2 text-[10px] font-bold bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
+                                    {pricesDonasi.length} jenis sampah
+                                </span>
+                            </div>
+                            {donationCategory === 'donasi' && (
+                                <span className="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                            )}
+                        </div>
+                    </button>
+                </div>
+
                 {/* Responsive Grid layout for desktop */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-md md:gap-lg items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-md md:gap-lg items-start mt-md">
                     
                     {/* Left Column - Form fields */}
                     <div className="lg:col-span-2 space-y-md">
@@ -100,16 +169,16 @@ export default function Deposit({ prices = [] }) {
                             <div className="flex justify-between items-center border-b border-outline-variant/10 pb-sm">
                                 <h3 className="text-[15px] font-bold text-on-surface flex items-center gap-xs">
                                     <span className="material-symbols-outlined text-primary text-[20px]">inventory_2</span>
-                                    Daftar Item Setoran
+                                    Daftar Item {donationCategory === 'umum' ? 'Sampah Umum' : 'Sampah Donasi'}
                                 </h3>
                                 <span className="text-[11px] font-semibold text-on-surface-variant bg-surface-container-low px-sm py-0.5 rounded-full">
-                                    {rows.length} Kategori
+                                    {rows.length} Item
                                 </span>
                             </div>
 
                             <div className="space-y-md">
                                 {rows.map((row, index) => {
-                                    const selectedPrice = prices.find(p => p.id === parseInt(row.trash_price_id));
+                                    const selectedPrice = activePrices.find(p => p.id === parseInt(row.trash_price_id));
                                     const itemEstValue = selectedPrice && parseFloat(row.weight) 
                                         ? parseFloat(row.weight) * selectedPrice.price_buy 
                                         : 0;
@@ -140,7 +209,10 @@ export default function Deposit({ prices = [] }) {
                                                         className="block w-full border border-outline-variant/50 rounded-xl px-sm py-2 text-[13px] focus:ring-primary focus:border-primary text-on-surface bg-white"
                                                     >
                                                         <option value="">-- Pilih Jenis Sampah --</option>
-                                                        {prices.map((p) => (
+                                                        {activePrices.length === 0 && (
+                                                            <option value="" disabled>Tidak ada data harga sampah untuk kategori ini</option>
+                                                        )}
+                                                        {activePrices.map((p) => (
                                                             <option key={p.id} value={p.id}>
                                                                 {p.name} (Rp {new Intl.NumberFormat('id-ID').format(p.price_buy)} / {p.unit})
                                                             </option>
@@ -183,7 +255,7 @@ export default function Deposit({ prices = [] }) {
                                 className="w-full flex items-center justify-center gap-xs py-sm border border-dashed border-primary/40 rounded-2xl text-primary font-bold text-[13px] hover:bg-primary/5 active:scale-95 transition-all"
                             >
                                 <span className="material-symbols-outlined text-[18px]">add_circle</span>
-                                Tambah Kategori Sampah
+                                Tambah Item Sampah
                             </button>
                         </div>
 
@@ -203,25 +275,6 @@ export default function Deposit({ prices = [] }) {
                             />
                             <InputError message={errors.notes} />
                         </div>
-
-                        {/* Donation Checkbox */}
-                        <div className="bg-white rounded-3xl border border-outline-variant/30 p-md md:p-lg shadow-sm flex items-start gap-sm">
-                            <input
-                                id="is_donation"
-                                type="checkbox"
-                                checked={isDonation}
-                                onChange={(e) => setIsDonation(e.target.checked)}
-                                className="h-5 w-5 rounded border-outline-variant/50 text-primary focus:ring-primary mt-0.5 cursor-pointer"
-                            />
-                            <div className="space-y-1">
-                                <label htmlFor="is_donation" className="block text-[13px] font-bold text-on-surface cursor-pointer select-none">
-                                    Sedekah / Donasikan Hasil Sampah
-                                </label>
-                                <p className="text-[11px] text-on-surface-variant leading-normal">
-                                    Saya berniat mendonasikan hasil penjualan sampah ini untuk kas sosial dan biaya operasional Bank Sampah. Saldo tabungan saya tidak akan bertambah.
-                                </p>
-                            </div>
-                        </div>
                     </div>
 
                     {/* Right Column - Sticky Calculations Summary */}
@@ -229,13 +282,13 @@ export default function Deposit({ prices = [] }) {
                         <div className="bg-white rounded-3xl border border-outline-variant/30 p-md md:p-lg shadow-sm space-y-md">
                             <h3 className="text-[15px] font-bold text-on-surface border-b border-outline-variant/10 pb-sm flex items-center gap-xs">
                                 <span className="material-symbols-outlined text-primary text-[20px]">receipt_long</span>
-                                Ringkasan Setoran
+                                Ringkasan Donasi
                             </h3>
 
                             {/* Item breakdown list */}
                             <div className="space-y-sm max-h-48 overflow-y-auto pr-xs divide-y divide-outline-variant/10">
                                 {rows.map((row, index) => {
-                                    const selectedPrice = prices.find(p => p.id === parseInt(row.trash_price_id));
+                                    const selectedPrice = activePrices.find(p => p.id === parseInt(row.trash_price_id));
                                     if (!selectedPrice) return null;
                                     const w = parseFloat(row.weight) || 0;
                                     return (
@@ -274,15 +327,16 @@ export default function Deposit({ prices = [] }) {
                                 disabled={processing}
                                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-md text-sm font-bold text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-colors"
                             >
-                                {processing ? 'Memproses...' : 'Kirim Pengajuan'}
+                                {processing ? 'Memproses...' : 'Kirim Donasi Sampah'}
                             </button>
 
-                            <div className="bg-yellow-50 border border-yellow-100 rounded-xl p-sm flex items-start gap-xs text-[11px] text-yellow-800">
-                                <span className="material-symbols-outlined text-[15px] text-yellow-600 shrink-0">info</span>
-                                <span>Petugas akan memverifikasi dan menimbang ulang setoran Anda di lokasi. Hasil timbangan resmi petugas adalah jumlah saldo akhir yang akan ditambahkan ke rekening Anda.</span>
+                            <div className="bg-green-50 border border-green-100 rounded-xl p-sm flex items-start gap-xs text-[11px] text-green-800">
+                                <span className="material-symbols-outlined text-[15px] text-green-600 shrink-0">volunteer_activism</span>
+                                <span>Dengan mengirimkan donasi ini, Anda turut berkontribusi untuk lingkungan dan program sosial Bank Sampah Faperta.</span>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </form>
         </NasabahLayout>

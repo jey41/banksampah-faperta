@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TrashPrice extends Model
 {
-    protected $fillable = ['name', 'category', 'price_buy', 'price_sell', 'unit', 'carbon_factor'];
+    protected $fillable = ['name', 'category', 'category_type', 'price_buy', 'price_sell', 'unit', 'carbon_factor'];
 
     protected $casts = [
         'price_buy' => 'integer',
