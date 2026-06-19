@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WithdrawalHistory extends Model
 {
+    protected $table = 'withdrawal_history';
+
     protected $fillable = ['withdrawal_id', 'status', 'notes', 'processed_by', 'processed_at'];
 
     protected $casts = [

@@ -20,8 +20,9 @@ class StatsOverviewWidget extends BaseWidget
             ->join('trash_prices', 'deposit_items.trash_price_id', '=', 'trash_prices.id')
             ->sum(DB::raw('deposit_items.weight * (trash_prices.price_sell - trash_prices.price_buy)'));
 
-        // 2. Calculate Total Weight (Approved)
-        $totalWeight = Deposit::where('status', 'approved')->sum('weight_total');
+        // 2. Calculate Total Weight (Approved) - Split by Tabungan vs Donasi
+        $totalWeightSavings = Deposit::where('status', 'approved')->where('is_donation', false)->sum('weight_total');
+        $totalWeightDonation = Deposit::where('status', 'approved')->where('is_donation', true)->sum('weight_total');
 
         // 3. Calculate Retained Balance (Float)
         $retainedBalance = User::where('role', 'nasabah')->sum('saldo');
@@ -42,10 +43,14 @@ class StatsOverviewWidget extends BaseWidget
                 ->description('Selisih harga jual pabrik & harga beli nasabah')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color('success'),
-            Stat::make('Total Berat Sampah', number_format($totalWeight, 2, ',', '.') . ' kg/L')
-                ->description('Total sampah terpilah yang didaur ulang')
+            Stat::make('Volume Tabungan', number_format($totalWeightSavings, 2, ',', '.') . ' kg/L')
+                ->description('Total sampah dikonversi ke saldo nasabah')
                 ->descriptionIcon('heroicon-m-scale')
                 ->color('primary'),
+            Stat::make('Volume Donasi', number_format($totalWeightDonation, 2, ',', '.') . ' kg/L')
+                ->description('Total sampah yang disedekahkan')
+                ->descriptionIcon('heroicon-m-heart')
+                ->color('danger'),
             Stat::make('Saldo Mengendap (Retained)', 'Rp ' . number_format($retainedBalance, 0, ',', '.'))
                 ->description('Total tabungan nasabah di bank sampah')
                 ->descriptionIcon('heroicon-m-wallet')

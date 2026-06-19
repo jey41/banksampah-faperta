@@ -70,4 +70,12 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(SavingsTarget::class);
     }
+
+    /**
+     * Get the pickup requests for the user.
+     */
+    public function pickupRequests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PickupRequest::class);
+    }
 }

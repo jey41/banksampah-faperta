@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 
@@ -8,6 +8,8 @@ export default function Login({ status, canResetPassword }) {
         password: '',
         remember: false,
     });
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const submit = (e) => {
         e.preventDefault();
@@ -75,18 +77,27 @@ export default function Login({ status, canResetPassword }) {
                                 <label htmlFor="password" className="block text-sm font-bold text-on-surface">
                                     Kata Sandi
                                 </label>
-                                <div className="mt-1">
+                                <div className="mt-1 relative flex items-center">
                                     <input
                                         id="password"
-                                        type="password"
+                                        type={showPassword ? 'text' : 'password'}
                                         name="password"
                                         value={data.password}
                                         autoComplete="current-password"
                                         required
                                         onChange={(e) => setData('password', e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                        className="appearance-none block w-full pl-3 pr-10 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
                                         placeholder="••••••••"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                                    >
+                                        <span className="material-symbols-outlined select-none text-[20px] text-on-surface-variant/70 hover:text-primary transition-colors">
+                                            {showPassword ? 'visibility_off' : 'visibility'}
+                                        </span>
+                                    </button>
                                 </div>
                                 <InputError message={errors.password} className="mt-1" />
                             </div>

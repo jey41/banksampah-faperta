@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 
@@ -13,10 +13,36 @@ export default function Register() {
         umur: '',
         gender: '',
         status_pekerjaan: '',
+        pekerjaan_lainnya: '',
         universitas: '',
         fakultas: '',
         pendidikan_terakhir: '',
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [emailUsername, setEmailUsername] = useState('');
+
+    const handleEmailUsernameChange = (e) => {
+        const username = e.target.value;
+        setEmailUsername(username);
+        setData('email', username ? `${username}@bsfp.com` : '');
+    };
+
+    const handleStatusPekerjaanChange = (e) => {
+        const val = e.target.value;
+        setData((prevData) => {
+            const newData = { ...prevData, status_pekerjaan: val };
+            if (!['dosen', 'mahasiswa', 'civitas_akademika'].includes(val)) {
+                newData.universitas = '';
+                newData.fakultas = '';
+            }
+            if (val !== 'lainnya') {
+                newData.pekerjaan_lainnya = '';
+            }
+            return newData;
+        });
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -74,20 +100,23 @@ export default function Register() {
                             </div>
 
                             <div>
-                                <label htmlFor="email" className="block text-sm font-bold text-on-surface">
+                                <label htmlFor="email_username" className="block text-sm font-bold text-on-surface">
                                     Alamat Email
                                 </label>
-                                <div className="mt-1">
+                                <div className="mt-1 flex rounded-xl shadow-sm border border-outline-variant/60 focus-within:ring-1 focus-within:ring-primary focus-within:border-primary overflow-hidden">
                                     <input
-                                        id="email"
-                                        type="email"
-                                        name="email"
-                                        value={data.email}
+                                        id="email_username"
+                                        type="text"
+                                        name="email_username"
+                                        value={emailUsername}
                                         required
-                                        onChange={(e) => setData('email', e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
-                                        placeholder="nama@email.com"
+                                        onChange={handleEmailUsernameChange}
+                                        className="appearance-none block w-full px-3 py-2 border-0 focus:ring-0 focus:outline-none sm:text-sm text-on-surface bg-transparent placeholder-on-surface-variant/40"
+                                        placeholder="username"
                                     />
+                                    <span className="inline-flex items-center px-3 bg-background border-l border-outline-variant/60 text-on-surface-variant sm:text-sm select-none">
+                                        @bsfp.com
+                                    </span>
                                 </div>
                                 <InputError message={errors.email} className="mt-1" />
                             </div>
@@ -102,6 +131,7 @@ export default function Register() {
                                         type="tel"
                                         name="phone"
                                         value={data.phone}
+                                        required
                                         onChange={(e) => setData('phone', e.target.value)}
                                         className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
                                         placeholder="0812xxxxxxxx"
@@ -119,6 +149,7 @@ export default function Register() {
                                         id="address"
                                         name="address"
                                         value={data.address}
+                                        required
                                         onChange={(e) => setData('address', e.target.value)}
                                         className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
                                         placeholder="Alamat lengkap tempat tinggal Anda"
@@ -126,11 +157,6 @@ export default function Register() {
                                     />
                                 </div>
                                 <InputError message={errors.address} className="mt-1" />
-                            </div>
-
-                            {/* Demografi */}
-                            <div className="border-t border-outline-variant/20 pt-4">
-                                <p className="text-sm font-semibold text-on-surface mb-3">Data Demografi</p>
                             </div>
 
                             <div>
@@ -143,6 +169,7 @@ export default function Register() {
                                         type="number"
                                         name="umur"
                                         value={data.umur}
+                                        required
                                         onChange={(e) => setData('umur', e.target.value)}
                                         className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
                                         placeholder="18"
@@ -162,6 +189,7 @@ export default function Register() {
                                         id="gender"
                                         name="gender"
                                         value={data.gender}
+                                        required
                                         onChange={(e) => setData('gender', e.target.value)}
                                         className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface bg-white"
                                     >
@@ -182,7 +210,8 @@ export default function Register() {
                                         id="status_pekerjaan"
                                         name="status_pekerjaan"
                                         value={data.status_pekerjaan}
-                                        onChange={(e) => setData('status_pekerjaan', e.target.value)}
+                                        required
+                                        onChange={handleStatusPekerjaanChange}
                                         className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface bg-white"
                                     >
                                         <option value="">Pilih status pekerjaan</option>
@@ -190,6 +219,8 @@ export default function Register() {
                                         <option value="tidak_bekerja">Tidak Bekerja</option>
                                         <option value="pelajar">Pelajar</option>
                                         <option value="mahasiswa">Mahasiswa</option>
+                                        <option value="dosen">Dosen</option>
+                                        <option value="civitas_akademika">Civitas Akademika</option>
                                         <option value="pensiun">Pensiun</option>
                                         <option value="lainnya">Lainnya</option>
                                     </select>
@@ -197,41 +228,68 @@ export default function Register() {
                                 <InputError message={errors.status_pekerjaan} className="mt-1" />
                             </div>
 
-                            <div>
-                                <label htmlFor="universitas" className="block text-sm font-bold text-on-surface">
-                                    Universitas / Instansi
-                                </label>
-                                <div className="mt-1">
-                                    <input
-                                        id="universitas"
-                                        type="text"
-                                        name="universitas"
-                                        value={data.universitas}
-                                        onChange={(e) => setData('universitas', e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
-                                        placeholder="Nama universitas atau instansi"
-                                    />
+                            {data.status_pekerjaan === 'lainnya' && (
+                                <div>
+                                    <label htmlFor="pekerjaan_lainnya" className="block text-sm font-bold text-on-surface">
+                                        Pekerjaan Lainnya
+                                    </label>
+                                    <div className="mt-1">
+                                        <input
+                                            id="pekerjaan_lainnya"
+                                            type="text"
+                                            name="pekerjaan_lainnya"
+                                            value={data.pekerjaan_lainnya}
+                                            required
+                                            onChange={(e) => setData('pekerjaan_lainnya', e.target.value)}
+                                            className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                            placeholder="Sebutkan pekerjaan Anda"
+                                        />
+                                    </div>
+                                    <InputError message={errors.pekerjaan_lainnya} className="mt-1" />
                                 </div>
-                                <InputError message={errors.universitas} className="mt-1" />
-                            </div>
+                            )}
 
-                            <div>
-                                <label htmlFor="fakultas" className="block text-sm font-bold text-on-surface">
-                                    Fakultas / Jurusan
-                                </label>
-                                <div className="mt-1">
-                                    <input
-                                        id="fakultas"
-                                        type="text"
-                                        name="fakultas"
-                                        value={data.fakultas}
-                                        onChange={(e) => setData('fakultas', e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
-                                        placeholder="Nama fakultas atau jurusan"
-                                    />
-                                </div>
-                                <InputError message={errors.fakultas} className="mt-1" />
-                            </div>
+                            {['dosen', 'mahasiswa', 'civitas_akademika'].includes(data.status_pekerjaan) && (
+                                <>
+                                    <div>
+                                        <label htmlFor="universitas" className="block text-sm font-bold text-on-surface">
+                                            Universitas / Instansi
+                                        </label>
+                                        <div className="mt-1">
+                                            <input
+                                                id="universitas"
+                                                type="text"
+                                                name="universitas"
+                                                value={data.universitas}
+                                                required
+                                                onChange={(e) => setData('universitas', e.target.value)}
+                                                className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                                placeholder="Nama universitas atau instansi"
+                                            />
+                                        </div>
+                                        <InputError message={errors.universitas} className="mt-1" />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="fakultas" className="block text-sm font-bold text-on-surface">
+                                            Fakultas / Jurusan
+                                        </label>
+                                        <div className="mt-1">
+                                            <input
+                                                id="fakultas"
+                                                type="text"
+                                                name="fakultas"
+                                                value={data.fakultas}
+                                                required
+                                                onChange={(e) => setData('fakultas', e.target.value)}
+                                                className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                                placeholder="Nama fakultas atau jurusan"
+                                            />
+                                        </div>
+                                        <InputError message={errors.fakultas} className="mt-1" />
+                                    </div>
+                                </>
+                            )}
 
                             <div>
                                 <label htmlFor="pendidikan_terakhir" className="block text-sm font-bold text-on-surface">
@@ -242,6 +300,7 @@ export default function Register() {
                                         id="pendidikan_terakhir"
                                         name="pendidikan_terakhir"
                                         value={data.pendidikan_terakhir}
+                                        required
                                         onChange={(e) => setData('pendidikan_terakhir', e.target.value)}
                                         className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface bg-white"
                                     >
@@ -261,17 +320,26 @@ export default function Register() {
                                 <label htmlFor="password" className="block text-sm font-bold text-on-surface">
                                     Kata Sandi
                                 </label>
-                                <div className="mt-1">
+                                <div className="mt-1 relative flex items-center">
                                     <input
                                         id="password"
-                                        type="password"
+                                        type={showPassword ? 'text' : 'password'}
                                         name="password"
                                         value={data.password}
                                         required
                                         onChange={(e) => setData('password', e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                        className="appearance-none block w-full pl-3 pr-10 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
                                         placeholder="Minimal 8 karakter"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                                    >
+                                        <span className="material-symbols-outlined select-none text-[20px] text-on-surface-variant/70 hover:text-primary transition-colors">
+                                            {showPassword ? 'visibility_off' : 'visibility'}
+                                        </span>
+                                    </button>
                                 </div>
                                 <InputError message={errors.password} className="mt-1" />
                             </div>
@@ -280,17 +348,26 @@ export default function Register() {
                                 <label htmlFor="password_confirmation" className="block text-sm font-bold text-on-surface">
                                     Konfirmasi Kata Sandi
                                 </label>
-                                <div className="mt-1">
+                                <div className="mt-1 relative flex items-center">
                                     <input
                                         id="password_confirmation"
-                                        type="password"
+                                        type={showConfirmPassword ? 'text' : 'password'}
                                         name="password_confirmation"
                                         value={data.password_confirmation}
                                         required
                                         onChange={(e) => setData('password_confirmation', e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
+                                        className="appearance-none block w-full pl-3 pr-10 py-2 border border-outline-variant/60 rounded-xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm text-on-surface"
                                         placeholder="Ketik ulang kata sandi"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                                    >
+                                        <span className="material-symbols-outlined select-none text-[20px] text-on-surface-variant/70 hover:text-primary transition-colors">
+                                            {showConfirmPassword ? 'visibility_off' : 'visibility'}
+                                        </span>
+                                    </button>
                                 </div>
                                 <InputError message={errors.password_confirmation} className="mt-1" />
                             </div>
@@ -318,3 +395,4 @@ export default function Register() {
         </>
     );
 }
+

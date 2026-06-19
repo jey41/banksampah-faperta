@@ -6,6 +6,7 @@ use App\Models\TrashPrice;
 use App\Models\Deposit;
 use App\Models\DepositItem;
 use App\Models\Withdrawal;
+use App\Models\PickupRequest;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +28,7 @@ class NasabahController extends Controller
             ->concat($deposits->map(fn($d) => [
                 'id' => $d->id,
                 'type' => 'deposit',
-                'title' => 'Donasi Sampah',
+                'title' => $d->is_donation ? 'Donasi Sampah' : 'Setoran Sampah',
                 'amount' => $d->total_price,
                 'weight' => $d->weight_total,
                 'status' => $d->status,
@@ -58,76 +59,60 @@ class NasabahController extends Controller
             }
         }
 
+        // Get pending pickup requests count
+        $pendingPickups = $user->pickupRequests()->whereIn('status', ['pending', 'assigned'])->count();
+
         return Inertia::render('Nasabah/Dashboard', [
             'transactions' => $transactions,
             'totalDeposited' => (int)$totalDeposited,
             'totalWithdrawn' => (int)$totalWithdrawn,
             'targets' => $targets,
+            'pendingPickups' => $pendingPickups,
         ]);
     }
 
-    public function deposit(): Response
+    public function pickupRequest(): Response
     {
-        $pricesUmum = TrashPrice::where('category_type', 'umum')->orderBy('category')->orderBy('name')->get();
-        $pricesDonasi = TrashPrice::where('category_type', 'donasi')->orderBy('category')->orderBy('name')->get();
+        $user = auth()->user();
 
-        return Inertia::render('Nasabah/Deposit', [
-            'pricesUmum' => $pricesUmum,
-            'pricesDonasi' => $pricesDonasi,
+        $pickupRequests = $user->pickupRequests()
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get();
+
+        return Inertia::render('Nasabah/PickupRequest', [
+            'pickupRequests' => $pickupRequests,
+            'userAddress' => $user->address ?? '',
+            'userPhone' => $user->phone ?? '',
         ]);
     }
 
-    public function storeDeposit(Request $request)
+    public function storePickupRequest(Request $request)
     {
         $request->validate([
-            'items' => 'required|array|min:1',
-            'items.*.trash_price_id' => 'required|exists:trash_prices,id',
-            'items.*.weight' => 'required|numeric|min:0.1',
+            'pickup_address' => 'required|string|max:1000',
+            'pickup_phone' => 'required|string|max:20',
+            'pickup_date' => 'required|date|after_or_equal:today',
+            'pickup_time' => 'required|string|in:08:00-10:00,10:00-12:00,13:00-15:00',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'estimated_distance' => 'nullable|numeric|min:0',
             'notes' => 'nullable|string|max:1000',
-            'donation_category' => 'required|in:umum,donasi',
         ]);
 
-        DB::transaction(function () use ($request) {
-            $totalPrice = 0;
-            $weightTotal = 0;
-            $itemsToCreate = [];
+        auth()->user()->pickupRequests()->create([
+            'pickup_address' => $request->pickup_address,
+            'pickup_phone' => $request->pickup_phone,
+            'pickup_date' => $request->pickup_date,
+            'pickup_time' => $request->pickup_time,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'estimated_distance' => $request->estimated_distance,
+            'notes' => $request->notes,
+            'status' => 'pending',
+        ]);
 
-            foreach ($request->items as $itemData) {
-                $trashPrice = TrashPrice::findOrFail($itemData['trash_price_id']);
-                $itemWeight = $itemData['weight'];
-                $itemPrice = $itemWeight * $trashPrice->price_buy;
-
-                $weightTotal += $itemWeight;
-                $totalPrice += $itemPrice;
-
-                $itemsToCreate[] = [
-                    'trash_price_id' => $trashPrice->id,
-                    'item_name' => $trashPrice->name,
-                    'item_category' => $trashPrice->category,
-                    'item_category_type' => $trashPrice->category_type,
-                    'weight' => $itemWeight,
-                    'price_per_unit' => $trashPrice->price_buy,
-                    'total_price' => $itemPrice,
-                    'total_carbon' => $itemWeight * ($trashPrice->carbon_factor ?? 0),
-                ];
-            }
-
-            $deposit = Deposit::create([
-                'user_id' => auth()->id(),
-                'total_price' => $totalPrice,
-                'weight_total' => $weightTotal,
-                'status' => 'pending',
-                'is_donation' => true, // Always donation now
-                'donation_category' => $request->donation_category,
-                'notes' => $request->notes,
-            ]);
-
-            foreach ($itemsToCreate as $item) {
-                $deposit->items()->create($item);
-            }
-        });
-
-        return redirect()->route('nasabah.dashboard')->with('success', 'Pengajuan donasi sampah berhasil dibuat!');
+        return redirect()->route('nasabah.dashboard')->with('success', 'Permintaan jemput sampah berhasil dibuat!');
     }
 
     public function withdraw(): Response
@@ -184,7 +169,7 @@ class NasabahController extends Controller
             ->concat($deposits->map(fn($d) => [
                 'id' => $d->id,
                 'type' => 'deposit',
-                'title' => 'Donasi Sampah',
+                'title' => $d->is_donation ? 'Donasi Sampah' : 'Setoran Sampah',
                 'amount' => $d->total_price,
                 'weight' => $d->weight_total,
                 'status' => $d->status,

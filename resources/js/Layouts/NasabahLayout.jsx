@@ -7,7 +7,7 @@ export default function NasabahLayout({ children }) {
 
     // Check active navigation link
     const isHome = url === '/nasabah/dashboard';
-    const isDeposit = url === '/nasabah/setor';
+    const isPickup = url === '/nasabah/jemput';
     const isWithdraw = url === '/nasabah/tarik';
     const isHistory = url === '/nasabah/riwayat';
 
@@ -39,13 +39,13 @@ export default function NasabahLayout({ children }) {
                         </Link>
                         <Link 
                             className={`px-sm py-1.5 rounded-full transition-all ${
-                                isDeposit 
+                                isPickup 
                                 ? 'bg-primary/10 text-primary font-bold shadow-sm' 
                                 : 'text-on-surface-variant hover:text-primary hover:bg-surface-container-low'
                             }`} 
-                            href="/nasabah/setor"
+                            href="/nasabah/jemput"
                         >
-                            Setor Sampah
+                            Jemput Sampah
                         </Link>
                         <Link 
                             className={`px-sm py-1.5 rounded-full transition-all ${
@@ -115,17 +115,17 @@ export default function NasabahLayout({ children }) {
                     <span className="text-[10px] font-semibold mt-1">Dasbor</span>
                 </Link>
 
-                {/* Deposit Link */}
+                {/* Pickup Link */}
                 <Link
-                    href="/nasabah/setor"
+                    href="/nasabah/jemput"
                     className={`flex flex-col items-center justify-center px-4 py-1.5 transition-all duration-300 rounded-full active:scale-90 ${
-                        isDeposit 
+                        isPickup 
                         ? 'bg-primary/10 text-primary font-bold' 
                         : 'text-on-surface-variant hover:bg-surface-container-low'
                     }`}
                 >
-                    <span className="material-symbols-outlined block text-[22px]" style={{ fontVariationSettings: isDeposit ? "'FILL' 1" : "'FILL' 0" }}>recycling</span>
-                    <span className="text-[10px] font-semibold mt-1">Setor</span>
+                    <span className="material-symbols-outlined block text-[22px]" style={{ fontVariationSettings: isPickup ? "'FILL' 1" : "'FILL' 0" }}>local_shipping</span>
+                    <span className="text-[10px] font-semibold mt-1">Jemput</span>
                 </Link>
 
                 {/* Withdraw Link */}

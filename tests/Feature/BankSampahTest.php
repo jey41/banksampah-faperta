@@ -7,6 +7,7 @@ use App\Models\TrashPrice;
 use App\Models\Deposit;
 use App\Models\DepositItem;
 use App\Models\Withdrawal;
+use App\Models\PickupRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -88,40 +89,66 @@ class BankSampahTest extends TestCase
         $response->assertRedirect('/admin');
     }
 
-    public function test_nasabah_can_submit_deposit_request()
+    public function test_nasabah_cannot_access_old_deposit_page()
     {
         $response = $this->actingAs($this->nasabah)
-            ->post(route('nasabah.deposit.store'), [
-                'items' => [
-                    [
-                        'trash_price_id' => $this->trashPrice->id,
-                        'weight' => 2.5,
-                    ]
-                ],
-                'notes' => 'Test deposit',
+            ->get('/nasabah/setor');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_nasabah_can_view_pickup_request_page()
+    {
+        $response = $this->actingAs($this->nasabah)
+            ->get(route('nasabah.pickup'));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_nasabah_can_submit_pickup_request()
+    {
+        $response = $this->actingAs($this->nasabah)
+            ->post(route('nasabah.pickup.store'), [
+                'pickup_address' => 'Jl. Raya Dramaga No. 10, Bogor',
+                'pickup_phone' => '08123456789',
+                'pickup_date' => now()->addDay()->format('Y-m-d'),
+                'pickup_time' => '08:00-10:00',
+                'latitude' => -0.4660341,
+                'longitude' => 117.1558231,
+                'estimated_distance' => 0,
+                'notes' => 'Sampah plastik sudah dipilah',
             ]);
 
         $response->assertRedirect(route('nasabah.dashboard'));
         $response->assertSessionHas('success');
 
-        $this->assertDatabaseHas('deposits', [
+        $this->assertDatabaseHas('pickup_requests', [
             'user_id' => $this->nasabah->id,
+            'pickup_address' => 'Jl. Raya Dramaga No. 10, Bogor',
+            'pickup_phone' => '08123456789',
+            'pickup_time' => '08:00-10:00',
+            'latitude' => -0.4660341,
+            'longitude' => 117.1558231,
+            'estimated_distance' => 0,
             'status' => 'pending',
-            'weight_total' => 2.5,
-            'total_price' => 12500, // 2.5 * 5000
         ]);
     }
 
     public function test_nasabah_can_submit_withdrawal_request()
     {
+        \Illuminate\Support\Carbon::setTestNow('2026-06-20 10:00:00');
+
         $response = $this->actingAs($this->nasabah)
             ->post(route('nasabah.withdraw.store'), [
                 'amount' => 50000,
+                'withdrawal_method' => 'transfer_bank',
                 'bank_name' => 'Bank Mandiri',
                 'account_number' => '1234567890',
                 'account_name' => 'Nasabah Test',
                 'notes' => 'Tarik uang belanja',
             ]);
+
+        \Illuminate\Support\Carbon::setTestNow();
 
         $response->assertRedirect(route('nasabah.dashboard'));
         $response->assertSessionHas('success');
@@ -329,7 +356,9 @@ class BankSampahTest extends TestCase
         $withdrawal = Withdrawal::create([
             'user_id' => $this->nasabah->id,
             'amount' => 40000,
-            'bank_name' => 'Bank Mandiri',
+            'withdrawal_method' => 'transfer_bank',
+            'bank_name' => 'BTN',
+            'bank_type' => 'btn',
             'account_number' => '1234567890',
             'account_name' => 'Nasabah Test',
             'status' => 'pending',
@@ -369,7 +398,7 @@ class BankSampahTest extends TestCase
             app(\App\Services\TransactionService::class)->approveWithdrawal($withdrawal, $this->admin->id);
         } catch (\Exception $e) {
             $exceptionThrown = true;
-            $this->assertEquals('Saldo nasabah tidak mencukupi untuk melakukan penarikan ini.', $e->getMessage());
+            $this->assertStringStartsWith('Saldo nasabah tidak mencukupi untuk melakukan penarikan ini.', $e->getMessage());
         }
 
         $this->assertTrue($exceptionThrown, 'Exception should have been thrown');
@@ -438,7 +467,9 @@ class BankSampahTest extends TestCase
         $withdrawal = Withdrawal::create([
             'user_id' => $this->nasabah->id,
             'amount' => 40000,
-            'bank_name' => 'Bank Mandiri',
+            'withdrawal_method' => 'transfer_bank',
+            'bank_name' => 'BTN',
+            'bank_type' => 'btn',
             'account_number' => '1234567890',
             'account_name' => 'Nasabah Test',
             'status' => 'pending',
@@ -480,6 +511,7 @@ class BankSampahTest extends TestCase
             'weight_total' => 2.0,
             'status' => 'pending',
             'is_donation' => true,
+            'donation_category' => 'donasi',
         ]);
 
         $item = DepositItem::create([
@@ -509,7 +541,7 @@ class BankSampahTest extends TestCase
         $this->assertDatabaseHas('activity_logs', [
             'user_id' => $this->admin->id,
             'action' => 'approve_deposit',
-            'description' => $this->admin->name . ' menyetujui setoran #' . $deposit->id . ' milik nasabah ' . $this->nasabah->name . ' (Sebagai Sedekah/Donasi) dengan total berat 2 kg/L dan total nilai Rp 10.000',
+            'description' => $this->admin->name . ' menyetujui setoran #' . $deposit->id . ' milik nasabah ' . $this->nasabah->name . ' (Sebagai Donasi) - Kategori: Sampah Donasi dengan total berat 2 kg/L dan total nilai Rp 10.000',
         ]);
     }
 

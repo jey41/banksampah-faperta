@@ -20,17 +20,33 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'testuser@bsfp.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'phone' => '08123456789',
+            'address' => 'Jl. Faperta No. 1',
+            'umur' => 20,
+            'gender' => 'L',
+            'status_pekerjaan' => 'mahasiswa',
+            'universitas' => 'Universitas Faperta',
+            'fakultas' => 'Fakultas Pertanian',
+            'pendidikan_terakhir' => 'sma',
         ]);
 
         $this->assertGuest();
         $response->assertRedirect(route('login', absolute: false));
         $response->assertSessionHas('status');
         $this->assertDatabaseHas('users', [
-            'email' => 'test@example.com',
+            'email' => 'testuser@bsfp.com',
             'status' => 'pending',
+            'phone' => '08123456789',
+            'address' => 'Jl. Faperta No. 1',
+            'umur' => 20,
+            'gender' => 'L',
+            'status_pekerjaan' => 'mahasiswa',
+            'universitas' => 'Universitas Faperta',
+            'fakultas' => 'Fakultas Pertanian',
+            'pendidikan_terakhir' => 'sma',
         ]);
     }
 }

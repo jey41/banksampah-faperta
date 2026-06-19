@@ -30,8 +30,8 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'role:nasabah'])->prefix('nasabah')->group(function () {
     Route::get('/dashboard', [NasabahController::class, 'dashboard'])->name('nasabah.dashboard');
     
-    Route::get('/setor', [NasabahController::class, 'deposit'])->name('nasabah.deposit');
-    Route::post('/setor', [NasabahController::class, 'storeDeposit'])->name('nasabah.deposit.store');
+    Route::get('/jemput', [NasabahController::class, 'pickupRequest'])->name('nasabah.pickup');
+    Route::post('/jemput', [NasabahController::class, 'storePickupRequest'])->name('nasabah.pickup.store');
     
     Route::get('/tarik', [NasabahController::class, 'withdraw'])->name('nasabah.withdraw');
     Route::post('/tarik', [NasabahController::class, 'storeWithdraw'])->name('nasabah.withdraw.store');

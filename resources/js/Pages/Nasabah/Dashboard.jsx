@@ -93,15 +93,15 @@ export default function Dashboard({ transactions = [], totalDeposited = 0, total
                         <div className="bg-white rounded-3xl p-md md:p-lg border border-outline-variant/30 shadow-sm flex flex-col justify-between h-44">
                             <div>
                                 <span className="text-[12px] font-bold text-on-surface-variant uppercase tracking-wide">Aksi Cepat</span>
-                                <p className="text-xs text-on-surface-variant mt-1">Lakukan penyetoran sampah atau tarik hasil saldo tabungan Anda di sini.</p>
+                                <p className="text-xs text-on-surface-variant mt-1">Minta jemput sampah ke rumah Anda atau tarik hasil saldo tabungan.</p>
                             </div>
                             <div className="grid grid-cols-2 gap-sm">
                                 <Link
-                                    href="/nasabah/setor"
+                                    href="/nasabah/jemput"
                                     className="flex flex-col items-center justify-center gap-xs bg-primary/5 text-primary hover:bg-primary/10 rounded-2xl py-3 border border-primary/15 transition-all active:scale-95 font-bold text-[13px]"
                                 >
-                                    <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>recycling</span>
-                                    <span>Setor Sampah</span>
+                                    <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>local_shipping</span>
+                                    <span>Minta Jemput</span>
                                 </Link>
                                 <Link
                                     href="/nasabah/tarik"

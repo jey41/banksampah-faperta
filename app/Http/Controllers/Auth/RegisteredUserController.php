@@ -34,15 +34,21 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:1000',
-            'umur' => 'nullable|integer|min:1|max:150',
-            'gender' => 'nullable|string|in:L,P',
-            'status_pekerjaan' => 'nullable|string|max:255',
-            'universitas' => 'nullable|string|max:255',
-            'fakultas' => 'nullable|string|max:255',
-            'pendidikan_terakhir' => 'nullable|string|max:255',
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string|max:1000',
+            'umur' => 'required|integer|min:1|max:150',
+            'gender' => 'required|string|in:L,P',
+            'status_pekerjaan' => 'required|string|max:255',
+            'pekerjaan_lainnya' => 'required_if:status_pekerjaan,lainnya|nullable|string|max:255',
+            'universitas' => 'required_if:status_pekerjaan,mahasiswa,dosen,civitas_akademika|nullable|string|max:255',
+            'fakultas' => 'required_if:status_pekerjaan,mahasiswa,dosen,civitas_akademika|nullable|string|max:255',
+            'pendidikan_terakhir' => 'required|string|max:255',
         ]);
+
+        $statusPekerjaan = $request->status_pekerjaan;
+        if ($statusPekerjaan === 'lainnya' && $request->filled('pekerjaan_lainnya')) {
+            $statusPekerjaan = $request->pekerjaan_lainnya;
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -52,9 +58,9 @@ class RegisteredUserController extends Controller
             'address' => $request->address,
             'umur' => $request->umur,
             'gender' => $request->gender,
-            'status_pekerjaan' => $request->status_pekerjaan,
-            'universitas' => $request->universitas,
-            'fakultas' => $request->fakultas,
+            'status_pekerjaan' => $statusPekerjaan,
+            'universitas' => in_array($request->status_pekerjaan, ['mahasiswa', 'dosen', 'civitas_akademika']) ? $request->universitas : null,
+            'fakultas' => in_array($request->status_pekerjaan, ['mahasiswa', 'dosen', 'civitas_akademika']) ? $request->fakultas : null,
             'pendidikan_terakhir' => $request->pendidikan_terakhir,
             'role' => 'nasabah',
             'status' => 'pending', // Pending verification by admin
