@@ -14,12 +14,6 @@ export default function ArticleView({ article, recentArticles = [] }) {
                             <span className="material-symbols-outlined text-[28px]">arrow_back</span>
                             Artikel Edukasi
                         </Link>
-                        <Link
-                            href="/"
-                            className="text-on-surface-variant hover:text-primary transition-colors font-semibold text-[14px]"
-                        >
-                            Kembali ke Beranda
-                        </Link>
                     </div>
                 </header>
 

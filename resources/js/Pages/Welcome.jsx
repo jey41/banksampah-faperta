@@ -1,12 +1,104 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Head, usePage } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/Components/ui/table';
+import LoginModal from '@/Components/Auth/LoginModal';
+import RegisterModal from '@/Components/Auth/RegisterModal';
 
 export default function Welcome({ prices = [], articles = [], totalCarbonContribution = 0 }) {
     const { auth } = usePage().props;
+    const [activeSection, setActiveSection] = useState('home');
+    const [clickedId, setClickedId] = useState(null);
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+
+    const handleSwitchToRegister = () => {
+        setIsLoginOpen(false);
+        setTimeout(() => setIsRegisterOpen(true), 250);
+    };
+
+    const handleSwitchToLogin = () => {
+        setIsRegisterOpen(false);
+        setTimeout(() => setIsLoginOpen(true), 250);
+    };
+
+    useEffect(() => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        }, observerOptions);
+
+        const sections = ['home', 'alur', 'jadwal', 'harga', 'artikel'];
+        sections.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
+    const handleNavClick = (e, sectionId) => {
+        e.preventDefault();
+        setActiveSection(sectionId);
+        setClickedId(sectionId);
+        
+        setTimeout(() => setClickedId(null), 300);
+
+        const element = document.getElementById(sectionId);
+        if (element) {
+            const yOffset = -64; // header height offset
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+    };
 
     return (
         <>
-            <Head title="Bank Sampah Digital - Kelola Sampah Jadi Berkah" />
+            <style>{`
+                @keyframes nav-click-bounce {
+                    0% { transform: scale(1); }
+                    30% { transform: scale(0.92); }
+                    100% { transform: scale(1); }
+                }
+                .nav-clicked {
+                    animation: nav-click-bounce 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+                }
+                
+                .nav-link-underline::after {
+                    content: '';
+                    display: block;
+                    width: 0;
+                    height: 2px;
+                    background-color: #2d5a27;
+                    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+                    margin-top: 2px;
+                    border-radius: 9999px;
+                }
+                
+                .nav-link-active {
+                    color: #2d5a27 !important;
+                }
+                
+                .nav-link-active::after {
+                    width: 100%;
+                }
+            `}</style>
+            <Head title="Bank Sampah Faperta Unmul - Kelola Sampah Jadi Berkah" />
             
             <div className="bg-background text-on-surface font-sans min-h-screen flex flex-col antialiased">
                 {/* TopNavBar */}
@@ -14,14 +106,29 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                     <div className="flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto h-16">
                         <div className="text-[20px] font-bold text-primary flex items-center gap-xs">
                             <span className="material-symbols-outlined text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>recycling</span>
-                            Bank Sampah Digital
+                            BSFP Unmul
                         </div>
                         <nav className="hidden md:flex items-center gap-lg font-semibold text-[14px]">
-                            <a className="text-primary border-b-2 border-primary pb-1" href="#home">Beranda</a>
-                            <a className="text-on-surface-variant hover:text-primary transition-colors" href="#alur">Alur Kerja</a>
-                            <a className="text-on-surface-variant hover:text-primary transition-colors" href="#jadwal">Jadwal</a>
-                            <a className="text-on-surface-variant hover:text-primary transition-colors" href="#harga">Katalog Harga</a>
-                            <a className="text-on-surface-variant hover:text-primary transition-colors" href="#artikel">Edukasi</a>
+                            {[
+                                { id: 'home', label: 'Beranda' },
+                                { id: 'alur', label: 'Alur Kerja' },
+                                { id: 'jadwal', label: 'Jadwal' },
+                                { id: 'harga', label: 'Katalog Harga' },
+                                { id: 'artikel', label: 'Edukasi' }
+                            ].map((item) => (
+                                <a
+                                    key={item.id}
+                                    href={`#${item.id}`}
+                                    onClick={(e) => handleNavClick(e, item.id)}
+                                    className={`relative text-on-surface-variant hover:text-primary transition-all duration-300 nav-link-underline ${
+                                        activeSection === item.id ? 'nav-link-active' : ''
+                                    } ${
+                                        clickedId === item.id ? 'nav-clicked' : ''
+                                    }`}
+                                >
+                                    {item.label}
+                                </a>
+                            ))}
                         </nav>
                         <div className="flex items-center gap-sm">
                             {auth.user ? (
@@ -42,18 +149,18 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 )
                             ) : (
                                 <>
-                                    <Link
-                                        href="/login"
-                                        className="text-primary font-semibold text-[14px] px-md py-sm rounded-full hover:bg-surface-container-low transition-all"
+                                    <button
+                                        onClick={() => setIsLoginOpen(true)}
+                                        className="text-primary font-semibold text-[14px] px-md py-sm rounded-full hover:bg-surface-container-low transition-all bg-transparent border-0 cursor-pointer"
                                     >
                                         Masuk
-                                    </Link>
-                                    <Link
-                                        href="/register"
-                                        className="bg-primary text-white font-semibold text-[14px] px-lg py-sm rounded-full hover:bg-opacity-90 transition-all shadow-md"
+                                    </button>
+                                    <button
+                                        onClick={() => setIsRegisterOpen(true)}
+                                        className="bg-primary text-white font-semibold text-[14px] px-lg py-sm rounded-full hover:bg-opacity-90 transition-all shadow-md cursor-pointer border-0"
                                     >
                                         Daftar
-                                    </Link>
+                                    </button>
                                 </>
                             )}
                         </div>
@@ -97,12 +204,12 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                             </a>
                                         )
                                     ) : (
-                                        <Link
-                                            href="/register"
-                                            className="inline-block bg-primary text-white font-semibold text-[14px] px-xl py-md rounded-full shadow-lg hover:bg-secondary transition-all"
+                                        <button
+                                            onClick={() => setIsRegisterOpen(true)}
+                                            className="inline-block bg-primary text-white font-semibold text-[14px] px-xl py-md rounded-full shadow-lg hover:bg-secondary transition-all cursor-pointer border-0 text-center"
                                         >
                                             Daftar Sekarang
-                                        </Link>
+                                        </button>
                                     )}
                                 </div>
                             </div>
@@ -221,35 +328,35 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 </p>
                             </div>
                             
-                            <div className="bg-white rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm max-w-3xl mx-auto">
-                                <table className="w-full text-left border-collapse">
-                                    <thead>
-                                        <tr className="bg-background border-b border-outline-variant/30 text-[13px] font-bold text-primary uppercase tracking-wider">
-                                            <th className="px-lg py-md">Nama Sampah</th>
-                                            <th className="px-lg py-md">Kategori</th>
-                                            <th className="px-lg py-md text-right">Harga Beli Nasabah</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-[14px] divide-y divide-outline-variant/10">
+                            <div className="bg-white rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm max-w-3xl mx-auto p-md">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow className="bg-background hover:bg-background">
+                                            <TableHead className="font-bold text-primary uppercase text-[13px] tracking-wider px-lg py-md">Nama Sampah</TableHead>
+                                            <TableHead className="font-bold text-primary uppercase text-[13px] tracking-wider px-lg py-md">Kategori</TableHead>
+                                            <TableHead className="font-bold text-primary uppercase text-[13px] tracking-wider px-lg py-md text-right">Harga Beli Nasabah</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody className="text-[14px]">
                                         {prices.length > 0 ? (
                                             prices.map((p) => (
-                                                <tr key={p.id} className="hover:bg-background/40 transition-colors">
-                                                    <td className="px-lg py-md font-semibold text-on-surface">{p.name}</td>
-                                                    <td className="px-lg py-md capitalize text-on-surface-variant">{p.category.replace('_', ' ')}</td>
-                                                    <td className="px-lg py-md text-right font-bold text-primary">
+                                                <TableRow key={p.id} className="hover:bg-background/40 transition-colors">
+                                                    <TableCell className="px-lg py-md font-semibold text-on-surface">{p.name}</TableCell>
+                                                    <TableCell className="px-lg py-md capitalize text-on-surface-variant">{p.category.replace('_', ' ')}</TableCell>
+                                                    <TableCell className="px-lg py-md text-right font-bold text-primary">
                                                         Rp {numberFormat(p.price_buy)} / {p.unit}
-                                                    </td>
-                                                </tr>
+                                                    </TableCell>
+                                                </TableRow>
                                             ))
                                         ) : (
-                                            <tr>
-                                                <td colSpan="3" className="px-lg py-xl text-center text-on-surface-variant font-medium">
+                                            <TableRow>
+                                                <TableCell colSpan="3" className="px-lg py-xl text-center text-on-surface-variant font-medium">
                                                     Katalog harga sampah belum tersedia.
-                                                </td>
-                                            </tr>
+                                                </TableCell>
+                                            </TableRow>
                                         )}
-                                    </tbody>
-                                </table>
+                                    </TableBody>
+                                </Table>
                             </div>
                         </div>
                     </section>
@@ -319,7 +426,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 Bank Sampah
                             </div>
                             <p className="text-[13px] text-on-surface-variant leading-relaxed">
-                                © 2026 Bank Sampah Digital. Mengelola sampah dengan bijak, mengubah sampah menjadi tabungan kebaikan.
+                                © 2026 Bank Sampah Faperta Unmul. Mengelola sampah dengan bijak, mengubah sampah menjadi tabungan kebaikan.
                             </p>
                         </div>
                         <nav className="flex flex-col md:flex-row gap-lg md:gap-2xl text-[13px] font-semibold">
@@ -335,6 +442,17 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                     </div>
                 </footer>
             </div>
+
+            <LoginModal 
+                isOpen={isLoginOpen} 
+                onClose={() => setIsLoginOpen(false)} 
+                onSwitchToRegister={handleSwitchToRegister}
+            />
+            <RegisterModal 
+                isOpen={isRegisterOpen} 
+                onClose={() => setIsRegisterOpen(false)} 
+                onSwitchToLogin={handleSwitchToLogin}
+            />
         </>
     );
 }
