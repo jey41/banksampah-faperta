@@ -46,7 +46,7 @@ class QASimulateTransactions extends Command
         if (!$admin) {
             $admin = User::create([
                 'name' => 'Admin QA',
-                'email' => 'admin.qa@banksampah.com',
+                'email' => 'admin.qa@bsfpunmul.com',
                 'password' => Hash::make('password'),
                 'role' => 'admin',
                 'status' => 'verified',
@@ -276,7 +276,8 @@ class QASimulateTransactions extends Command
             // Calculate manual check: Approved deposits - Approved withdrawals
             $totalDep = Deposit::where('user_id', $user->id)->where('status', 'approved')->sum('total_price');
             $totalWith = Withdrawal::where('user_id', $user->id)->where('status', 'approved')->sum('amount');
-            $expectedSaldo = $totalDep - $totalWith;
+            $totalFee = Withdrawal::where('user_id', $user->id)->where('status', 'approved')->sum('admin_fee');
+            $expectedSaldo = $totalDep - $totalWith - $totalFee;
 
             $status = ($user->saldo == $expectedSaldo) ? 'PASSED' : 'FAILED';
             if ($status === 'PASSED') {

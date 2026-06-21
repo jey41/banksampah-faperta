@@ -26,7 +26,7 @@ export default function Register() {
     const handleEmailUsernameChange = (e) => {
         const username = e.target.value;
         setEmailUsername(username);
-        setData('email', username ? `${username}@bsfp.com` : '');
+        setData('email', username ? `${username}@bsfpunmul.com` : '');
     };
 
     const handleStatusPekerjaanChange = (e) => {
@@ -115,7 +115,7 @@ export default function Register() {
                                         placeholder="username"
                                     />
                                     <span className="inline-flex items-center px-3 bg-background border-l border-outline-variant/60 text-on-surface-variant sm:text-sm select-none">
-                                        @bsfp.com
+                                        @bsfpunmul.com
                                     </span>
                                 </div>
                                 <InputError message={errors.email} className="mt-1" />

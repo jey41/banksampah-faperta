@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // 1. Seed Users
         $admin = User::create([
             'name' => 'Admin Bank Sampah',
-            'email' => 'admin@bsfp.com',
+            'email' => 'admin@bsfpunmul.com',
             'password' => Hash::make('admin123'),
             'role' => 'admin',
             'status' => 'verified',
@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
         $petugas = User::create([
             'name' => 'Petugas Mamat',
-            'email' => 'petugas@bsfp.com',
+            'email' => 'petugas@bsfpunmul.com',
             'password' => Hash::make('password'),
             'role' => 'petugas',
             'status' => 'verified',
@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
 
         $nasabah = User::create([
             'name' => 'Budi Raharjo',
-            'email' => 'nasabah@bsfp.com',
+            'email' => 'nasabah@bsfpunmul.com',
             'password' => Hash::make('password'),
             'role' => 'nasabah',
             'status' => 'verified',
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
         // Extra pending nasabah for testing verification
         User::create([
             'name' => 'Dewi Lestari',
-            'email' => 'dewi@bsfp.com',
+            'email' => 'dewi@bsfpunmul.com',
             'password' => Hash::make('password'),
             'role' => 'nasabah',
             'status' => 'pending',

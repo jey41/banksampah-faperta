@@ -20,7 +20,7 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'Test User',
-            'email' => 'testuser@bsfp.com',
+            'email' => 'testuser@bsfpunmul.com',
             'password' => 'password',
             'password_confirmation' => 'password',
             'phone' => '08123456789',
@@ -37,7 +37,7 @@ class RegistrationTest extends TestCase
         $response->assertRedirect(route('login', absolute: false));
         $response->assertSessionHas('status');
         $this->assertDatabaseHas('users', [
-            'email' => 'testuser@bsfp.com',
+            'email' => 'testuser@bsfpunmul.com',
             'status' => 'pending',
             'phone' => '08123456789',
             'address' => 'Jl. Faperta No. 1',
