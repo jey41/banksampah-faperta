@@ -15,14 +15,15 @@ class StatsOverviewWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        // 1. Calculate Net Profit
-        $netProfit = DepositItem::whereHas('deposit', fn($q) => $q->where('status', 'approved'))
-            ->join('trash_prices', 'deposit_items.trash_price_id', '=', 'trash_prices.id')
-            ->sum(DB::raw('deposit_items.weight * (trash_prices.price_sell - trash_prices.price_buy)'));
+        // 1. Calculate Total Donation Profit
+        $totalDonationProfit = Deposit::where('status', 'approved')
+            ->where('is_donation', true)
+            ->sum('total_price');
 
-        // 2. Calculate Total Weight (Approved) - Split by Tabungan vs Donasi
+        // 2. Calculate Total Weight (Approved) - Split by Tabungan vs Donasi and Combined
         $totalWeightSavings = Deposit::where('status', 'approved')->where('is_donation', false)->sum('weight_total');
         $totalWeightDonation = Deposit::where('status', 'approved')->where('is_donation', true)->sum('weight_total');
+        $totalWeightAll = $totalWeightSavings + $totalWeightDonation;
 
         // 3. Calculate Retained Balance (Float)
         $retainedBalance = User::where('role', 'nasabah')->sum('saldo');
@@ -39,18 +40,14 @@ class StatsOverviewWidget extends BaseWidget
         $activeRatio = $totalNasabah > 0 ? round(($activeNasabah / $totalNasabah) * 100, 1) : 0;
 
         return [
-            Stat::make('Keuntungan Bersih (BI)', 'Rp ' . number_format($netProfit, 0, ',', '.'))
-                ->description('Selisih harga jual pabrik & harga beli nasabah')
-                ->descriptionIcon('heroicon-m-banknotes')
-                ->color('success'),
-            Stat::make('Volume Tabungan', number_format($totalWeightSavings, 2, ',', '.') . ' kg/L')
-                ->description('Total sampah dikonversi ke saldo nasabah')
-                ->descriptionIcon('heroicon-m-scale')
-                ->color('primary'),
-            Stat::make('Volume Donasi', number_format($totalWeightDonation, 2, ',', '.') . ' kg/L')
-                ->description('Total sampah yang disedekahkan')
+            Stat::make('Total Keuntungan Donasi', 'Rp ' . number_format($totalDonationProfit, 0, ',', '.'))
+                ->description('Total nilai uang dari setoran donasi/sedekah')
                 ->descriptionIcon('heroicon-m-heart')
-                ->color('danger'),
+                ->color('success'),
+            Stat::make('Total Volume Sampah', number_format($totalWeightAll, 2, ',', '.') . ' kg/L')
+                ->description('Gabungan Volume Tabungan & Donasi')
+                ->descriptionIcon('heroicon-m-trash')
+                ->color('success'),
             Stat::make('Saldo Mengendap (Retained)', 'Rp ' . number_format($retainedBalance, 0, ',', '.'))
                 ->description('Total tabungan nasabah di bank sampah')
                 ->descriptionIcon('heroicon-m-wallet')

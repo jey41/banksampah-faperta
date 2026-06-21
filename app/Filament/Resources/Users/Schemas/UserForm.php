@@ -20,6 +20,12 @@ class UserForm
                     ->email()
                     ->required()
                     ->maxLength(255),
+                TextInput::make('password')
+                    ->password()
+                    ->revealable()
+                    ->dehydrated(fn (?string $state) => filled($state))
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->maxLength(255),
                 Select::make('role')
                     ->options([
                         'admin' => 'Admin',

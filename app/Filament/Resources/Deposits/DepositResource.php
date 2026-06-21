@@ -20,11 +20,11 @@ class DepositResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowDownTray;
 
-    protected static ?string $navigationLabel = 'Setoran Donasi';
+    protected static ?string $navigationLabel = 'Setoran Sampah';
 
-    protected static ?string $pluralModelLabel = 'Setoran Donasi';
+    protected static ?string $pluralModelLabel = 'Setoran Sampah';
 
-    protected static ?string $modelLabel = 'Setoran Donasi';
+    protected static ?string $modelLabel = 'Setoran Sampah';
 
     public static function form(Schema $schema): Schema
     {

@@ -1,18 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import NasabahLayout from '@/Layouts/NasabahLayout';
 import InputError from '@/Components/InputError';
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-
-// Fix leaflet icon issue in React
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 // Coordinate of Bank Sampah Faperta UNMUL
 const BANK_SAMPAH_COORD = { lat: -0.4660341, lng: 117.1558231 };
@@ -31,15 +22,6 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return d;
 }
 
-function MapEvents({ onLocationSelect }) {
-    useMapEvents({
-        click(e) {
-            onLocationSelect(e.latlng.lat, e.latlng.lng);
-        }
-    });
-    return null;
-}
-
 export default function PickupRequest({ pickupRequests = [], userAddress = '', userPhone = '' }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         pickup_address: userAddress,
@@ -53,6 +35,87 @@ export default function PickupRequest({ pickupRequests = [], userAddress = '', u
     });
 
     const [showForm, setShowForm] = useState(true);
+
+    const mapContainerRef = useRef(null);
+    const mapRef = useRef(null);
+    const markerRef = useRef(null);
+    const bankMarkerRef = useRef(null);
+
+    // Initialize OpenFreeMap map using maplibre-gl
+    useEffect(() => {
+        if (!mapContainerRef.current) return;
+        if (mapRef.current) return; // initialize only once
+
+        try {
+            const mapInstance = new maplibregl.Map({
+                container: mapContainerRef.current,
+                style: 'https://tiles.openfreemap.org/styles/liberty',
+                center: [BANK_SAMPAH_COORD.lng, BANK_SAMPAH_COORD.lat],
+                zoom: 13,
+            });
+
+            mapRef.current = mapInstance;
+
+            // Add navigation control
+            mapInstance.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+            // Add Bank Sampah Marker (Green custom element)
+            const bankEl = document.createElement('div');
+            bankEl.className = 'bank-marker';
+            bankEl.innerHTML = `<img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png" style="width: 25px; height: 41px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />`;
+
+            bankMarkerRef.current = new maplibregl.Marker(bankEl)
+                .setLngLat([BANK_SAMPAH_COORD.lng, BANK_SAMPAH_COORD.lat])
+                .setPopup(new maplibregl.Popup({ offset: 25 }).setHTML('<h4 style="font-weight: bold; font-size: 12px; color: #1e3a8a;">Bank Sampah Faperta UNMUL</h4>'))
+                .addTo(mapInstance);
+
+            // Add click listener
+            mapInstance.on('click', (e) => {
+                const { lng, lat } = e.lngLat;
+                handleLocationSelect(lat, lng);
+            });
+        } catch (error) {
+            console.error('Failed to load OpenFreeMap map:', error);
+        }
+
+        return () => {
+            if (mapRef.current) {
+                mapRef.current.remove();
+                mapRef.current = null;
+            }
+        };
+    }, []);
+
+    // Update user marker dynamically based on form data state
+    useEffect(() => {
+        if (!mapRef.current) return;
+
+        const lat = data.latitude;
+        const lng = data.longitude;
+
+        if (lat !== null && lng !== null) {
+            if (markerRef.current) {
+                markerRef.current.setLngLat([lng, lat]);
+            } else {
+                markerRef.current = new maplibregl.Marker({
+                    color: '#3b82f6', // Standard blue marker
+                })
+                    .setLngLat([lng, lat])
+                    .addTo(mapRef.current);
+            }
+            
+            // Pan to the selected location gently
+            mapRef.current.easeTo({
+                center: [lng, lat],
+                essential: true
+            });
+        } else {
+            if (markerRef.current) {
+                markerRef.current.remove();
+                markerRef.current = null;
+            }
+        }
+    }, [data.latitude, data.longitude]);
 
     const timeSlots = [
         { value: '08:00-10:00', label: '08:00 - 10:00 WIB' },
@@ -79,14 +142,42 @@ export default function PickupRequest({ pickupRequests = [], userAddress = '', u
         });
     };
 
-    const handleLocationSelect = (lat, lng) => {
-        const distance = calculateDistance(lat, lng, BANK_SAMPAH_COORD.lat, BANK_SAMPAH_COORD.lng);
+    const handleLocationSelect = async (lat, lng) => {
         setData(currentData => ({
             ...currentData,
             latitude: lat,
             longitude: lng,
-            estimated_distance: distance.toFixed(2)
+            estimated_distance: 'Menghitung...'
         }));
+
+        try {
+            const response = await fetch(
+                `https://router.project-osrm.org/route/v1/driving/${lng},${lat};${BANK_SAMPAH_COORD.lng},${BANK_SAMPAH_COORD.lat}?overview=false`
+            );
+            if (!response.ok) throw new Error('OSRM network response was not ok');
+            
+            const result = await response.json();
+            if (result.routes && result.routes.length > 0) {
+                const distanceKm = result.routes[0].distance / 1000;
+                setData(currentData => ({
+                    ...currentData,
+                    latitude: lat,
+                    longitude: lng,
+                    estimated_distance: distanceKm.toFixed(2)
+                }));
+                return;
+            }
+            throw new Error('No OSRM routes found');
+        } catch (error) {
+            console.warn('Failed to calculate road distance via OSRM, falling back to straight-line distance:', error);
+            const distance = calculateDistance(lat, lng, BANK_SAMPAH_COORD.lat, BANK_SAMPAH_COORD.lng);
+            setData(currentData => ({
+                ...currentData,
+                latitude: lat,
+                longitude: lng,
+                estimated_distance: distance.toFixed(2)
+            }));
+        }
     };
 
     return (
@@ -142,30 +233,7 @@ export default function PickupRequest({ pickupRequests = [], userAddress = '', u
                                 </label>
                                 <p className="text-[11px] text-on-surface-variant mb-2">Klik pada peta untuk menentukan lokasi rumah Anda. Jarak akan otomatis terhitung.</p>
                                 <div className="h-[300px] w-full rounded-2xl overflow-hidden border border-outline-variant/50 relative z-0">
-                                    {typeof window !== 'undefined' && (
-                                        <MapContainer center={[BANK_SAMPAH_COORD.lat, BANK_SAMPAH_COORD.lng]} zoom={13} scrollWheelZoom={true} className="h-full w-full">
-                                            <TileLayer
-                                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                            />
-                                            <MapEvents onLocationSelect={handleLocationSelect} />
-                                            {data.latitude !== null && (
-                                                <Marker position={[data.latitude, data.longitude]}></Marker>
-                                            )}
-                                            {/* Marker Bank Sampah (Green) */}
-                                            <Marker position={[BANK_SAMPAH_COORD.lat, BANK_SAMPAH_COORD.lng]} 
-                                                icon={L.icon({
-                                                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-                                                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-                                                    iconSize: [25, 41],
-                                                    iconAnchor: [12, 41],
-                                                    popupAnchor: [1, -34],
-                                                    shadowSize: [41, 41]
-                                                })}
-                                            >
-                                            </Marker>
-                                        </MapContainer>
-                                    )}
+                                    <div ref={mapContainerRef} className="h-full w-full" />
                                 </div>
                                 {data.estimated_distance && (
                                     <div className="mt-2 text-[12px] font-medium text-primary flex items-center gap-1">
@@ -259,7 +327,7 @@ export default function PickupRequest({ pickupRequests = [], userAddress = '', u
                             {/* Submit */}
                             <button
                                 type="submit"
-                                disabled={processing || !data.pickup_time || !data.latitude || !data.longitude}
+                                disabled={processing || !data.pickup_time || !data.latitude || !data.longitude || data.estimated_distance === 'Menghitung...'}
                                 className="w-full flex justify-center items-center gap-xs py-3 px-4 border border-transparent rounded-full shadow-md text-sm font-bold text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-colors"
                             >
                                 <span className="material-symbols-outlined text-[20px]">local_shipping</span>

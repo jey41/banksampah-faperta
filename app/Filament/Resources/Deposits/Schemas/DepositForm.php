@@ -46,19 +46,55 @@ class DepositForm
                             ->required()
                             ->searchable()
                             ->label('Jenis Sampah')
-                            ->columnSpan(1),
+                            ->columnSpan(1)
+                            ->live(),
                         TextInput::make('weight')
                             ->numeric()
                             ->required()
                             ->step(0.01)
                             ->minValue(0.01)
                             ->label('Berat (kg/L)')
-                            ->columnSpan(1),
+                            ->columnSpan(1)
+                            ->live(onBlur: true),
                     ])
                     ->columns(2)
                     ->minItems(1)
                     ->addActionLabel('Tambah Item Sampah')
-                    ->defaultItems(1),
+                    ->defaultItems(1)
+                    ->live(),
+                Placeholder::make('total_calculation')
+                    ->label('Kalkulasi Total Setoran')
+                    ->content(function ($get) {
+                        $items = $get('items') ?? [];
+                        $totalWeight = 0;
+                        $totalPrice = 0;
+
+                        foreach ($items as $item) {
+                            $trashPriceId = $item['trash_price_id'] ?? null;
+                            $weight = floatval($item['weight'] ?? 0);
+
+                            if ($trashPriceId && $weight > 0) {
+                                $trashPrice = TrashPrice::find($trashPriceId);
+                                if ($trashPrice) {
+                                    $totalWeight += $weight;
+                                    $totalPrice += $weight * $trashPrice->price_buy;
+                                }
+                            }
+                        }
+
+                        return new \Illuminate\Support\HtmlString("
+                            <div class='p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2 dark:bg-gray-800 dark:border-gray-700'>
+                                <div class='flex justify-between text-sm'>
+                                    <span class='text-gray-500 dark:text-gray-400'>Total Volume/Berat:</span>
+                                    <span class='font-bold text-gray-900 dark:text-white'>" . number_format($totalWeight, 2, ',', '.') . " kg/L</span>
+                                </div>
+                                <div class='flex justify-between text-sm'>
+                                    <span class='text-gray-500 dark:text-gray-400'>Total Nilai Sampah:</span>
+                                    <span class='font-bold text-primary-600 dark:text-primary-400'>Rp " . number_format($totalPrice, 0, ',', '.') . "</span>
+                                </div>
+                            </div>
+                        ");
+                    }),
                 Textarea::make('notes')
                     ->maxLength(65535)
                     ->label('Catatan'),
