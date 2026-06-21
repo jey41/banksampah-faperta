@@ -65,6 +65,7 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
                 className="relative w-full max-w-2xl bg-white rounded-3xl p-xl shadow-xl border border-outline-variant/30 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 max-h-[85vh] overflow-y-auto"
             >
                 <button 
+                    type="button"
                     onClick={onClose}
                     className="absolute right-md top-md p-1 rounded-full text-on-surface-variant hover:bg-gray-100 hover:text-primary transition-all z-10"
                 >
