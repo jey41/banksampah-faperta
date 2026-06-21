@@ -20,12 +20,18 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
         });
     };
 
+    const handleClose = () => {
+        if (!processing) {
+            onClose();
+        }
+    };
+
     const canResetPassword = typeof route !== 'undefined' && route().has('password.request');
 
     return (
         <Dialog 
             open={isOpen} 
-            onClose={onClose} 
+            onClose={handleClose} 
             transition 
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition duration-300 ease-out data-[closed]:opacity-0"
         >
@@ -33,9 +39,10 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
                 transition 
                 className="relative w-full max-w-md bg-white rounded-3xl p-xl shadow-xl border border-outline-variant/30 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
             >
+                {/* Close Button */}
                 <button 
-                    onClick={onClose}
-                    className="absolute right-md top-md p-1 rounded-full text-on-surface-variant hover:bg-gray-100 hover:text-primary transition-all"
+                    onClick={handleClose}
+                    className="absolute right-md top-md p-1 rounded-full text-on-surface-variant hover:bg-gray-100 hover:text-primary transition-all z-20"
                 >
                     <span className="material-symbols-outlined text-[20px]">close</span>
                 </button>
@@ -88,9 +95,9 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 bg-transparent border-0"
                             >
-                                <span className="material-symbols-outlined select-none text-[18px] text-on-surface-variant/70 hover:text-primary transition-colors">
+                                <span className="material-symbols-outlined select-none text-[18px] text-on-surface-variant/70 hover:text-primary transition-colors cursor-pointer">
                                     {showPassword ? 'visibility_off' : 'visibility'}
                                 </span>
                             </button>
@@ -108,15 +115,15 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
                                 onChange={(e) => setData('remember', e.target.checked)}
                                 className="h-4 w-4 text-primary focus:ring-primary border-outline-variant rounded"
                             />
-                            <label htmlFor="modal_remember" className="ml-2 font-medium text-on-surface-variant">
+                            <label htmlFor="modal_remember" className="ml-2 font-semibold text-on-surface-variant">
                                 Ingat saya
-                            </label>
+                                </label>
                         </div>
 
                         {canResetPassword && (
                             <Link
                                 href={route('password.request')}
-                                className="font-semibold text-primary hover:text-secondary hover:underline"
+                                className="font-semibold text-primary hover:text-secondary hover:underline no-underline"
                             >
                                 Lupa kata sandi?
                             </Link>
@@ -127,7 +134,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-colors"
+                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-colors cursor-pointer"
                         >
                             {processing ? 'Memproses...' : 'Masuk'}
                         </button>

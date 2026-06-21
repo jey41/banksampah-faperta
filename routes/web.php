@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Auth;
 // Public Routes
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/harga', [WelcomeController::class, 'prices'])->name('public.prices');
+Route::get('/artikel', [WelcomeController::class, 'articles'])->name('public.articles');
 Route::get('/artikel/{slug}', [WelcomeController::class, 'article'])->name('public.article');
+
 
 // Role-based Dashboard Redirection
 Route::get('/dashboard', function () {
