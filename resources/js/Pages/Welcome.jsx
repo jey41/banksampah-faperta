@@ -134,7 +134,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                     <div className="w-9 h-9 rounded-xl bg-primary-container/40 flex items-center justify-center text-primary mb-xs">
                                         <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>recycling</span>
                                     </div>
-                                    <p className="text-[10px] text-on-surface-variant font-semibold uppercase tracking-wider">Sampah Terkelola</p>
+                                    <p className="text-[11px] text-on-surface-variant font-semibold uppercase tracking-wider">Sampah Terkelola</p>
                                     <p className="text-[16px] text-primary font-bold">
                                         <Counter value={Number(totalWaste || 0)} /> kg
                                     </p>
@@ -145,7 +145,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                     <div className="w-9 h-9 rounded-xl bg-secondary-container/40 flex items-center justify-center text-secondary mb-xs">
                                         <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
                                     </div>
-                                    <p className="text-[10px] text-on-surface-variant font-semibold uppercase tracking-wider">Reduksi Karbon</p>
+                                    <p className="text-[11px] text-on-surface-variant font-semibold uppercase tracking-wider">Reduksi Karbon</p>
                                     <p className="text-[16px] text-secondary font-bold">
                                         <Counter value={Number(totalCarbonContribution || 0)} /> kg CO₂e
                                     </p>
@@ -156,9 +156,9 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                     <div className="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center text-green-700 mb-xs">
                                         <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>forest</span>
                                     </div>
-                                    <p className="text-[10px] text-on-surface-variant font-semibold uppercase tracking-wider">Setara Penyerapan</p>
+                                    <p className="text-[11px] text-on-surface-variant font-semibold uppercase tracking-wider">Setara Penyerapan</p>
                                     <p className="text-[16px] text-green-700 font-bold">
-                                        <Counter value={Math.round(Number(totalCarbonContribution || 0) / 21)} /> pohon/thn
+                                        <Counter value={Math.round(Number(totalCarbonContribution || 0) / 21)} isInteger={true} /> pohon/thn
                                     </p>
                                 </div>
                             </div>
@@ -270,7 +270,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                             <p className="text-[13px] text-on-surface-variant font-medium">Senin - Sabtu</p>
                                         </div>
                                     </div>
-                                    <span className="text-[10px] font-extrabold px-sm py-[2px] bg-primary/15 text-primary rounded-full uppercase tracking-wider">Aktif</span>
+                                    <span className="text-[11px] font-extrabold px-sm py-[2px] bg-primary/15 text-primary rounded-full uppercase tracking-wider">Aktif</span>
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-md">
@@ -282,7 +282,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                             <p className="text-[13px] text-on-surface-variant font-medium">08:00 - 16:00 WITA</p>
                                         </div>
                                     </div>
-                                    <span className="text-[10px] font-extrabold px-sm py-[2px] bg-secondary/15 text-secondary rounded-full uppercase tracking-wider">Buka</span>
+                                    <span className="text-[11px] font-extrabold px-sm py-[2px] bg-secondary/15 text-secondary rounded-full uppercase tracking-wider">Buka</span>
                                 </div>
                                 <div className="mt-lg pt-md border-t border-outline-variant/20 flex items-center gap-xs text-error font-bold text-[11px]">
                                     <span className="material-symbols-outlined text-[14px]">info</span>
@@ -296,6 +296,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 alt="Fasilitas Depo" 
                                 className="absolute inset-0 w-full h-full object-cover" 
                                 src="/images/bsfpxwcid.png"
+                                loading="lazy"
                             />
                         </div>
                     </motion.div>
@@ -401,7 +402,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                     className="bg-white rounded-3xl border border-outline-variant/30 overflow-hidden shadow-sm flex flex-col transition-all duration-300 relative"
                                 >
                                     {/* Category Badge */}
-                                    <div className="absolute top-md left-md bg-secondary/90 backdrop-blur-sm text-white text-[10px] font-extrabold px-sm py-[3px] rounded-md shadow-sm z-10 uppercase tracking-wider">
+                                    <div className="absolute top-md left-md bg-secondary/90 backdrop-blur-sm text-white text-[11px] font-extrabold px-sm py-[3px] rounded-md shadow-sm z-10 uppercase tracking-wider">
                                         Edukasi
                                     </div>
                                     <div className="h-48 overflow-hidden bg-primary/5 relative">
@@ -410,6 +411,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                                 alt={art.title} 
                                                 className="w-full h-full object-cover" 
                                                 src={art.image_url} 
+                                                loading="lazy"
                                             />
                                         ) : (
                                             <div className="absolute inset-0 flex items-center justify-center text-primary/40">
@@ -421,7 +423,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                         <div className="space-y-xs">
                                             <div className="flex items-center gap-xs text-[11px] text-on-surface-variant font-bold mb-xs uppercase tracking-wider">
                                                 <span className="material-symbols-outlined text-[13px]">calendar_today</span>
-                                                <span>{art.created_at ? new Date(art.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '23 Jun 2026'}</span>
+                                                <span>{art.created_at ? new Date(art.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Baru Saja'}</span>
                                                 <span className="text-outline-variant">•</span>
                                                 <span>3 Menit Baca</span>
                                             </div>
@@ -582,13 +584,13 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             {[...Array(4)].map((_, i) => (
                                 <React.Fragment key={i}>
                                     <li>
-                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                     <li>
-                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                     <li>
-                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                 </React.Fragment>
                             ))}
@@ -597,13 +599,13 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             {[...Array(4)].map((_, i) => (
                                 <React.Fragment key={i}>
                                     <li>
-                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                     <li>
-                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                     <li>
-                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                 </React.Fragment>
                             ))}
@@ -621,7 +623,7 @@ function numberFormat(val) {
     return new Intl.NumberFormat('id-ID').format(val);
 }
 
-function Counter({ value }) {
+function Counter({ value, isInteger = false }) {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true });
 
@@ -632,13 +634,13 @@ function Counter({ value }) {
                 ease: "easeOut",
                 onUpdate: (latest) => {
                     if (ref.current) {
-                        ref.current.textContent = latest.toFixed(1);
+                        ref.current.textContent = isInteger ? Math.round(latest).toString() : latest.toFixed(1);
                     }
                 }
             });
             return () => controls.stop();
         }
-    }, [value, inView]);
+    }, [value, inView, isInteger]);
 
     return <span ref={ref}>0.0</span>;
 }
