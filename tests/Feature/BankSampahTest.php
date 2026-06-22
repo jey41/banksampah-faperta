@@ -640,5 +640,21 @@ class BankSampahTest extends TestCase
             'estimated_distance' => 3.5,
         ]);
     }
+
+    public function test_admin_can_view_activity_logs_index_page()
+    {
+        $response = $this->actingAs($this->admin)
+            ->get('/admin/activity-logs');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_nasabah_cannot_view_activity_logs_index_page()
+    {
+        $response = $this->actingAs($this->nasabah)
+            ->get('/admin/activity-logs');
+
+        $response->assertRedirect(route('nasabah.dashboard'));
+    }
 }
 
