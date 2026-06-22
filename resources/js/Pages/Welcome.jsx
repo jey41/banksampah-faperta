@@ -433,6 +433,116 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                     </div>
                 </div>
             </section>
+
+            {/* Kontak & Lokasi Section */}
+            <section id="kontak" className="py-2xl bg-white border-b border-outline-variant/20">
+                <div className="max-w-container-max mx-auto px-lg md:px-xl">
+                    <div className="text-center mb-xl space-y-xs">
+                        <h2 className="text-[28px] md:text-[32px] font-bold text-primary">Hubungi Kami &amp; Lokasi</h2>
+                        <p className="text-[14px] md:text-[16px] text-on-surface-variant max-w-2xl mx-auto">
+                            Kunjungi depo kami untuk menyetor sampah atau ikuti media sosial kami untuk informasi terbaru seputar program kelestarian lingkungan.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-xl items-stretch max-w-6xl mx-auto">
+                        {/* Map Embed (Left Column) */}
+                        <div className="lg:col-span-7 rounded-2xl overflow-hidden shadow-md border border-outline-variant/30 min-h-[350px] relative">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.6738986518175!2d117.1473950749666!3d-0.4674687995254131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67f33d7398189%3A0x7d2870191834e5ce!2sFakultas%20Pertanian%20Universitas%20Mulawarman!5e0!3m2!1sid!2sid!4v1719066600000!5m2!1sid!2sid" 
+                                width="100%" 
+                                height="100%" 
+                                style={{ border: 0 }} 
+                                allowFullScreen="" 
+                                loading="lazy" 
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="absolute inset-0 w-full h-full"
+                            ></iframe>
+                        </div>
+
+                        {/* Social & Contact Info Cards (Right Column) */}
+                        <div className="lg:col-span-5 flex flex-col justify-between gap-md">
+                            {/* Instagram Card */}
+                            <motion.div 
+                                whileHover={{ scale: 1.02 }}
+                                className="bg-background rounded-2xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm"
+                            >
+                                <div className="p-sm bg-pink-50 rounded-xl text-[#e1306c] flex items-center justify-center">
+                                    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                                    </svg>
+                                </div>
+                                <div className="space-y-[4px] flex-grow">
+                                    <h4 className="text-[15px] font-bold text-on-surface">Instagram</h4>
+                                    <p className="text-[12px] text-on-surface-variant leading-relaxed">
+                                        Ikuti akun kami untuk berita, sosialisasi, dan edukasi pemilahan sampah.
+                                    </p>
+                                    <a 
+                                        href="https://www.instagram.com/faperta.unmul_/" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-[2px] text-[12px] font-bold text-primary hover:text-secondary mt-xs no-underline"
+                                    >
+                                        @faperta.unmul_
+                                        <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                                    </a>
+                                </div>
+                            </motion.div>
+
+                            {/* TikTok Card */}
+                            <motion.div 
+                                whileHover={{ scale: 1.02 }}
+                                className="bg-background rounded-2xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm"
+                            >
+                                <div className="p-sm bg-slate-900 rounded-xl text-white flex items-center justify-center">
+                                    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.43-.43-.63-.67-.07 2.62-.01 5.24-.04 7.86-.06 1.35-.45 2.7-1.23 3.79-.94 1.34-2.45 2.3-4.1 2.61-1.43.27-2.94.13-4.28-.44-1.85-.79-3.29-2.52-3.79-4.48-.56-2.12-.13-4.48 1.18-6.2 1.25-1.63 3.19-2.61 5.24-2.73.12 0 .24-.01.36-.01v4.05c-1.22.06-2.42.66-3.12 1.67-.76 1.08-.87 2.53-.33 3.73.5 1.13 1.56 1.95 2.77 2.16 1.22.21 2.52-.16 3.39-1.07.67-.69.99-1.66.96-2.63-.02-3.21-.01-6.42-.01-9.63 0-.04 0-.08-.01-.12z"/>
+                                    </svg>
+                                </div>
+                                <div className="space-y-[4px] flex-grow">
+                                    <h4 className="text-[15px] font-bold text-on-surface">TikTok</h4>
+                                    <p className="text-[12px] text-on-surface-variant leading-relaxed">
+                                        Tonton video keseruan kegiatan menyetor sampah dan konten edukasi 3R kreatif.
+                                    </p>
+                                    <a 
+                                        href="https://www.tiktok.com/@faperta.unmul_" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-[2px] text-[12px] font-bold text-primary hover:text-secondary mt-xs no-underline"
+                                    >
+                                        @faperta.unmul_
+                                        <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                                    </a>
+                                </div>
+                            </motion.div>
+
+                            {/* Alamat / Google Maps Card */}
+                            <motion.div 
+                                whileHover={{ scale: 1.02 }}
+                                className="bg-background rounded-2xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm"
+                            >
+                                <div className="p-sm bg-green-50 rounded-xl text-primary flex items-center justify-center">
+                                    <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
+                                </div>
+                                <div className="space-y-[4px] flex-grow">
+                                    <h4 className="text-[15px] font-bold text-on-surface">Alamat &amp; Depo</h4>
+                                    <p className="text-[12px] text-on-surface-variant leading-relaxed">
+                                        Kampus Gunung Kelua, Jl. Paser Balengkong, Samarinda, Kalimantan Timur 75119
+                                    </p>
+                                    <a 
+                                        href="https://www.google.com/maps/search/?api=1&query=Fakultas+Pertanian+Universitas+Mulawarman" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-[2px] text-[12px] font-bold text-primary hover:text-secondary mt-xs no-underline"
+                                    >
+                                        Petunjuk Arah (Google Maps)
+                                        <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                                    </a>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </>
     );
 }
