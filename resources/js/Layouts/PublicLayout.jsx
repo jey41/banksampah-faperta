@@ -249,34 +249,34 @@ export default function PublicLayout({ children }) {
                                 <span className="text-[12px] uppercase tracking-wider text-primary font-bold mb-xs">Media Sosial &amp; Lokasi</span>
                                 <a 
                                     className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-sm no-underline" 
-                                    href="https://www.instagram.com/faperta.unmul_/" 
+                                    href="https://www.instagram.com/asah_fapertaunmul?igsh=MWFsbm1ndGluYTQ0eA==" 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                 >
                                     <svg className="w-4 h-4 fill-current text-primary" viewBox="0 0 24 24">
                                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                                     </svg>
-                                    <span>@faperta.unmul_</span>
+                                    <span>@asah_fapertaunmul</span>
                                 </a>
                                 <a 
                                     className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-sm no-underline" 
-                                    href="https://www.tiktok.com/@faperta.unmul_" 
+                                    href="https://wa.me/6281234567890" 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                 >
                                     <svg className="w-4 h-4 fill-current text-primary" viewBox="0 0 24 24">
-                                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.43-.43-.63-.67-.07 2.62-.01 5.24-.04 7.86-.06 1.35-.45 2.7-1.23 3.79-.94 1.34-2.45 2.3-4.1 2.61-1.43.27-2.94.13-4.28-.44-1.85-.79-3.29-2.52-3.79-4.48-.56-2.12-.13-4.48 1.18-6.2 1.25-1.63 3.19-2.61 5.24-2.73.12 0 .24-.01.36-.01v4.05c-1.22.06-2.42.66-3.12 1.67-.76 1.08-.87 2.53-.33 3.73.5 1.13 1.56 1.95 2.77 2.16 1.22.21 2.52-.16 3.39-1.07.67-.69.99-1.66.96-2.63-.02-3.21-.01-6.42-.01-9.63 0-.04 0-.08-.01-.12z"/>
+                                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202 0 6.206 1.248 8.461 3.507 2.254 2.259 3.497 5.267 3.495 8.469-.005 6.545-5.344 11.884-11.954 11.884h-.005c-2.008-.002-3.984-.543-5.736-1.579L0 24zm6.335-1.662c1.746.953 3.71 1.458 5.704 1.459h.005c5.449 0 9.882-4.434 9.885-9.884.002-2.64-1.027-5.122-2.894-6.99A9.825 9.825 0 0012.008 2.03c-5.451 0-9.887 4.436-9.889 9.886-.001 2.096.547 4.142 1.588 5.945L2.83 22.338l3.562-.936zm11.137-7.956c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" />
                                     </svg>
-                                    <span>@faperta.unmul_</span>
+                                    <span>WhatsApp</span>
                                 </a>
                                 <a 
                                     className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-sm no-underline" 
-                                    href="https://www.google.com/maps/search/?api=1&query=Fakultas+Pertanian+Universitas+Mulawarman" 
+                                    href="https://maps.app.goo.gl/ACJTNrZJUyUqfh4c8?g_st=ic" 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                 >
                                     <span className="material-symbols-outlined text-[16px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
-                                    <span>Faperta Unmul, Samarinda</span>
+                                    <span>Agroekoteknologi, Unmul</span>
                                 </a>
                             </div>
                         </div>

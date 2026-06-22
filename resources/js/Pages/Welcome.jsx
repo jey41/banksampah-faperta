@@ -70,11 +70,6 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                         animate="visible" 
                         className="space-y-md"
                     >
-                        <motion.div variants={itemVariants}>
-                            <span className="inline-flex items-center gap-xs bg-primary/10 text-primary font-bold text-[12px] px-md py-xs rounded-full uppercase tracking-wider mb-xs">
-                                Inisiatif Hijau Faperta Unmul
-                            </span>
-                        </motion.div>
                         <motion.h1 variants={itemVariants} className="text-[36px] md:text-[52px] leading-[1.05] font-extrabold text-primary tracking-tight">
                             Kelola Sampah <br/><span className="text-secondary">Jadi Berkah</span>
                         </motion.h1>
@@ -509,39 +504,39 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                         Ikuti akun kami untuk berita, sosialisasi, dan edukasi pemilahan sampah.
                                     </p>
                                     <a 
-                                        href="https://www.instagram.com/faperta.unmul_/" 
+                                        href="https://www.instagram.com/asah_fapertaunmul?igsh=MWFsbm1ndGluYTQ0eA==" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-[2px] text-[12px] font-bold text-primary hover:text-secondary mt-xs no-underline"
                                     >
-                                        @faperta.unmul_
+                                        @asah_fapertaunmul
                                         <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                                     </a>
                                 </div>
                             </motion.div>
 
-                            {/* TikTok Card */}
+                            {/* WhatsApp Card */}
                             <motion.div 
                                 whileHover={{ scale: 1.02 }}
                                 className="bg-background rounded-3xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm hover:ring-1 hover:ring-primary/10 transition-all duration-300"
                             >
-                                <div className="p-sm bg-slate-900 rounded-xl text-white flex items-center justify-center shadow-sm">
+                                <div className="p-sm bg-green-50 rounded-xl text-[#25d366] flex items-center justify-center shadow-sm">
                                     <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.43-.43-.63-.67-.07 2.62-.01 5.24-.04 7.86-.06 1.35-.45 2.7-1.23 3.79-.94 1.34-2.45 2.3-4.1 2.61-1.43.27-2.94.13-4.28-.44-1.85-.79-3.29-2.52-3.79-4.48-.56-2.12-.13-4.48 1.18-6.2 1.25-1.63 3.19-2.61 5.24-2.73.12 0 .24-.01.36-.01v4.05c-1.22.06-2.42.66-3.12 1.67-.76 1.08-.87 2.53-.33 3.73.5 1.13 1.56 1.95 2.77 2.16 1.22.21 2.52-.16 3.39-1.07.67-.69.99-1.66.96-2.63-.02-3.21-.01-6.42-.01-9.63 0-.04 0-.08-.01-.12z"/>
+                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.704 1.459h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                                     </svg>
                                 </div>
                                 <div className="space-y-[4px] flex-grow">
-                                    <h4 className="text-[15px] font-bold text-on-surface">TikTok</h4>
+                                    <h4 className="text-[15px] font-bold text-on-surface">WhatsApp</h4>
                                     <p className="text-[12px] text-on-surface-variant leading-relaxed font-medium">
-                                        Tonton video keseruan kegiatan menyetor sampah dan konten edukasi 3R kreatif.
+                                        Hubungi kami via WhatsApp untuk pertanyaan seputar kerja sama dan kemitraan.
                                     </p>
                                     <a 
-                                        href="https://www.tiktok.com/@faperta.unmul_" 
+                                        href="https://wa.me/622252968595" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-[2px] text-[12px] font-bold text-primary hover:text-secondary mt-xs no-underline"
                                     >
-                                        @faperta.unmul_
+                                        Hubungi WhatsApp
                                         <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                                     </a>
                                 </div>
@@ -558,10 +553,10 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 <div className="space-y-[4px] flex-grow">
                                     <h4 className="text-[15px] font-bold text-on-surface">Alamat &amp; Depo</h4>
                                     <p className="text-[12px] text-on-surface-variant leading-relaxed font-medium">
-                                        Kampus Gunung Kelua, Jl. Paser Balengkong, Samarinda, Kalimantan Timur 75119
+                                        Kantor Jurusan Agroekoteknologi, Fakultas Pertanian Universitas Mulawarman
                                     </p>
                                     <a 
-                                        href="https://www.google.com/maps/search/?api=1&query=Fakultas+Pertanian+Universitas+Mulawarman" 
+                                        href="https://maps.app.goo.gl/ACJTNrZJUyUqfh4c8?g_st==ic" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-[2px] text-[12px] font-bold text-primary hover:text-secondary mt-xs no-underline"
@@ -580,35 +575,35 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
             <section className="bg-background py-lg border-t border-b border-outline-variant/10 overflow-hidden">
                 <div className="max-w-container-max mx-auto px-lg md:px-xl">
                     <p className="text-[11px] font-extrabold text-center text-outline uppercase tracking-[0.18em] mb-md">
-                        Didukung &amp; Bekerjasama Dengan
+                        Mitra Kerja Sama
                     </p>
                     <div className="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,_transparent_0,_black_128px,_black_calc(100%-128px),_transparent_100%)] [-webkit-mask-image:_linear-gradient(to_right,_transparent_0,_black_128px,_black_calc(100%-128px),_transparent_100%)]">
-                        <ul className="flex items-center justify-center md:justify-start sm:[&_li]:mx-12 [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll py-xs">
+                        <ul className="flex items-center justify-center md:justify-start sm:[&_li]:mx-12 [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll py-sm">
                             {[...Array(4)].map((_, i) => (
                                 <React.Fragment key={i}>
                                     <li>
-                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                     <li>
-                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                     <li>
-                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                 </React.Fragment>
                             ))}
                         </ul>
-                        <ul className="flex items-center justify-center md:justify-start sm:[&_li]:mx-12 [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll py-xs" aria-hidden="true">
+                        <ul className="flex items-center justify-center md:justify-start sm:[&_li]:mx-12 [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll py-sm" aria-hidden="true">
                             {[...Array(4)].map((_, i) => (
                                 <React.Fragment key={i}>
                                     <li>
-                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                     <li>
-                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                     <li>
-                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
                                     </li>
                                 </React.Fragment>
                             ))}
