@@ -62,6 +62,15 @@ export default {
             },
             borderRadius: {
                 '3xl': '1.5rem',
+            },
+            keyframes: {
+                'infinite-scroll': {
+                    from: { transform: 'translateX(0)' },
+                    to: { transform: 'translateX(-100%)' },
+                }
+            },
+            animation: {
+                'infinite-scroll': 'infinite-scroll 25s linear infinite',
             }
         },
     },

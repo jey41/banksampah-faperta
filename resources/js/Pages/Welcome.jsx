@@ -70,13 +70,18 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                         animate="visible" 
                         className="space-y-md"
                     >
-                        <motion.h1 variants={itemVariants} className="text-[36px] md:text-[48px] leading-[1.1] font-bold text-primary">
+                        <motion.div variants={itemVariants}>
+                            <span className="inline-flex items-center gap-xs bg-primary/10 text-primary font-bold text-[12px] px-md py-xs rounded-full uppercase tracking-wider mb-xs">
+                                Inisiatif Hijau Faperta Unmul
+                            </span>
+                        </motion.div>
+                        <motion.h1 variants={itemVariants} className="text-[36px] md:text-[52px] leading-[1.05] font-extrabold text-primary tracking-tight">
                             Kelola Sampah <br/><span className="text-secondary">Jadi Berkah</span>
                         </motion.h1>
-                        <motion.p variants={itemVariants} className="text-[16px] md:text-[18px] text-on-surface-variant max-w-lg leading-relaxed">
-                            Ubah kebiasaan membuang menjadi menabung. Bergabunglah dengan kami untuk melestarikan lingkungan sambil membangun simpanan yang bermanfaat bagi masa depan Anda.
+                        <motion.p variants={itemVariants} className="text-[15px] md:text-[16px] text-on-surface-variant max-w-lg leading-relaxed font-medium">
+                            Ubah kebiasaan membuang menjadi menabung. Bergabunglah dengan kami untuk melestarikan lingkungan kampus sambil mengumpulkan tabungan yang bermanfaat bagi masa depan Anda.
                         </motion.p>
-                        <motion.div variants={itemVariants} className="pt-sm">
+                        <motion.div variants={itemVariants} className="pt-xs">
                             {auth.user ? (
                                 auth.user.role === 'nasabah' ? (
                                     <Link
@@ -194,13 +199,14 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 hidden: { opacity: 0, y: 30 },
                                 visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
                             }}
-                            className="bg-background rounded-2xl p-xl shadow-sm border border-outline-variant/30 text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300"
+                            className="relative bg-background rounded-3xl p-xl shadow-sm border border-outline-variant/30 text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300 overflow-hidden"
                         >
-                            <div className="w-16 h-16 mx-auto bg-white text-primary rounded-full flex items-center justify-center mb-lg shadow-sm group-hover:scale-110 transition-transform duration-300">
+                            <span className="absolute top-md right-lg text-[48px] font-black text-primary/5 select-none transition-colors group-hover:text-primary/10">01</span>
+                            <div className="w-16 h-16 mx-auto bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-lg shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
                                 <span className="material-symbols-outlined text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>app_registration</span>
                             </div>
-                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">1. Daftar Akun</h3>
-                            <p className="text-[14px] text-on-surface-variant leading-relaxed">
+                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">Daftar Akun</h3>
+                            <p className="text-[13px] text-on-surface-variant leading-relaxed">
                                 Buat akun dengan mudah melalui platform kami untuk mulai melacak kontribusi tabungan sampah Anda.
                             </p>
                         </motion.div>
@@ -210,13 +216,14 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 hidden: { opacity: 0, y: 30 },
                                 visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
                             }}
-                            className="bg-background rounded-2xl p-xl shadow-sm border border-outline-variant/30 text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300"
+                            className="relative bg-background rounded-3xl p-xl shadow-sm border border-outline-variant/30 text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300 overflow-hidden"
                         >
-                            <div className="w-16 h-16 mx-auto bg-white text-primary rounded-full flex items-center justify-center mb-lg shadow-sm group-hover:scale-110 transition-transform duration-300">
+                            <span className="absolute top-md right-lg text-[48px] font-black text-primary/5 select-none transition-colors group-hover:text-primary/10">02</span>
+                            <div className="w-16 h-16 mx-auto bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-lg shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
                                 <span className="material-symbols-outlined text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>recycling</span>
                             </div>
-                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">2. Setor Sampah</h3>
-                            <p className="text-[14px] text-on-surface-variant leading-relaxed">
+                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">Setor Sampah</h3>
+                            <p className="text-[13px] text-on-surface-variant leading-relaxed">
                                 Bawa sampah terpilah Anda ke depo penampungan. Petugas akan menimbang dan menginput nilai rupiahnya secara riil.
                             </p>
                         </motion.div>
@@ -226,13 +233,14 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 hidden: { opacity: 0, y: 30 },
                                 visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
                             }}
-                            className="bg-background rounded-2xl p-xl shadow-sm border border-outline-variant/30 text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300"
+                            className="relative bg-background rounded-3xl p-xl shadow-sm border border-outline-variant/30 text-center group hover:ring-1 hover:ring-primary/20 transition-all duration-300 overflow-hidden"
                         >
-                            <div className="w-16 h-16 mx-auto bg-white text-primary rounded-full flex items-center justify-center mb-lg shadow-sm group-hover:scale-110 transition-transform duration-300">
+                            <span className="absolute top-md right-lg text-[48px] font-black text-primary/5 select-none transition-colors group-hover:text-primary/10">03</span>
+                            <div className="w-16 h-16 mx-auto bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-lg shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
                                 <span className="material-symbols-outlined text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>account_balance_wallet</span>
                             </div>
-                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">3. Tarik Saldo</h3>
-                            <p className="text-[14px] text-on-surface-variant leading-relaxed">
+                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">Tarik Saldo</h3>
+                            <p className="text-[13px] text-on-surface-variant leading-relaxed">
                                 Nikmati hasil kerja keras Anda. Tarik saldo tabungan langsung ke rekening bank atau e-wallet kapan saja Anda inginkan.
                             </p>
                         </motion.div>
@@ -252,27 +260,37 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                     >
                         {/* Schedule Card */}
                         <div className="flex-1 space-y-lg flex flex-col justify-center">
-                            <h2 className="text-[28px] md:text-[32px] font-bold text-primary">Jadwal Operasional</h2>
-                            <p className="text-[14px] md:text-[16px] text-on-surface-variant leading-relaxed">
-                                Kunjungi depo kami pada jam operasional untuk menyetorkan sampah terpilah Anda. Tim petugas kami siap membantu proses penimbangan dan pencatatan saldo dengan cepat dan transparan.
+                            <h2 className="text-[28px] md:text-[32px] font-bold text-primary tracking-tight">Jadwal Operasional</h2>
+                            <p className="text-[13px] md:text-[14px] text-on-surface-variant leading-relaxed font-medium">
+                                Kunjungi depo kami pada jam operasional untuk menyetorkan sampah terpilah Anda. Tim petugas kami siap membantu proses penimbangan dan pencatatan saldo secara cepat, akurat, dan transparan.
                             </p>
-                            <div className="bg-white rounded-2xl p-xl shadow-sm border border-outline-variant/30">
-                                <div className="flex items-center gap-md border-b border-outline-variant/20 pb-md mb-md">
-                                    <span className="material-symbols-outlined text-primary text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>event_available</span>
-                                    <div>
-                                        <h4 className="text-[16px] font-bold text-on-surface">Hari Layanan</h4>
-                                        <p className="text-[14px] text-on-surface-variant font-medium">Senin - Sabtu</p>
+                            <div className="bg-white rounded-3xl p-lg shadow-sm border border-outline-variant/30">
+                                <div className="flex items-center justify-between border-b border-outline-variant/20 pb-md mb-md">
+                                    <div className="flex items-center gap-md">
+                                        <div className="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+                                            <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>event_available</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-[14px] font-bold text-on-surface">Hari Layanan</h4>
+                                            <p className="text-[13px] text-on-surface-variant font-medium">Senin - Sabtu</p>
+                                        </div>
                                     </div>
+                                    <span className="text-[10px] font-extrabold px-sm py-[2px] bg-primary/15 text-primary rounded-full uppercase tracking-wider">Aktif</span>
                                 </div>
-                                <div className="flex items-center gap-md">
-                                    <span className="material-symbols-outlined text-primary text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
-                                    <div>
-                                        <h4 className="text-[16px] font-bold text-on-surface">Jam Layanan</h4>
-                                        <p className="text-[14px] text-on-surface-variant font-medium">08:00 - 16:00 WIB</p>
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-md">
+                                        <div className="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+                                            <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-[14px] font-bold text-on-surface">Jam Layanan</h4>
+                                            <p className="text-[13px] text-on-surface-variant font-medium">08:00 - 16:00 WITA</p>
+                                        </div>
                                     </div>
+                                    <span className="text-[10px] font-extrabold px-sm py-[2px] bg-secondary/15 text-secondary rounded-full uppercase tracking-wider">Buka</span>
                                 </div>
-                                <div className="mt-lg pt-md border-t border-outline-variant/20 flex items-center gap-xs text-error font-semibold text-[12px]">
-                                    <span className="material-symbols-outlined text-[16px]">info</span>
+                                <div className="mt-lg pt-md border-t border-outline-variant/20 flex items-center gap-xs text-error font-bold text-[11px]">
+                                    <span className="material-symbols-outlined text-[14px]">info</span>
                                     Tutup pada hari Minggu dan Hari Libur Nasional.
                                 </div>
                             </div>
@@ -304,24 +322,28 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="bg-white rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm max-w-3xl mx-auto p-md"
+                        className="bg-white rounded-3xl border border-outline-variant/20 overflow-hidden shadow-sm max-w-3xl mx-auto p-xs"
                     >
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-background hover:bg-background">
-                                    <TableHead className="font-bold text-primary uppercase text-[13px] tracking-wider px-lg py-md">Nama Sampah</TableHead>
-                                    <TableHead className="font-bold text-primary uppercase text-[13px] tracking-wider px-lg py-md">Kategori</TableHead>
-                                    <TableHead className="font-bold text-primary uppercase text-[13px] tracking-wider px-lg py-md text-right">Harga Beli Nasabah</TableHead>
+                                <TableRow className="bg-surface-container-low hover:bg-surface-container-low border-b border-outline-variant/20">
+                                    <TableHead className="font-extrabold text-primary uppercase text-[11px] tracking-[0.12em] px-lg py-sm">Nama Sampah</TableHead>
+                                    <TableHead className="font-extrabold text-primary uppercase text-[11px] tracking-[0.12em] px-lg py-sm">Kategori</TableHead>
+                                    <TableHead className="font-extrabold text-primary uppercase text-[11px] tracking-[0.12em] px-lg py-sm text-right">Harga Beli Nasabah</TableHead>
                                 </TableRow>
                             </TableHeader>
-                            <TableBody className="text-[14px]">
+                            <TableBody className="text-[13px]">
                                 {prices.length > 0 ? (
                                     prices.map((p) => (
-                                        <TableRow key={p.id} className="hover:bg-background/40 transition-colors">
-                                            <TableCell className="px-lg py-md font-semibold text-on-surface">{p.name}</TableCell>
-                                            <TableCell className="px-lg py-md capitalize text-on-surface-variant">{p.category.replace('_', ' ')}</TableCell>
-                                            <TableCell className="px-lg py-md text-right font-bold text-primary">
-                                                Rp {numberFormat(p.price_buy)} / {p.unit}
+                                        <TableRow key={p.id} className="hover:bg-background/40 transition-colors border-b border-outline-variant/10">
+                                            <TableCell className="px-lg py-md font-bold text-on-surface">{p.name}</TableCell>
+                                            <TableCell className="px-lg py-md capitalize">
+                                                <span className="inline-block px-sm py-[2px] bg-primary/5 text-primary text-[11px] font-bold rounded">
+                                                    {p.category.replace('_', ' ')}
+                                                </span>
+                                            </TableCell>
+                                            <TableCell className="px-lg py-md text-right font-extrabold text-primary text-[14px]">
+                                                Rp {numberFormat(p.price_buy)} <span className="text-[11px] text-on-surface-variant font-medium">/ {p.unit}</span>
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -381,8 +403,12 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                         visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
                                     }}
                                     whileHover={{ y: -8, scale: 1.01, boxShadow: "0 10px 25px -5px rgba(0,0,0,0.08)" }}
-                                    className="bg-white rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm flex flex-col transition-all duration-300"
+                                    className="bg-white rounded-3xl border border-outline-variant/30 overflow-hidden shadow-sm flex flex-col transition-all duration-300 relative"
                                 >
+                                    {/* Category Badge */}
+                                    <div className="absolute top-md left-md bg-secondary/90 backdrop-blur-sm text-white text-[10px] font-extrabold px-sm py-[3px] rounded-md shadow-sm z-10 uppercase tracking-wider">
+                                        Edukasi
+                                    </div>
                                     <div className="h-48 overflow-hidden bg-primary/5 relative">
                                         {art.image_url ? (
                                             <img 
@@ -397,11 +423,17 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                         )}
                                     </div>
                                     <div className="p-lg flex-grow flex flex-col justify-between gap-md">
-                                        <div className="space-y-sm">
+                                        <div className="space-y-xs">
+                                            <div className="flex items-center gap-xs text-[11px] text-on-surface-variant font-bold mb-xs uppercase tracking-wider">
+                                                <span className="material-symbols-outlined text-[13px]">calendar_today</span>
+                                                <span>{art.created_at ? new Date(art.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '23 Jun 2026'}</span>
+                                                <span className="text-outline-variant">•</span>
+                                                <span>3 Menit Baca</span>
+                                            </div>
                                             <h3 className="text-[16px] font-bold text-on-surface line-clamp-2 leading-snug hover:text-primary transition-colors">
                                                 {art.title}
                                             </h3>
-                                            <p className="text-[13px] text-on-surface-variant line-clamp-3 leading-relaxed">
+                                            <p className="text-[13px] text-on-surface-variant line-clamp-3 leading-relaxed font-medium">
                                                 {art.content}
                                             </p>
                                         </div>
@@ -464,16 +496,16 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             {/* Instagram Card */}
                             <motion.div 
                                 whileHover={{ scale: 1.02 }}
-                                className="bg-background rounded-2xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm"
+                                className="bg-background rounded-3xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm hover:ring-1 hover:ring-primary/10 transition-all duration-300"
                             >
-                                <div className="p-sm bg-pink-50 rounded-xl text-[#e1306c] flex items-center justify-center">
+                                <div className="p-sm bg-pink-50 rounded-xl text-[#e1306c] flex items-center justify-center shadow-sm">
                                     <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
                                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                                     </svg>
                                 </div>
                                 <div className="space-y-[4px] flex-grow">
                                     <h4 className="text-[15px] font-bold text-on-surface">Instagram</h4>
-                                    <p className="text-[12px] text-on-surface-variant leading-relaxed">
+                                    <p className="text-[12px] text-on-surface-variant leading-relaxed font-medium">
                                         Ikuti akun kami untuk berita, sosialisasi, dan edukasi pemilahan sampah.
                                     </p>
                                     <a 
@@ -491,16 +523,16 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             {/* TikTok Card */}
                             <motion.div 
                                 whileHover={{ scale: 1.02 }}
-                                className="bg-background rounded-2xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm"
+                                className="bg-background rounded-3xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm hover:ring-1 hover:ring-primary/10 transition-all duration-300"
                             >
-                                <div className="p-sm bg-slate-900 rounded-xl text-white flex items-center justify-center">
+                                <div className="p-sm bg-slate-900 rounded-xl text-white flex items-center justify-center shadow-sm">
                                     <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
                                         <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.43-.43-.63-.67-.07 2.62-.01 5.24-.04 7.86-.06 1.35-.45 2.7-1.23 3.79-.94 1.34-2.45 2.3-4.1 2.61-1.43.27-2.94.13-4.28-.44-1.85-.79-3.29-2.52-3.79-4.48-.56-2.12-.13-4.48 1.18-6.2 1.25-1.63 3.19-2.61 5.24-2.73.12 0 .24-.01.36-.01v4.05c-1.22.06-2.42.66-3.12 1.67-.76 1.08-.87 2.53-.33 3.73.5 1.13 1.56 1.95 2.77 2.16 1.22.21 2.52-.16 3.39-1.07.67-.69.99-1.66.96-2.63-.02-3.21-.01-6.42-.01-9.63 0-.04 0-.08-.01-.12z"/>
                                     </svg>
                                 </div>
                                 <div className="space-y-[4px] flex-grow">
                                     <h4 className="text-[15px] font-bold text-on-surface">TikTok</h4>
-                                    <p className="text-[12px] text-on-surface-variant leading-relaxed">
+                                    <p className="text-[12px] text-on-surface-variant leading-relaxed font-medium">
                                         Tonton video keseruan kegiatan menyetor sampah dan konten edukasi 3R kreatif.
                                     </p>
                                     <a 
@@ -518,14 +550,14 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             {/* Alamat / Google Maps Card */}
                             <motion.div 
                                 whileHover={{ scale: 1.02 }}
-                                className="bg-background rounded-2xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm"
+                                className="bg-background rounded-3xl p-lg border border-outline-variant/30 flex items-start gap-md shadow-sm hover:ring-1 hover:ring-primary/10 transition-all duration-300"
                             >
-                                <div className="p-sm bg-green-50 rounded-xl text-primary flex items-center justify-center">
+                                <div className="p-sm bg-green-50 rounded-xl text-primary flex items-center justify-center shadow-sm">
                                     <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
                                 </div>
                                 <div className="space-y-[4px] flex-grow">
                                     <h4 className="text-[15px] font-bold text-on-surface">Alamat &amp; Depo</h4>
-                                    <p className="text-[12px] text-on-surface-variant leading-relaxed">
+                                    <p className="text-[12px] text-on-surface-variant leading-relaxed font-medium">
                                         Kampus Gunung Kelua, Jl. Paser Balengkong, Samarinda, Kalimantan Timur 75119
                                     </p>
                                     <a 
@@ -540,6 +572,47 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                 </div>
                             </motion.div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Mitra Kami Section (Infinity Brand Scroll) */}
+            <section className="bg-background py-lg border-t border-b border-outline-variant/10 overflow-hidden">
+                <div className="max-w-container-max mx-auto px-lg md:px-xl">
+                    <p className="text-[11px] font-extrabold text-center text-outline uppercase tracking-[0.18em] mb-md">
+                        Didukung &amp; Bekerjasama Dengan
+                    </p>
+                    <div className="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,_transparent_0,_black_128px,_black_calc(100%-128px),_transparent_100%)] [-webkit-mask-image:_linear-gradient(to_right,_transparent_0,_black_128px,_black_calc(100%-128px),_transparent_100%)]">
+                        <ul className="flex items-center justify-center md:justify-start sm:[&_li]:mx-12 [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll py-xs">
+                            {[...Array(4)].map((_, i) => (
+                                <React.Fragment key={i}>
+                                    <li>
+                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                    </li>
+                                    <li>
+                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                    </li>
+                                    <li>
+                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                    </li>
+                                </React.Fragment>
+                            ))}
+                        </ul>
+                        <ul className="flex items-center justify-center md:justify-start sm:[&_li]:mx-12 [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll py-xs" aria-hidden="true">
+                            {[...Array(4)].map((_, i) => (
+                                <React.Fragment key={i}>
+                                    <li>
+                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                    </li>
+                                    <li>
+                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                    </li>
+                                    <li>
+                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" className="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                    </li>
+                                </React.Fragment>
+                            ))}
+                        </ul>
                     </div>
                 </div>
             </section>
