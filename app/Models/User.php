@@ -78,4 +78,12 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(PickupRequest::class);
     }
+
+    /**
+     * Get the badges for the user.
+     */
+    public function userBadges(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserBadge::class);
+    }
 }

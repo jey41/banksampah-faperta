@@ -84,6 +84,12 @@ class TransactionService
                 'description' => "{$validator->name} menyetujui setoran #{$deposit->id} milik nasabah {$nasabah->name}{$donationText}{$categoryText} dengan total berat {$weightTotal} kg/L dan total nilai Rp " . number_format($totalPrice, 0, ',', '.'),
             ]);
         });
+
+        // Sync gamification badges after deposit approval
+        $nasabah = User::find($deposit->user_id);
+        if ($nasabah) {
+            app(GamificationService::class)->syncBadges($nasabah);
+        }
     }
 
     /**

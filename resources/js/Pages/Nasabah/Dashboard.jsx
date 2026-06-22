@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import { Head, Link, usePage, useForm, router } from '@inertiajs/react';
 import NasabahLayout from '@/Layouts/NasabahLayout';
 
-export default function Dashboard({ transactions = [], totalDeposited = 0, totalWithdrawn = 0, targets = [] }) {
+export default function Dashboard({
+    transactions = [],
+    totalDeposited = 0,
+    totalWithdrawn = 0,
+    targets = [],
+    ecoPoints = 0,
+    level = {},
+    badges = [],
+    pointsBreakdown = {},
+}) {
     const { auth } = usePage().props;
 
     const { data, setData, post, reset, processing, errors } = useForm({
@@ -116,13 +125,54 @@ export default function Dashboard({ transactions = [], totalDeposited = 0, total
 
                     {/* Green Impact Banner / Gamified stats */}
                     <div className="bg-white rounded-3xl border border-outline-variant/30 p-md md:p-lg shadow-sm space-y-md">
+                        {/* Level Header */}
                         <div className="flex items-center justify-between">
                             <h3 className="text-[16px] font-bold text-on-surface flex items-center gap-xs">
                                 <span className="material-symbols-outlined text-primary text-[20px]">eco</span>
                                 Kontribusi Hijau Anda
                             </h3>
-                            <span className="text-[11px] font-bold bg-primary/10 text-primary px-sm py-0.5 rounded-full">Level: Penyelamat Lingkungan</span>
+                            <span className="text-[11px] font-bold bg-primary/10 text-primary px-sm py-0.5 rounded-full">
+                                Level {level.level_number || 1} / {level.total_levels || 5}
+                            </span>
                         </div>
+
+                        {/* Level Progress Section */}
+                        <div className="bg-gradient-to-br from-primary/5 to-secondary-container/10 rounded-2xl p-sm md:p-md border border-primary/10">
+                            <div className="flex items-center gap-sm mb-xs">
+                                <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center text-[20px] shrink-0">
+                                    {level.emoji || '🌱'}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-[14px] font-extrabold text-on-surface">{level.name || 'Pemula Hijau'}</p>
+                                    <p className="text-[11px] text-on-surface-variant font-medium">
+                                        {level.is_max_level
+                                            ? '🏆 Level Tertinggi Tercapai!'
+                                            : `${level.points_to_next || 0} poin lagi menuju ${level.next_level_name || ''}`
+                                        }
+                                    </p>
+                                </div>
+                                <div className="text-right shrink-0">
+                                    <p className="text-[18px] font-extrabold text-primary">{ecoPoints}</p>
+                                    <p className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wide">Eco-Points</p>
+                                </div>
+                            </div>
+
+                            {/* Progress Bar */}
+                            <div className="w-full bg-outline-variant/20 h-2.5 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r from-primary via-secondary to-primary-container"
+                                    style={{ width: `${level.progress_percent || 0}%` }}
+                                ></div>
+                            </div>
+                            {!level.is_max_level && (
+                                <div className="flex justify-between mt-1">
+                                    <span className="text-[9px] text-on-surface-variant font-medium">{level.min_points || 0} pts</span>
+                                    <span className="text-[9px] text-on-surface-variant font-medium">{level.next_level_points || 0} pts</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Eco Impact Stats */}
                         <div className="grid grid-cols-3 gap-sm text-center">
                             <div className="bg-background/40 border border-outline-variant/15 rounded-2xl p-sm">
                                 <span className="material-symbols-outlined text-primary text-[24px]">forest</span>
@@ -136,8 +186,72 @@ export default function Dashboard({ transactions = [], totalDeposited = 0, total
                             </div>
                             <div className="bg-background/40 border border-outline-variant/15 rounded-2xl p-sm">
                                 <span className="material-symbols-outlined text-primary text-[24px]">workspace_premium</span>
-                                <p className="text-[16px] font-extrabold text-on-surface mt-xs">{(totalDeposited * 2.5).toFixed(0)}</p>
-                                <p className="text-[10px] text-on-surface-variant font-medium">Poin Eco-Credits</p>
+                                <p className="text-[16px] font-extrabold text-primary mt-xs">{ecoPoints}</p>
+                                <p className="text-[10px] text-on-surface-variant font-medium">Eco-Points</p>
+                            </div>
+                        </div>
+
+                        {/* Points Breakdown */}
+                        <div className="flex flex-wrap gap-1.5">
+                            {pointsBreakdown.weight_points > 0 && (
+                                <span className="text-[9px] bg-primary/5 text-primary/80 px-2 py-0.5 rounded-full font-semibold">Berat: +{pointsBreakdown.weight_points}</span>
+                            )}
+                            {pointsBreakdown.transaction_points > 0 && (
+                                <span className="text-[9px] bg-primary/5 text-primary/80 px-2 py-0.5 rounded-full font-semibold">Transaksi: +{pointsBreakdown.transaction_points}</span>
+                            )}
+                            {pointsBreakdown.donation_points > 0 && (
+                                <span className="text-[9px] bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-semibold">Donasi: +{pointsBreakdown.donation_points}</span>
+                            )}
+                            {pointsBreakdown.streak_points > 0 && (
+                                <span className="text-[9px] bg-orange-50 text-orange-700 px-2 py-0.5 rounded-full font-semibold">🔥 Streak: +{pointsBreakdown.streak_points}</span>
+                            )}
+                            {pointsBreakdown.diversity_points > 0 && (
+                                <span className="text-[9px] bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full font-semibold">🎯 Variasi: +{pointsBreakdown.diversity_points}</span>
+                            )}
+                        </div>
+
+                        {/* Badge Collection */}
+                        <div className="space-y-xs">
+                            <div className="flex items-center justify-between">
+                                <h4 className="text-[13px] font-bold text-on-surface flex items-center gap-xs">
+                                    <span className="material-symbols-outlined text-[18px] text-primary">military_tech</span>
+                                    Koleksi Lencana
+                                </h4>
+                                <span className="text-[10px] text-on-surface-variant font-medium">
+                                    {badges.filter(b => b.unlocked).length} / {badges.length} diraih
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-5 gap-1.5">
+                                {badges.map((badge) => (
+                                    <div
+                                        key={badge.key}
+                                        className={`relative group flex flex-col items-center justify-center rounded-xl p-1.5 border transition-all duration-300 cursor-default ${
+                                            badge.unlocked
+                                                ? 'bg-primary/5 border-primary/20 hover:border-primary/40 hover:shadow-sm'
+                                                : 'bg-gray-50 border-gray-200/50 opacity-50 grayscale'
+                                        }`}
+                                        title={badge.unlocked
+                                            ? `${badge.name} — ${badge.description}`
+                                            : `🔒 ${badge.name} — Syarat: ${badge.requirement}`
+                                        }
+                                    >
+                                        <span className={`text-[18px] ${badge.unlocked ? '' : 'grayscale'}`}>{badge.icon}</span>
+                                        <p className="text-[7px] font-bold text-on-surface-variant mt-0.5 text-center leading-tight truncate w-full">{badge.name}</p>
+                                        {!badge.unlocked && badge.progress && badge.progress.percent < 100 && (
+                                            <div className="w-full bg-gray-200 h-0.5 rounded-full mt-0.5 overflow-hidden">
+                                                <div
+                                                    className="h-full bg-primary/40 rounded-full"
+                                                    style={{ width: `${badge.progress.percent}%` }}
+                                                ></div>
+                                            </div>
+                                        )}
+                                        {badge.unlocked && (
+                                            <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-primary rounded-full flex items-center justify-center">
+                                                <span className="text-white text-[7px]">✓</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

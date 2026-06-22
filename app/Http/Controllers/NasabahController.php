@@ -8,6 +8,7 @@ use App\Models\DepositItem;
 use App\Models\Withdrawal;
 use App\Models\PickupRequest;
 use App\Services\TransactionService;
+use App\Services\GamificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -62,12 +63,25 @@ class NasabahController extends Controller
         // Get pending pickup requests count
         $pendingPickups = $user->pickupRequests()->whereIn('status', ['pending', 'assigned'])->count();
 
+        // Gamification data
+        $gamification = app(GamificationService::class);
+        $gamification->syncBadges($user);
+
+        $ecoPoints = $gamification->getEcoPoints($user);
+        $level = $gamification->getLevel($ecoPoints);
+        $badges = $gamification->getBadges($user);
+        $pointsBreakdown = $gamification->getEcoPointsBreakdown($user);
+
         return Inertia::render('Nasabah/Dashboard', [
             'transactions' => $transactions,
             'totalDeposited' => (int)$totalDeposited,
             'totalWithdrawn' => (int)$totalWithdrawn,
             'targets' => $targets,
             'pendingPickups' => $pendingPickups,
+            'ecoPoints' => $ecoPoints,
+            'level' => $level,
+            'badges' => $badges,
+            'pointsBreakdown' => $pointsBreakdown,
         ]);
     }
 
