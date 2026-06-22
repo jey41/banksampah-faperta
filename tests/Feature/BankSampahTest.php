@@ -574,5 +574,71 @@ class BankSampahTest extends TestCase
             'id' => $target->id,
         ]);
     }
+
+    public function test_nasabah_cannot_submit_withdrawal_outside_operational_hours()
+    {
+        // 17:00:00 is outside 08:00 - 16:00
+        \Illuminate\Support\Carbon::setTestNow('2026-06-20 17:00:00');
+
+        $response = $this->actingAs($this->nasabah)
+            ->post(route('nasabah.withdraw.store'), [
+                'amount' => 50000,
+                'withdrawal_method' => 'transfer_bank',
+                'bank_name' => 'Bank Mandiri',
+                'account_number' => '1234567890',
+                'account_name' => 'Nasabah Test',
+                'notes' => 'Tarik uang belanja',
+            ]);
+
+        \Illuminate\Support\Carbon::setTestNow();
+
+        $response->assertSessionHasErrors(['withdrawal_method']);
+        $this->assertDatabaseMissing('withdrawals', [
+            'user_id' => $this->nasabah->id,
+            'amount' => 50000,
+        ]);
+    }
+
+    public function test_nasabah_cannot_submit_pickup_request_in_the_past()
+    {
+        $response = $this->actingAs($this->nasabah)
+            ->post(route('nasabah.pickup.store'), [
+                'pickup_address' => 'Jl. Raya Dramaga No. 10, Bogor',
+                'pickup_phone' => '08123456789',
+                'pickup_date' => now()->subDay()->format('Y-m-d'), // Past date
+                'pickup_time' => '08:00-10:00',
+                'latitude' => -0.4660341,
+                'longitude' => 117.1558231,
+                'estimated_distance' => 0,
+                'notes' => 'Sampah plastik',
+            ]);
+
+        $response->assertSessionHasErrors(['pickup_date']);
+        $this->assertDatabaseMissing('pickup_requests', [
+            'user_id' => $this->nasabah->id,
+            'pickup_address' => 'Jl. Raya Dramaga No. 10, Bogor',
+        ]);
+    }
+
+    public function test_nasabah_cannot_submit_pickup_request_exceeding_max_distance()
+    {
+        $response = $this->actingAs($this->nasabah)
+            ->post(route('nasabah.pickup.store'), [
+                'pickup_address' => 'Jl. Raya Dramaga No. 10, Bogor',
+                'pickup_phone' => '08123456789',
+                'pickup_date' => now()->addDay()->format('Y-m-d'),
+                'pickup_time' => '08:00-10:00',
+                'latitude' => -0.4660341,
+                'longitude' => 117.1558231,
+                'estimated_distance' => 3.5, // 3.5 km (limit is 2 km)
+                'notes' => 'Sampah plastik',
+            ]);
+
+        $response->assertSessionHasErrors(['latitude']);
+        $this->assertDatabaseMissing('pickup_requests', [
+            'user_id' => $this->nasabah->id,
+            'estimated_distance' => 3.5,
+        ]);
+    }
 }
 

@@ -6,7 +6,8 @@
 ### 1. Ketentuan Umum & Waktu Pelayanan
 1. **Jam Operasional Penjemputan:** Pelayanan penjemputan sampah dibatasi pada hari kerja operasional mulai pukul **08:00 s.d. 16:00 WITA**.
 2. **Ketentuan Waktu Pengajuan (SLA):** Nasabah wajib mengajukan permohonan penjemputan sampah minimal **H-2 (2 hari operasional)** sebelum jadwal pengambilan yang diinginkan.
-3. **Kategori Penjemputan:** Sampah yang dijemput dapat berupa kategori **Sampah Umum (Tabungan)** maupun **Sampah Donasi (Sedekah)**.
+3. **Batas Jarak Penjemputan:** Pelayanan penjemputan sampah dibatasi maksimal **2 km** dari Kantor Pusat Bank Sampah Faperta UNMUL. Pengajuan dengan estimasi jarak lebih dari 2 km akan otomatis ditolak oleh sistem.
+4. **Kategori Penjemputan:** Sampah yang dijemput dapat berupa kategori **Sampah Umum (Tabungan)** maupun **Sampah Donasi (Sedekah)**.
 
 ---
 
@@ -15,6 +16,7 @@
 2. **Penentuan Lokasi Penjemputan:**
    - Nasabah menandai titik koordinat penjemputan pada peta interaktif (**OpenFreeMap / MapLibre GL**).
    - Sistem akan secara otomatis menghitung jarak rute jalan raya dari Kantor Pusat Bank Sampah Faperta ke titik nasabah menggunakan **OSRM API** (dengan metode Haversine sebagai *fallback* apabila API terganggu).
+   - **Validasi Jarak:** Jika jarak melebihi **2 km**, sistem akan menampilkan peringatan merah dan tombol "Kirim Permintaan" akan dinonaktifkan secara otomatis.
 3. **Pengisian Formulir:** Nasabah melengkapi estimasi berat sampah, deskripsi sampah, dan jadwal waktu pengambilan (minimal H-2).
 4. **Submit Request:** Nasabah menekan tombol "Kirim Permintaan". Status permintaan awal diatur menjadi `pending`.
 

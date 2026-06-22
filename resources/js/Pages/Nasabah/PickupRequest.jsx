@@ -236,10 +236,16 @@ export default function PickupRequest({ pickupRequests = [], userAddress = '', u
                                     <div ref={mapContainerRef} className="h-full w-full" />
                                 </div>
                                 {data.estimated_distance && (
-                                    <div className="mt-2 text-[12px] font-medium text-primary flex items-center gap-1">
+                                    <div className={`mt-2 text-[12px] font-medium flex items-center gap-1 ${data.estimated_distance !== 'Menghitung...' && Number(data.estimated_distance) > 2 ? 'text-red-600' : 'text-primary'}`}>
                                         <span className="material-symbols-outlined text-[16px]">route</span>
                                         Estimasi jarak dari Bank Sampah Faperta: <strong>{data.estimated_distance} km</strong>
                                     </div>
+                                )}
+                                {data.estimated_distance && data.estimated_distance !== 'Menghitung...' && Number(data.estimated_distance) > 2 && (
+                                    <p className="text-red-600 text-[11px] mt-1 font-semibold flex items-center gap-xs">
+                                        <span className="material-symbols-outlined text-[14px]">warning</span>
+                                        Jarak melebihi batas penjemputan (maksimal 2 km). Anda tidak dapat melanjutkan pengajuan ini.
+                                    </p>
                                 )}
                                 {(!data.latitude || !data.longitude) && (
                                     <p className="text-red-500 text-[11px] mt-1">Silakan pilih lokasi penjemputan di peta.</p>
@@ -327,7 +333,7 @@ export default function PickupRequest({ pickupRequests = [], userAddress = '', u
                             {/* Submit */}
                             <button
                                 type="submit"
-                                disabled={processing || !data.pickup_time || !data.latitude || !data.longitude || data.estimated_distance === 'Menghitung...'}
+                                disabled={processing || !data.pickup_time || !data.latitude || !data.longitude || data.estimated_distance === 'Menghitung...' || (data.estimated_distance && Number(data.estimated_distance) > 2)}
                                 className="w-full flex justify-center items-center gap-xs py-3 px-4 border border-transparent rounded-full shadow-md text-sm font-bold text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-colors"
                             >
                                 <span className="material-symbols-outlined text-[20px]">local_shipping</span>

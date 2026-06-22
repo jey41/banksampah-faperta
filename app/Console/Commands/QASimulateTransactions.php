@@ -198,8 +198,8 @@ class QASimulateTransactions extends Command
             // Ensure it's at least 10,000 (minimum)
             $validAmount = max(10000, $validAmount);
             
-            // Only simulate if user has enough balance
-            if ($user->saldo >= $validAmount) {
+            // Only simulate if user has enough balance (including potential 2500 admin fee)
+            if ($user->saldo >= ($validAmount + 2500)) {
                 $withdrawalValid = Withdrawal::create([
                     'user_id' => $user->id,
                     'amount' => $validAmount,

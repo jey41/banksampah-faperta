@@ -41,6 +41,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
             >
                 {/* Close Button */}
                 <button 
+                    type="button"
                     onClick={handleClose}
                     className="absolute right-md top-md p-1 rounded-full text-on-surface-variant hover:bg-gray-100 hover:text-primary transition-all z-20"
                 >

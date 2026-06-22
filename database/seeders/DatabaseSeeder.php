@@ -77,6 +77,7 @@ class DatabaseSeeder extends Seeder
             'price_buy' => 4000,
             'price_sell' => 6000,
             'unit' => 'kg',
+            'carbon_factor' => 2.15,
         ]);
 
         $t2 = TrashPrice::create([
@@ -86,6 +87,7 @@ class DatabaseSeeder extends Seeder
             'price_buy' => 2000,
             'price_sell' => 3500,
             'unit' => 'kg',
+            'carbon_factor' => 1.50,
         ]);
 
         $t3 = TrashPrice::create([
@@ -95,6 +97,7 @@ class DatabaseSeeder extends Seeder
             'price_buy' => 3000,
             'price_sell' => 4500,
             'unit' => 'kg',
+            'carbon_factor' => 0.67,
         ]);
 
         $t4 = TrashPrice::create([
@@ -104,6 +107,7 @@ class DatabaseSeeder extends Seeder
             'price_buy' => 2500,
             'price_sell' => 4000,
             'unit' => 'kg',
+            'carbon_factor' => 0.94,
         ]);
 
         $t5 = TrashPrice::create([
@@ -113,6 +117,7 @@ class DatabaseSeeder extends Seeder
             'price_buy' => 7500,
             'price_sell' => 11000,
             'unit' => 'L',
+            'carbon_factor' => 1.50,
         ]);
 
         $t6 = TrashPrice::create([
@@ -122,6 +127,7 @@ class DatabaseSeeder extends Seeder
             'price_buy' => 5000,
             'price_sell' => 8000,
             'unit' => 'kg',
+            'carbon_factor' => 1.40,
         ]);
 
         $t7 = TrashPrice::create([
@@ -131,6 +137,7 @@ class DatabaseSeeder extends Seeder
             'price_buy' => 1000,
             'price_sell' => 2000,
             'unit' => 'kg',
+            'carbon_factor' => 0.31,
         ]);
 
         // 3. Seed Articles
@@ -178,6 +185,7 @@ class DatabaseSeeder extends Seeder
             'weight' => 2.50,
             'price_per_unit' => $t1->price_buy,
             'total_price' => 10000,
+            'total_carbon' => 2.50 * 2.15,
             'created_at' => now()->subDays(5),
         ]);
 
@@ -187,6 +195,7 @@ class DatabaseSeeder extends Seeder
             'weight' => 10.00,
             'price_per_unit' => $t3->price_buy,
             'total_price' => 30000,
+            'total_carbon' => 10.00 * 0.67,
             'created_at' => now()->subDays(5),
         ]);
 
@@ -209,6 +218,7 @@ class DatabaseSeeder extends Seeder
             'weight' => 2.00,
             'price_per_unit' => $t5->price_buy,
             'total_price' => 15000,
+            'total_carbon' => 2.00 * 1.50,
             'created_at' => now()->subDays(2),
         ]);
 
@@ -230,6 +240,7 @@ class DatabaseSeeder extends Seeder
             'weight' => 3.00,
             'price_per_unit' => $t1->price_buy,
             'total_price' => 12000,
+            'total_carbon' => 3.00 * 2.15,
             'created_at' => now()->subHours(5),
         ]);
 
@@ -239,6 +250,7 @@ class DatabaseSeeder extends Seeder
             'weight' => 3.00,
             'price_per_unit' => $t3->price_buy,
             'total_price' => 9000,
+            'total_carbon' => 3.00 * 0.67,
             'created_at' => now()->subHours(5),
         ]);
 

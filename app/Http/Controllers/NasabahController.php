@@ -100,6 +100,12 @@ class NasabahController extends Controller
             'notes' => 'nullable|string|max:1000',
         ]);
 
+        if ($request->estimated_distance !== null && $request->estimated_distance > 2.0) {
+            return redirect()->back()->withErrors([
+                'latitude' => 'Jarak lokasi Anda (' . $request->estimated_distance . ' km) melebihi batas maksimal penjemputan (2 km).',
+            ])->withInput();
+        }
+
         auth()->user()->pickupRequests()->create([
             'pickup_address' => $request->pickup_address,
             'pickup_phone' => $request->pickup_phone,

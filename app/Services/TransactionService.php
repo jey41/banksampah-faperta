@@ -32,8 +32,10 @@ class TransactionService
                 $item = $deposit->items()->where('id', $itemData['id'])->first();
                 if ($item) {
                     $item->weight = $itemData['weight'];
-                    // Recalculate item total price
+                    // Recalculate item total price and carbon
                     $item->total_price = $item->weight * $item->price_per_unit;
+                    $trashPrice = \App\Models\TrashPrice::find($item->trash_price_id);
+                    $item->total_carbon = $item->weight * ($trashPrice->carbon_factor ?? 0);
                     $item->save();
 
                     $weightTotal += $item->weight;

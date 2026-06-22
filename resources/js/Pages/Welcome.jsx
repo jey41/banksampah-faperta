@@ -11,7 +11,7 @@ import {
 import PublicLayout from '@/Layouts/PublicLayout';
 import { motion, useScroll, useTransform, useInView, animate } from 'framer-motion';
 
-export default function Welcome({ prices = [], articles = [], totalCarbonContribution = 0 }) {
+export default function Welcome({ prices = [], articles = [], totalCarbonContribution = 0, totalWaste = 0 }) {
     const { auth } = usePage().props;
     const [isMobile, setIsMobile] = useState(false);
 
@@ -121,23 +121,47 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                     ease: "easeInOut"
                                 }
                             }}
-                            className="bg-white/80 backdrop-blur-md border border-white/40 rounded-3xl p-xl shadow-[0px_4px_20px_rgba(45,90,39,0.08)] rotate-3 hover:rotate-0 transition-all duration-500 max-w-md mx-auto"
+                            className="bg-white/90 backdrop-blur-md border border-white/50 rounded-3xl p-xl shadow-[0px_10px_30px_rgba(45,90,39,0.08)] rotate-2 hover:rotate-0 transition-all duration-500 max-w-lg mx-auto"
                         >
-                            <div className="flex items-center gap-md mb-lg">
-                                <div className="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
-                                    <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
+                            <h4 className="text-[14px] font-bold text-primary mb-md flex items-center gap-xs">
+                                <span className="material-symbols-outlined text-[18px]">analytics</span>
+                                Dampak Lingkungan Kita
+                            </h4>
+                            
+                            <div className="grid grid-cols-3 gap-xs mb-lg">
+                                {/* Total Sampah */}
+                                <div className="space-y-xs border-r border-outline-variant/20 pr-xs">
+                                    <div className="w-9 h-9 rounded-xl bg-primary-container/40 flex items-center justify-center text-primary mb-xs">
+                                        <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>recycling</span>
+                                    </div>
+                                    <p className="text-[10px] text-on-surface-variant font-semibold uppercase tracking-wider">Sampah Terkelola</p>
+                                    <p className="text-[16px] text-primary font-bold">
+                                        <Counter value={Number(totalWaste || 0)} /> kg
+                                    </p>
                                 </div>
-                                <div>
-                                    <p className="text-[12px] text-on-surface-variant font-medium">Total Kontribusi Karbon</p>
-                                    <p className="text-[20px] text-primary font-bold">
-                                        <Counter value={Number(totalCarbonContribution || 0)} /> kg CO₂
+                                
+                                {/* Reduksi Karbon */}
+                                <div className="space-y-xs border-r border-outline-variant/20 px-xs">
+                                    <div className="w-9 h-9 rounded-xl bg-secondary-container/40 flex items-center justify-center text-secondary mb-xs">
+                                        <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
+                                    </div>
+                                    <p className="text-[10px] text-on-surface-variant font-semibold uppercase tracking-wider">Reduksi Karbon</p>
+                                    <p className="text-[16px] text-secondary font-bold">
+                                        <Counter value={Number(totalCarbonContribution || 0)} /> kg CO₂e
+                                    </p>
+                                </div>
+
+                                {/* Setara Pohon */}
+                                <div className="space-y-xs pl-xs">
+                                    <div className="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center text-green-700 mb-xs">
+                                        <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>forest</span>
+                                    </div>
+                                    <p className="text-[10px] text-on-surface-variant font-semibold uppercase tracking-wider">Setara Penyerapan</p>
+                                    <p className="text-[16px] text-green-700 font-bold">
+                                        <Counter value={Math.round(Number(totalCarbonContribution || 0) / 21)} /> pohon/thn
                                     </p>
                                 </div>
                             </div>
-                            <div className="w-full h-2 bg-surface-container-high rounded-full overflow-hidden mb-sm">
-                                <div className="h-full bg-gradient-to-r from-primary-container to-secondary w-3/4 rounded-full"></div>
-                            </div>
-                            <p className="text-[12px] text-on-surface-variant text-right font-medium">Target Hijau Bogor Tercapai 75%</p>
                         </motion.div>
                     </div>
                 </div>

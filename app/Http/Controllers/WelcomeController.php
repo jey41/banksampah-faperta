@@ -18,10 +18,13 @@ class WelcomeController extends Controller
             $query->where('status', 'approved');
         })->sum('total_carbon');
 
+        $totalWaste = \App\Models\Deposit::where('status', 'approved')->sum('weight_total');
+
         return Inertia::render('Welcome', [
             'prices' => $prices,
             'articles' => $articles,
-            'totalCarbonContribution' => $totalCarbon,
+            'totalCarbonContribution' => (float)$totalCarbon,
+            'totalWaste' => (float)$totalWaste,
         ]);
     }
 
