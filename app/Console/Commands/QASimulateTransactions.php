@@ -41,13 +41,13 @@ class QASimulateTransactions extends Command
         $faker = Faker::create('id_ID');
 
         // 1. Get or Create Admin
-        $admin = User::where('role', 'admin')->first();
+        $admin = User::where('role', 'super_admin')->first();
         if (! $admin) {
             $admin = User::create([
                 'name' => 'Admin QA',
                 'email' => 'admin.qa@bsfpunmul.com',
                 'password' => Hash::make('password'),
-                'role' => 'admin',
+                'role' => 'super_admin',
                 'status' => 'verified',
                 'phone' => '081122334455',
                 'address' => 'QA Lab',

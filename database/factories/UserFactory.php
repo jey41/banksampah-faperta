@@ -72,15 +72,11 @@ class UserFactory extends Factory
 
     /**
      * Indicate the user is a super_admin.
-     * Note: Uses 'admin' for SQLite compatibility since 'super_admin'
-     * enum value is added via MySQL-specific migration.
      */
     public function superAdmin(): static
     {
-        $role = config('database.default') === 'sqlite' ? 'admin' : 'super_admin';
-
         return $this->state(fn (array $attributes) => [
-            'role' => $role,
+            'role' => 'super_admin',
             'status' => 'verified',
         ]);
     }

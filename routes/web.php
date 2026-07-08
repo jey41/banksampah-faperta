@@ -21,7 +21,7 @@ Route::get('/artikel/{slug}', [WelcomeController::class, 'article'])->name('publ
 Route::get('/dashboard', function () {
     $user = Auth::user();
 
-    if (in_array($user->role, ['admin', 'petugas'])) {
+    if (in_array($user->role, ['super_admin', 'petugas'])) {
         return redirect('/cms');
     }
 
@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
 // Printable Receipt Routes (Admin/Petugas only)
 Route::middleware(['auth'])->prefix('admin-print')->group(function () {
     Route::get('/deposit/{deposit}/print', function (Deposit $deposit) {
-        if (! in_array(auth()->user()->role, ['admin', 'petugas'])) {
+        if (! in_array(auth()->user()->role, ['super_admin', 'petugas'])) {
             abort(403);
         }
 
@@ -65,7 +65,7 @@ Route::middleware(['auth'])->prefix('admin-print')->group(function () {
     })->name('admin.deposit.print');
 
     Route::get('/withdrawal/{withdrawal}/print', function (Withdrawal $withdrawal) {
-        if (! in_array(auth()->user()->role, ['admin', 'petugas'])) {
+        if (! in_array(auth()->user()->role, ['super_admin', 'petugas'])) {
             abort(403);
         }
 

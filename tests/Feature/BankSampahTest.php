@@ -33,7 +33,7 @@ class BankSampahTest extends TestCase
             'name' => 'Admin Test',
             'email' => 'admin@test.com',
             'password' => Hash::make('password'),
-            'role' => 'admin',
+            'role' => 'super_admin',
             'status' => 'verified',
             'saldo' => 0,
             'account_no' => 'BS-00001',

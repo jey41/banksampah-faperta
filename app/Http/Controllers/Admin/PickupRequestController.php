@@ -34,7 +34,7 @@ class PickupRequestController extends Controller
         $this->authorize('view', $pickupRequest);
 
         $pickupRequest->load(['user', 'assignedPetugas']);
-        $petugas = User::whereIn('role', ['admin', 'petugas'])->orderBy('name')->get();
+        $petugas = User::whereIn('role', ['super_admin', 'petugas'])->orderBy('name')->get();
 
         return view('admin.pickup-requests.show', compact('pickupRequest', 'petugas'));
     }
@@ -44,7 +44,7 @@ class PickupRequestController extends Controller
         $this->authorize('update', $pickupRequest);
 
         $pickupRequest->load(['user', 'assignedPetugas']);
-        $petugas = User::whereIn('role', ['admin', 'petugas'])->orderBy('name')->get();
+        $petugas = User::whereIn('role', ['super_admin', 'petugas'])->orderBy('name')->get();
 
         return view('admin.pickup-requests.edit', compact('pickupRequest', 'petugas'));
     }

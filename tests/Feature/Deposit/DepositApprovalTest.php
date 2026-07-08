@@ -117,10 +117,8 @@ class DepositApprovalTest extends TestCase
                 'items' => [],
             ]);
 
-        // Should redirect with error message
-        $response->assertRedirect();
-        // The error is logged but session might not have 'error' key
-        // depending on how the controller handles it
+        // Policy denies approval of non-pending deposits → 403
+        $response->assertStatus(403);
     }
 
     public function test_nasabah_cannot_approve_deposits(): void
