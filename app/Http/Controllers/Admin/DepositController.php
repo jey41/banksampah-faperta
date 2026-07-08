@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class DepositController extends Controller
 {
-    public function __construct(private TransactionService $tx)
-    {
-    }
+    public function __construct(private TransactionService $tx) {}
 
     public function index(Request $request)
     {
@@ -28,7 +26,7 @@ class DepositController extends Controller
             $query->where('donation_category', $category);
         }
         if ($search = $request->get('search')) {
-            $query->whereHas('user', fn($q) => $q->where('name', 'like', "%{$search}%"));
+            $query->whereHas('user', fn ($q) => $q->where('name', 'like', "%{$search}%"));
         }
 
         $deposits = $query->paginate(15)->withQueryString();

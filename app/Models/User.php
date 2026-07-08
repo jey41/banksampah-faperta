@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -63,7 +64,7 @@ class User extends Authenticatable
     /**
      * Get the deposits for the user.
      */
-    public function deposits(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function deposits(): HasMany
     {
         return $this->hasMany(Deposit::class);
     }
@@ -71,7 +72,7 @@ class User extends Authenticatable
     /**
      * Get the withdrawals for the user.
      */
-    public function withdrawals(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function withdrawals(): HasMany
     {
         return $this->hasMany(Withdrawal::class);
     }
@@ -79,7 +80,7 @@ class User extends Authenticatable
     /**
      * Get the savings targets for the user.
      */
-    public function savingsTargets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function savingsTargets(): HasMany
     {
         return $this->hasMany(SavingsTarget::class);
     }
@@ -87,7 +88,7 @@ class User extends Authenticatable
     /**
      * Get the pickup requests for the user.
      */
-    public function pickupRequests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function pickupRequests(): HasMany
     {
         return $this->hasMany(PickupRequest::class);
     }
@@ -95,7 +96,7 @@ class User extends Authenticatable
     /**
      * Get the badges for the user.
      */
-    public function userBadges(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function userBadges(): HasMany
     {
         return $this->hasMany(UserBadge::class);
     }

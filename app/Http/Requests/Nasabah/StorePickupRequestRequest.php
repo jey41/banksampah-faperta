@@ -48,7 +48,7 @@ class StorePickupRequestRequest extends FormRequest
             if ($this->estimated_distance !== null && $this->estimated_distance > 2.0) {
                 $validator->errors()->add(
                     'latitude',
-                    'Jarak lokasi Anda (' . $this->estimated_distance . ' km) melebihi batas maksimal penjemputan (2 km).'
+                    'Jarak lokasi Anda ('.$this->estimated_distance.' km) melebihi batas maksimal penjemputan (2 km).'
                 );
             }
         });

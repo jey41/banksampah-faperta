@@ -18,8 +18,6 @@ class Deposit extends Model
         'weight_total' => 'decimal:2',
     ];
 
-
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

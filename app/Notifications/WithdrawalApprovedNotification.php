@@ -10,9 +10,7 @@ class WithdrawalApprovedNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public Withdrawal $withdrawal)
-    {
-    }
+    public function __construct(public Withdrawal $withdrawal) {}
 
     public function via(object $notifiable): array
     {
@@ -23,19 +21,19 @@ class WithdrawalApprovedNotification extends Notification
     {
         $methodLabel = $this->withdrawal->withdrawal_method === 'tunai' ? 'Tunai' : 'Transfer Bank';
         $feeText = $this->withdrawal->admin_fee > 0
-            ? " (termasuk biaya admin Rp " . number_format($this->withdrawal->admin_fee, 0, ',', '.') . ")"
+            ? ' (termasuk biaya admin Rp '.number_format($this->withdrawal->admin_fee, 0, ',', '.').')'
             : '';
 
         return [
             'type' => 'withdrawal_approved',
             'title' => 'Penarikan Disetujui',
-            'message' => "Penarikan #{$this->withdrawal->id} sebesar Rp " .
-                number_format($this->withdrawal->amount, 0, ',', '.') .
+            'message' => "Penarikan #{$this->withdrawal->id} sebesar Rp ".
+                number_format($this->withdrawal->amount, 0, ',', '.').
                 " via {$methodLabel} telah disetujui{$feeText}.",
             'withdrawal_id' => $this->withdrawal->id,
             'amount' => $this->withdrawal->amount,
             'admin_fee' => $this->withdrawal->admin_fee,
-            'link' => "/nasabah/riwayat",
+            'link' => '/nasabah/riwayat',
         ];
     }
 

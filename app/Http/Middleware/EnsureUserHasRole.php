@@ -4,15 +4,15 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserHasRole
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      * @param  string  ...$roles  One or more allowed roles (e.g. role:admin,petugas)
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
@@ -32,7 +32,7 @@ class EnsureUserHasRole
                 ->with('status', 'Akun Anda masih menunggu verifikasi admin.');
         }
 
-        if (!Auth::check() || !in_array(Auth::user()->role, $roles, true)) {
+        if (! Auth::check() || ! in_array(Auth::user()->role, $roles, true)) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Unauthorized.'], 403);
             }

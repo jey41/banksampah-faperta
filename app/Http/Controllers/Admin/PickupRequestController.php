@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdatePickupRequestRequest;
+use App\Models\ActivityLog;
 use App\Models\PickupRequest;
 use App\Models\User;
-use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 
 class PickupRequestController extends Controller
@@ -21,7 +21,7 @@ class PickupRequestController extends Controller
             $query->where('status', $status);
         }
         if ($search = $request->get('search')) {
-            $query->whereHas('user', fn($q) => $q->where('name', 'like', "%{$search}%"));
+            $query->whereHas('user', fn ($q) => $q->where('name', 'like', "%{$search}%"));
         }
 
         $pickups = $query->paginate(15)->withQueryString();
@@ -54,16 +54,16 @@ class PickupRequestController extends Controller
         $data = $request->validated();
 
         // Jika petugas ditugaskan tetapi status masih pending, naikkan ke "assigned".
-        if (!empty($data['assigned_to']) && $pickupRequest->status === 'pending' && $data['status'] === 'pending') {
+        if (! empty($data['assigned_to']) && $pickupRequest->status === 'pending' && $data['status'] === 'pending') {
             $data['status'] = 'assigned';
         }
 
         $pickupRequest->update($data);
 
         ActivityLog::create([
-            'user_id'     => auth()->id(),
-            'action'      => 'update_pickup',
-            'description' => auth()->user()->name . " memperbarui permintaan jemput #{$pickupRequest->id} menjadi status '{$pickupRequest->status}'.",
+            'user_id' => auth()->id(),
+            'action' => 'update_pickup',
+            'description' => auth()->user()->name." memperbarui permintaan jemput #{$pickupRequest->id} menjadi status '{$pickupRequest->status}'.",
         ]);
 
         return redirect()->route('cms.pickup-requests.show', $pickupRequest)

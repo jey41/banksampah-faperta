@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Article extends Model
 {
@@ -27,7 +27,7 @@ class Article extends Model
 
         static::deleting(function ($article) {
             // Only delete if it's a local file (not external URL)
-            if ($article->image_path && !str_starts_with($article->image_path, 'http')) {
+            if ($article->image_path && ! str_starts_with($article->image_path, 'http')) {
                 if (\Storage::disk('public')->exists($article->image_path)) {
                     \Storage::disk('public')->delete($article->image_path);
                 }
@@ -39,19 +39,18 @@ class Article extends Model
     {
         return Attribute::make(
             get: function () {
-                if (!$this->image_path) {
+                if (! $this->image_path) {
                     return null;
                 }
-                
+
                 // If it's an external URL, return as-is
                 if (str_starts_with($this->image_path, 'http')) {
                     return $this->image_path;
                 }
-                
+
                 // Otherwise, it's a local file - add storage URL
                 return \Storage::url($this->image_path);
             },
         );
     }
 }
-

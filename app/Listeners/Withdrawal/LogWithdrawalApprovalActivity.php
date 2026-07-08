@@ -20,7 +20,7 @@ class LogWithdrawalApprovalActivity implements ShouldQueue
         ActivityLog::create([
             'user_id' => $approver->id,
             'action' => 'approve_withdrawal',
-            'description' => "{$approver->name} menyetujui penarikan #{$withdrawal->id} milik nasabah {$nasabah->name} sejumlah Rp " . number_format($withdrawal->amount, 0, ',', '.'),
+            'description' => "{$approver->name} menyetujui penarikan #{$withdrawal->id} milik nasabah {$nasabah->name} sejumlah Rp ".number_format($withdrawal->amount, 0, ',', '.'),
         ]);
     }
 }

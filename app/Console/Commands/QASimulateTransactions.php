@@ -2,17 +2,16 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\User;
-use App\Models\TrashPrice;
 use App\Models\Deposit;
 use App\Models\DepositItem;
+use App\Models\TrashPrice;
+use App\Models\User;
 use App\Models\Withdrawal;
 use App\Services\TransactionService;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
 use Exception;
+use Faker\Factory as Faker;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
 class QASimulateTransactions extends Command
 {
@@ -43,7 +42,7 @@ class QASimulateTransactions extends Command
 
         // 1. Get or Create Admin
         $admin = User::where('role', 'admin')->first();
-        if (!$admin) {
+        if (! $admin) {
             $admin = User::create([
                 'name' => 'Admin QA',
                 'email' => 'admin.qa@bsfpunmul.com',
@@ -64,6 +63,7 @@ class QASimulateTransactions extends Command
         $trashPrices = TrashPrice::all();
         if ($trashPrices->isEmpty()) {
             $this->error('Error: Tidak ada data kategori sampah di database. Silakan jalankan seeder terlebih dahulu: php artisan db:seed');
+
             return 1;
         }
 
@@ -73,9 +73,9 @@ class QASimulateTransactions extends Command
         $userIdsToDelete = [];
 
         for ($i = 1; $i <= 10; $i++) {
-            $name = "QA User " . $i . " - " . $faker->firstName;
+            $name = 'QA User '.$i.' - '.$faker->firstName;
             $email = "qa.user{$i}@example.com";
-            
+
             // Check if user already exists
             $user = User::where('email', $email)->first();
             if ($user) {
@@ -91,10 +91,10 @@ class QASimulateTransactions extends Command
                     'password' => Hash::make('password'),
                     'role' => 'nasabah',
                     'status' => 'verified',
-                    'phone' => '089' . $faker->numerify('########'),
+                    'phone' => '089'.$faker->numerify('########'),
                     'address' => $faker->address,
                     'saldo' => 0,
-                    'account_no' => 'BS-QA' . str_pad($i, 4, '0', STR_PAD_LEFT),
+                    'account_no' => 'BS-QA'.str_pad($i, 4, '0', STR_PAD_LEFT),
                 ]);
             }
             $users[] = $user;
@@ -115,7 +115,7 @@ class QASimulateTransactions extends Command
 
             // Prepare some random items
             $selectedTrash = $trashPrices->random($itemCount);
-            
+
             // Generate pending deposit request
             $deposit = Deposit::create([
                 'user_id' => $user->id,
@@ -158,7 +158,7 @@ class QASimulateTransactions extends Command
                 'user_index' => $index,
             ];
 
-            $this->line("- [Deposit] User '{$user->name}' submitted deposit request: {$weightTotal} {$selectedTrash->first()->unit} (Estimated Rp " . number_format($totalPrice, 0, ',', '.') . ")");
+            $this->line("- [Deposit] User '{$user->name}' submitted deposit request: {$weightTotal} {$selectedTrash->first()->unit} (Estimated Rp ".number_format($totalPrice, 0, ',', '.').')');
         }
 
         // 4. Admin Approves & Weighs Deposits
@@ -184,7 +184,7 @@ class QASimulateTransactions extends Command
             $deposit->refresh();
             $user->refresh();
 
-            $this->line("- [Approved] Deposit #{$deposit->id} for '{$user->name}': Real price Rp " . number_format($deposit->total_price, 0, ',', '.') . ". Saldo Sekarang: Rp " . number_format($user->saldo, 0, ',', '.'));
+            $this->line("- [Approved] Deposit #{$deposit->id} for '{$user->name}': Real price Rp ".number_format($deposit->total_price, 0, ',', '.').'. Saldo Sekarang: Rp '.number_format($user->saldo, 0, ',', '.'));
         }
 
         // 5. Simulate Withdrawals (Both valid and invalid)
@@ -197,7 +197,7 @@ class QASimulateTransactions extends Command
             $validAmount = (int) ($user->saldo * 0.5);
             // Ensure it's at least 10,000 (minimum)
             $validAmount = max(10000, $validAmount);
-            
+
             // Only simulate if user has enough balance (including potential 2500 admin fee)
             if ($user->saldo >= ($validAmount + 2500)) {
                 $withdrawalValid = Withdrawal::create([
@@ -215,7 +215,7 @@ class QASimulateTransactions extends Command
                     'user_index' => $index,
                     'type' => 'valid',
                 ];
-                $this->line("- [Withdraw Request] User '{$user->name}' requested valid withdrawal of Rp " . number_format($validAmount, 0, ',', '.'));
+                $this->line("- [Withdraw Request] User '{$user->name}' requested valid withdrawal of Rp ".number_format($validAmount, 0, ',', '.'));
             }
 
             // User 3 and 7 will also attempt to withdraw an invalid amount (e.g. 150% of balance) to test bounds
@@ -236,7 +236,7 @@ class QASimulateTransactions extends Command
                     'user_index' => $index,
                     'type' => 'invalid',
                 ];
-                $this->warn("- [Withdraw Request] User '{$user->name}' requested invalid withdrawal of Rp " . number_format($invalidAmount, 0, ',', '.') . " (Overlimit)");
+                $this->warn("- [Withdraw Request] User '{$user->name}' requested invalid withdrawal of Rp ".number_format($invalidAmount, 0, ',', '.').' (Overlimit)');
             }
         }
 
@@ -251,22 +251,22 @@ class QASimulateTransactions extends Command
                 // Should pass
                 $transactionService->approveWithdrawal($withdrawal, $admin->id);
                 $user->refresh();
-                $this->line("- [Approved] Withdrawal #{$withdrawal->id} of Rp " . number_format($withdrawal->amount, 0, ',', '.') . " for '{$user->name}'. Saldo Sekarang: Rp " . number_format($user->saldo, 0, ',', '.'));
+                $this->line("- [Approved] Withdrawal #{$withdrawal->id} of Rp ".number_format($withdrawal->amount, 0, ',', '.')." for '{$user->name}'. Saldo Sekarang: Rp ".number_format($user->saldo, 0, ',', '.'));
             } else {
                 // Should fail due to validation
                 try {
                     $transactionService->approveWithdrawal($withdrawal, $admin->id);
-                    $this->error("- [FAIL] Withdrawal #{$withdrawal->id} of Rp " . number_format($withdrawal->amount, 0, ',', '.') . " for '{$user->name}' was APPROVED but should have failed!");
+                    $this->error("- [FAIL] Withdrawal #{$withdrawal->id} of Rp ".number_format($withdrawal->amount, 0, ',', '.')." for '{$user->name}' was APPROVED but should have failed!");
                 } catch (Exception $e) {
                     $transactionService->rejectWithdrawal($withdrawal, $admin->id);
-                    $this->warn("- [Rejected Expectedly] Withdrawal #{$withdrawal->id} for '{$user->name}' failed: " . $e->getMessage());
+                    $this->warn("- [Rejected Expectedly] Withdrawal #{$withdrawal->id} for '{$user->name}' failed: ".$e->getMessage());
                 }
             }
         }
 
         // 7. Verify Data Integrity & Summary Table
         $this->info("\n--- PHASE 6: Data Integrity Validation & Summary ---");
-        
+
         $tableData = [];
         $passCount = 0;
 
@@ -287,9 +287,9 @@ class QASimulateTransactions extends Command
             $tableData[] = [
                 $user->account_no,
                 $user->name,
-                'Rp ' . number_format($totalDep, 0, ',', '.'),
-                'Rp ' . number_format($totalWith, 0, ',', '.'),
-                'Rp ' . number_format($user->saldo, 0, ',', '.'),
+                'Rp '.number_format($totalDep, 0, ',', '.'),
+                'Rp '.number_format($totalWith, 0, ',', '.'),
+                'Rp '.number_format($user->saldo, 0, ',', '.'),
                 $status,
             ];
         }
@@ -300,13 +300,13 @@ class QASimulateTransactions extends Command
         if ($passCount === 10) {
             $this->info("\n✅ AUDIT RESULT: 10/10 Users PASSED the balance integrity audit!");
         } else {
-            $this->error("\n❌ AUDIT RESULT: " . (10 - $passCount) . " Users FAILED the balance integrity audit!");
+            $this->error("\n❌ AUDIT RESULT: ".(10 - $passCount).' Users FAILED the balance integrity audit!');
         }
 
         // 8. Cleanup if requested
         if ($this->option('cleanup')) {
             $this->info("\n--- Cleaning up simulated QA data ---");
-            
+
             // Delete withdrawal records
             Withdrawal::whereIn('id', $withdrawalIdsToDelete)->delete();
             // Delete deposit items and deposits
@@ -315,10 +315,10 @@ class QASimulateTransactions extends Command
             // Delete users
             User::whereIn('id', $userIdsToDelete)->delete();
 
-            $this->info("Simulated data successfully cleaned up.");
+            $this->info('Simulated data successfully cleaned up.');
         } else {
             $this->comment("\nNote: Data pengujian tetap disimpan di database agar bisa Anda verifikasi di aplikasi/Filament.");
-            $this->comment("Gunakan opsi --cleanup jika ingin menghapusnya kembali: php artisan qa:simulate-transactions --cleanup");
+            $this->comment('Gunakan opsi --cleanup jika ingin menghapusnya kembali: php artisan qa:simulate-transactions --cleanup');
         }
 
         $this->info("\n======================================================");

@@ -15,7 +15,7 @@ class UpdatePickupRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status'      => ['required', Rule::in(['pending', 'assigned', 'completed', 'cancelled'])],
+            'status' => ['required', Rule::in(['pending', 'assigned', 'completed', 'cancelled'])],
             'assigned_to' => ['nullable', 'exists:users,id'],
         ];
     }

@@ -13,6 +13,7 @@ class WithdrawalApprovalTest extends TestCase
     use RefreshDatabase;
 
     private User $admin;
+
     private User $nasabah;
 
     protected function setUp(): void

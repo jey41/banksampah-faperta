@@ -31,7 +31,7 @@ class SiteVisit extends Model
     public function scopeThisMonth($query)
     {
         return $query->whereMonth('visited_at', now()->month)
-                     ->whereYear('visited_at', now()->year);
+            ->whereYear('visited_at', now()->year);
     }
 
     public function scopeUniqueVisitors($query)

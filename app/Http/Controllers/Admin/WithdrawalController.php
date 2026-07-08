@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class WithdrawalController extends Controller
 {
-    public function __construct(private TransactionService $tx)
-    {
-    }
+    public function __construct(private TransactionService $tx) {}
 
     public function index(Request $request)
     {
@@ -27,7 +25,7 @@ class WithdrawalController extends Controller
             $query->where('withdrawal_method', $method);
         }
         if ($search = $request->get('search')) {
-            $query->whereHas('user', fn($q) => $q->where('name', 'like', "%{$search}%"));
+            $query->whereHas('user', fn ($q) => $q->where('name', 'like', "%{$search}%"));
         }
 
         $withdrawals = $query->paginate(15)->withQueryString();

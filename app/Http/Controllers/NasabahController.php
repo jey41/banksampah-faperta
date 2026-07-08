@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TrashPrice;
-use App\Models\Deposit;
-use App\Models\DepositItem;
-use App\Models\Withdrawal;
-use App\Models\PickupRequest;
-use App\Models\SavingsTarget;
 use App\Http\Requests\Nasabah\StorePickupRequestRequest;
-use App\Http\Requests\Nasabah\StoreWithdrawRequest;
 use App\Http\Requests\Nasabah\StoreTargetRequest;
-use App\Services\TransactionService;
+use App\Http\Requests\Nasabah\StoreWithdrawRequest;
+use App\Models\SavingsTarget;
+use App\Models\Withdrawal;
 use App\Services\GamificationService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -58,8 +53,8 @@ class NasabahController extends Controller
 
         return Inertia::render('Nasabah/Dashboard', [
             'transactions' => $transactions,
-            'totalDeposited' => (int)$totalDeposited,
-            'totalWithdrawn' => (int)$totalWithdrawn,
+            'totalDeposited' => (int) $totalDeposited,
+            'totalWithdrawn' => (int) $totalWithdrawn,
             'targets' => $targets,
             'pendingPickups' => $pendingPickups,
             'ecoPoints' => $ecoPoints,
@@ -170,10 +165,10 @@ class NasabahController extends Controller
      * Map deposits and withdrawals into a unified transaction list.
      * Shared between dashboard() and history() to avoid duplication.
      */
-    private function mapTransactions($deposits, $withdrawals, ?int $limit = null): \Illuminate\Support\Collection
+    private function mapTransactions($deposits, $withdrawals, ?int $limit = null): Collection
     {
         $transactions = collect()
-            ->concat($deposits->map(fn($d) => [
+            ->concat($deposits->map(fn ($d) => [
                 'id' => $d->id,
                 'type' => 'deposit',
                 'title' => $d->is_donation ? 'Donasi Sampah' : 'Setoran Sampah',
@@ -182,7 +177,7 @@ class NasabahController extends Controller
                 'status' => $d->status,
                 'date' => $d->created_at->toISOString(),
             ]))
-            ->concat($withdrawals->map(fn($w) => [
+            ->concat($withdrawals->map(fn ($w) => [
                 'id' => $w->id,
                 'type' => 'withdrawal',
                 'title' => 'Penarikan Saldo',

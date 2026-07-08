@@ -2,17 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\Deposit;
-use App\Models\Withdrawal;
-use App\Models\User;
-use App\Models\Mutation;
-use App\Models\ActivityLog;
 use App\Events\Deposit\DepositApproved;
 use App\Events\Deposit\DepositRejected;
 use App\Events\Withdrawal\WithdrawalApproved;
 use App\Events\Withdrawal\WithdrawalRejected;
-use Illuminate\Support\Facades\DB;
+use App\Models\ActivityLog;
+use App\Models\Deposit;
+use App\Models\Mutation;
+use App\Models\TrashPrice;
+use App\Models\User;
+use App\Models\Withdrawal;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class TransactionService
 {
@@ -40,7 +41,7 @@ class TransactionService
                     $item->weight = $itemData['weight'];
                     // Recalculate item total price and carbon
                     $item->total_price = $item->weight * $item->price_per_unit;
-                    $trashPrice = \App\Models\TrashPrice::find($item->trash_price_id);
+                    $trashPrice = TrashPrice::find($item->trash_price_id);
                     $item->total_carbon = $item->weight * ($trashPrice->carbon_factor ?? 0);
                     $item->save();
 
@@ -61,7 +62,7 @@ class TransactionService
             $balanceAfter = $balanceBefore;
 
             // If it is NOT a donation, we credit the user's saldo
-            if (!$deposit->is_donation) {
+            if (! $deposit->is_donation) {
                 $nasabah->saldo += $totalPrice;
                 $nasabah->save();
                 $balanceAfter = $nasabah->saldo;
@@ -82,12 +83,12 @@ class TransactionService
             $validator = User::find($validatorId);
             $donationText = $deposit->is_donation ? ' (Sebagai Donasi)' : '';
             $categoryText = $deposit->donation_category
-                ? ' - Kategori: ' . ($deposit->donation_category === 'umum' ? 'Sampah Umum' : 'Sampah Donasi')
+                ? ' - Kategori: '.($deposit->donation_category === 'umum' ? 'Sampah Umum' : 'Sampah Donasi')
                 : '';
             ActivityLog::create([
                 'user_id' => $validatorId,
                 'action' => 'approve_deposit',
-                'description' => "{$validator->name} menyetujui setoran #{$deposit->id} milik nasabah {$nasabah->name}{$donationText}{$categoryText} dengan total berat {$weightTotal} kg/L dan total nilai Rp " . number_format($totalPrice, 0, ',', '.'),
+                'description' => "{$validator->name} menyetujui setoran #{$deposit->id} milik nasabah {$nasabah->name}{$donationText}{$categoryText} dengan total berat {$weightTotal} kg/L dan total nilai Rp ".number_format($totalPrice, 0, ',', '.'),
             ]);
 
             // Capture data for event dispatching after transaction
@@ -122,7 +123,7 @@ class TransactionService
 
             if ($deposit->status === 'approved') {
                 // If it was already approved (rollback scenario), deduct the balance if it wasn't a donation
-                if (!$deposit->is_donation) {
+                if (! $deposit->is_donation) {
                     $nasabah = User::where('id', $deposit->user_id)->lockForUpdate()->firstOrFail();
                     $balanceBefore = $nasabah->saldo;
                     $nasabah->saldo -= $deposit->total_price;
@@ -187,7 +188,7 @@ class TransactionService
             $adminFee = 0;
             if ($withdrawal->withdrawal_method === 'transfer_bank') {
                 $bankName = strtolower($withdrawal->bank_name);
-                if (!str_contains($bankName, 'btn') && $withdrawal->bank_type !== 'btn') {
+                if (! str_contains($bankName, 'btn') && $withdrawal->bank_type !== 'btn') {
                     $adminFee = 2500; // Rp 2.500 for non-BTN
                 }
             }
@@ -196,7 +197,7 @@ class TransactionService
             $totalDeduction = $withdrawal->amount + $adminFee;
 
             if ($nasabah->saldo < $totalDeduction) {
-                throw new Exception('Saldo nasabah tidak mencukupi untuk melakukan penarikan ini. Total pemotongan: Rp ' . number_format($totalDeduction, 0, ',', '.'));
+                throw new Exception('Saldo nasabah tidak mencukupi untuk melakukan penarikan ini. Total pemotongan: Rp '.number_format($totalDeduction, 0, ',', '.'));
             }
 
             $balanceBefore = $nasabah->saldo;
@@ -236,7 +237,7 @@ class TransactionService
             ActivityLog::create([
                 'user_id' => $validatorId,
                 'action' => 'approve_withdrawal',
-                'description' => "{$validator->name} menyetujui penarikan saldo #{$withdrawal->id} milik nasabah {$nasabah->name} sebesar Rp " . number_format($withdrawal->amount, 0, ',', '.') . " (metode: {$methodLabel})" . ($adminFee > 0 ? " dengan biaya admin Rp 2.500" : ""),
+                'description' => "{$validator->name} menyetujui penarikan saldo #{$withdrawal->id} milik nasabah {$nasabah->name} sebesar Rp ".number_format($withdrawal->amount, 0, ',', '.')." (metode: {$methodLabel})".($adminFee > 0 ? ' dengan biaya admin Rp 2.500' : ''),
             ]);
 
             // Capture data for event dispatching after transaction
@@ -284,7 +285,7 @@ class TransactionService
             ActivityLog::create([
                 'user_id' => $validatorId,
                 'action' => 'reject_withdrawal',
-                'description' => "{$validator->name} menolak penarikan saldo #{$withdrawal->id} milik nasabah {$nasabah->name} sebesar Rp " . number_format($withdrawal->amount, 0, ',', '.'),
+                'description' => "{$validator->name} menolak penarikan saldo #{$withdrawal->id} milik nasabah {$nasabah->name} sebesar Rp ".number_format($withdrawal->amount, 0, ',', '.'),
             ]);
         });
 
@@ -315,7 +316,7 @@ class TransactionService
      * Check if withdrawal can be submitted based on H-2 SLA.
      * Submission must be at least 2 days before the requested processing date.
      */
-    public static function validateSla(\DateTime $requestedDate = null): bool
+    public static function validateSla(?\DateTime $requestedDate = null): bool
     {
         $requestedDate = $requestedDate ?? now()->addDays(2);
         $minAllowedDate = now()->addDays(2)->startOfDay();

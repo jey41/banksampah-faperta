@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SiteVisit;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ class TrackSiteVisit
     {
         if ($request->isMethod('GET')) {
             try {
-                \App\Models\SiteVisit::create([
+                SiteVisit::create([
                     'url' => $request->fullUrl(),
                     'ip_address' => $request->ip(),
                     'user_agent' => $request->userAgent(),

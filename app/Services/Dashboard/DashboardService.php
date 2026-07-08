@@ -4,6 +4,7 @@ namespace App\Services\Dashboard;
 
 use App\Models\ActivityLog;
 use App\Models\Deposit;
+use App\Models\DepositItem;
 use App\Models\PickupRequest;
 use App\Models\SiteVisit;
 use App\Models\User;
@@ -17,8 +18,6 @@ class DashboardService
     /**
      * Get overview statistics for dashboard.
      * Cached for 5 minutes for performance.
-     *
-     * @return array
      */
     public function getOverviewStats(string $trashFilter = 'all'): array
     {
@@ -36,8 +35,6 @@ class DashboardService
 
     /**
      * Get today's transaction summary.
-     *
-     * @return array
      */
     public function getTodaySummary(): array
     {
@@ -54,9 +51,6 @@ class DashboardService
 
     /**
      * Get recent activity logs.
-     *
-     * @param int $limit
-     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getRecentActivities(int $limit = 8): \Illuminate\Database\Eloquent\Collection
     {
@@ -68,9 +62,6 @@ class DashboardService
 
     /**
      * Get deposit trend for last N days.
-     *
-     * @param int $days
-     * @return Collection
      */
     public function getDepositTrend(int $days = 7): Collection
     {
@@ -89,8 +80,6 @@ class DashboardService
 
     /**
      * Get donation breakdown (savings vs donation).
-     *
-     * @return array
      */
     public function getDonationBreakdown(): array
     {
@@ -113,16 +102,15 @@ class DashboardService
     /**
      * Get trash type comparison data.
      *
-     * @param string $filter 'all', 'donasi', or 'tabungan'
-     * @return Collection
+     * @param  string  $filter  'all', 'donasi', or 'tabungan'
      */
     public function getTrashTypeComparison(string $filter = 'all'): Collection
     {
-        $query = \App\Models\DepositItem::join('deposits', 'deposit_items.deposit_id', '=', 'deposits.id')
+        $query = DepositItem::join('deposits', 'deposit_items.deposit_id', '=', 'deposits.id')
             ->join('trash_prices', 'deposit_items.trash_price_id', '=', 'trash_prices.id')
             ->where('deposits.status', 'approved')
             ->selectRaw('trash_prices.category as category_name, SUM(deposit_items.weight) as total_weight');
-        
+
         if ($filter === 'donasi') {
             $query->where('deposits.is_donation', true);
         } elseif ($filter === 'tabungan') {
@@ -147,7 +135,7 @@ class DashboardService
     {
         return collect(range($days - 1, 0))->map(function ($daysAgo) {
             $date = Carbon::today()->subDays($daysAgo);
-            
+
             $views = SiteVisit::whereDate('visited_at', $date)->count();
             $unique = SiteVisit::whereDate('visited_at', $date)->distinct('ip_address')->count('ip_address');
 
@@ -168,12 +156,12 @@ class DashboardService
         return collect(range($weeks - 1, 0))->map(function ($weeksAgo) {
             $startDate = Carbon::today()->subWeeks($weeksAgo)->startOfWeek();
             $endDate = Carbon::today()->subWeeks($weeksAgo)->endOfWeek();
-            
+
             $views = SiteVisit::whereBetween('visited_at', [$startDate, $endDate])->count();
             $unique = SiteVisit::whereBetween('visited_at', [$startDate, $endDate])->distinct('ip_address')->count('ip_address');
 
             return [
-                'label' => 'Mg ' . $startDate->weekOfMonth . ' ' . $startDate->translatedFormat('M'),
+                'label' => 'Mg '.$startDate->weekOfMonth.' '.$startDate->translatedFormat('M'),
                 'date' => $startDate->format('Y-m-d'),
                 'views' => $views,
                 'unique' => $unique,
@@ -188,7 +176,7 @@ class DashboardService
     {
         return collect(range($months - 1, 0))->map(function ($monthsAgo) {
             $date = Carbon::today()->startOfMonth()->subMonths($monthsAgo);
-            
+
             $views = SiteVisit::whereYear('visited_at', $date->year)
                 ->whereMonth('visited_at', $date->month)
                 ->count();
@@ -209,8 +197,6 @@ class DashboardService
     /**
      * Clear dashboard cache.
      * Call this when data changes that affect dashboard stats.
-     *
-     * @return void
      */
     public function clearCache(): void
     {
@@ -225,8 +211,6 @@ class DashboardService
 
     /**
      * Calculate total donation profit.
-     *
-     * @return int
      */
     private function getTotalDonationProfit(): int
     {
@@ -237,8 +221,6 @@ class DashboardService
 
     /**
      * Calculate total weight of all approved deposits.
-     *
-     * @return float
      */
     private function getTotalWeightAll(string $filter = 'all'): float
     {
@@ -248,14 +230,12 @@ class DashboardService
         } elseif ($filter === 'tabungan') {
             $query->where('is_donation', false);
         }
-        
+
         return (float) $query->sum('weight_total');
     }
 
     /**
      * Calculate total retained balance (saldo nasabah).
-     *
-     * @return int
      */
     private function getRetainedBalance(): int
     {
@@ -265,8 +245,6 @@ class DashboardService
 
     /**
      * Calculate active nasabah ratio (%).
-     *
-     * @return float
      */
     private function getActiveNasabahRatio(): float
     {
@@ -283,23 +261,19 @@ class DashboardService
 
     /**
      * Get count of active nasabah (had transaction in last 30 days).
-     *
-     * @return int
      */
     private function getActiveNasabahCount(): int
     {
         return User::where('role', 'nasabah')
             ->where(function ($q) {
-                $q->whereHas('deposits', fn($d) => $d->where('created_at', '>=', now()->subDays(30)))
-                    ->orWhereHas('withdrawals', fn($w) => $w->where('created_at', '>=', now()->subDays(30)));
+                $q->whereHas('deposits', fn ($d) => $d->where('created_at', '>=', now()->subDays(30)))
+                    ->orWhereHas('withdrawals', fn ($w) => $w->where('created_at', '>=', now()->subDays(30)));
             })
             ->count();
     }
 
     /**
      * Get total nasabah count.
-     *
-     * @return int
      */
     private function getTotalNasabahCount(): int
     {
@@ -308,10 +282,6 @@ class DashboardService
 
     /**
      * Calculate percentage.
-     *
-     * @param float $value
-     * @param float $total
-     * @return float
      */
     private function calculatePercentage(float $value, float $total): float
     {

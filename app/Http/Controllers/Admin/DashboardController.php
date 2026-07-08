@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\SiteVisit;
 use App\Services\Dashboard\DashboardService;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -11,7 +13,7 @@ class DashboardController extends Controller
         private DashboardService $dashboardService
     ) {}
 
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         $trashFilter = 'all'; // Initial load
 
@@ -51,9 +53,9 @@ class DashboardController extends Controller
             'weightDonation' => $donationBreakdown['donation_weight'],
 
             // Site Visits
-            'uniqueVisitorsMonth' => \App\Models\SiteVisit::thisMonth()->uniqueVisitors()->count('ip_address'),
-            'uniqueVisitorsToday' => \App\Models\SiteVisit::today()->uniqueVisitors()->count('ip_address'),
-            'totalViewsMonth' => \App\Models\SiteVisit::thisMonth()->count(),
+            'uniqueVisitorsMonth' => SiteVisit::thisMonth()->uniqueVisitors()->count('ip_address'),
+            'uniqueVisitorsToday' => SiteVisit::today()->uniqueVisitors()->count('ip_address'),
+            'totalViewsMonth' => SiteVisit::thisMonth()->count(),
 
             // Visitor Trends
             'visitorDaily' => $this->dashboardService->getVisitorTrendDaily(7),
@@ -62,7 +64,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function cleanupVisits(\Illuminate\Http\Request $request)
+    public function cleanupVisits(Request $request)
     {
         $period = $request->input('period', '6_months');
         $date = match ($period) {
@@ -73,26 +75,28 @@ class DashboardController extends Controller
             default => now()->subMonths(6),
         };
 
-        $deleted = \App\Models\SiteVisit::where('visited_at', '<', $date)->delete();
+        $deleted = SiteVisit::where('visited_at', '<', $date)->delete();
 
         return redirect()->back()->with('success', "Berhasil menghapus {$deleted} data kunjungan pengunjung website.");
     }
 
-    public function getTrashStats(\Illuminate\Http\Request $request)
+    public function getTrashStats(Request $request)
     {
         $type = $request->input('type'); // 'volume' or 'comparison'
         $filter = $request->input('filter', 'all');
 
         if ($type === 'volume') {
             $stats = $this->dashboardService->getOverviewStats($filter);
+
             return response()->json([
-                'value' => number_format($stats['total_weight'], 2, ',', '.') . ' kg/L',
-                'description' => $filter === 'donasi' ? 'Kategori: Sampah Donasi' : ($filter === 'tabungan' ? 'Kategori: Sampah Tabungan' : 'Gabungan tabungan & donasi')
+                'value' => number_format($stats['total_weight'], 2, ',', '.').' kg/L',
+                'description' => $filter === 'donasi' ? 'Kategori: Sampah Donasi' : ($filter === 'tabungan' ? 'Kategori: Sampah Tabungan' : 'Gabungan tabungan & donasi'),
             ]);
         }
 
         if ($type === 'comparison') {
             $comparison = $this->dashboardService->getTrashTypeComparison($filter);
+
             return response()->json([
                 'labels' => $comparison->pluck('label'),
                 'weights' => $comparison->pluck('weight'),

@@ -23,6 +23,7 @@ class BadgeController extends Controller
 
         $badges = collect(GamificationService::BADGES)->map(function ($badge) use ($unlockedCounts) {
             $badge['unlocked_count'] = (int) ($unlockedCounts[$badge['key']] ?? 0);
+
             return $badge;
         });
 

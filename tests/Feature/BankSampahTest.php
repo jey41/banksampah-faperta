@@ -2,13 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\TrashPrice;
 use App\Models\Deposit;
 use App\Models\DepositItem;
+use App\Models\SavingsTarget;
+use App\Models\TrashPrice;
+use App\Models\User;
 use App\Models\Withdrawal;
-use App\Models\PickupRequest;
+use App\Services\TransactionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
@@ -17,7 +19,9 @@ class BankSampahTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected User $nasabah;
+
     protected TrashPrice $trashPrice;
 
     protected function setUp(): void
@@ -136,7 +140,7 @@ class BankSampahTest extends TestCase
 
     public function test_nasabah_can_submit_withdrawal_request()
     {
-        \Illuminate\Support\Carbon::setTestNow('2026-06-20 10:00:00');
+        Carbon::setTestNow('2026-06-20 10:00:00');
 
         $response = $this->actingAs($this->nasabah)
             ->post(route('nasabah.withdraw.store'), [
@@ -148,7 +152,7 @@ class BankSampahTest extends TestCase
                 'notes' => 'Tarik uang belanja',
             ]);
 
-        \Illuminate\Support\Carbon::setTestNow();
+        Carbon::setTestNow();
 
         $response->assertRedirect(route('nasabah.dashboard'));
         $response->assertSessionHas('success');
@@ -176,14 +180,14 @@ class BankSampahTest extends TestCase
         // Execute the verify action logic
         $nasabahPending->status = 'verified';
         if (empty($nasabahPending->account_no)) {
-            $nasabahPending->account_no = 'BS-' . str_pad($nasabahPending->id, 5, '0', STR_PAD_LEFT);
+            $nasabahPending->account_no = 'BS-'.str_pad($nasabahPending->id, 5, '0', STR_PAD_LEFT);
         }
         $nasabahPending->save();
 
         $this->assertDatabaseHas('users', [
             'id' => $nasabahPending->id,
             'status' => 'verified',
-            'account_no' => 'BS-' . str_pad($nasabahPending->id, 5, '0', STR_PAD_LEFT),
+            'account_no' => 'BS-'.str_pad($nasabahPending->id, 5, '0', STR_PAD_LEFT),
         ]);
     }
 
@@ -237,12 +241,12 @@ class BankSampahTest extends TestCase
                     'id' => $item->id,
                     'trash_price_id' => $this->trashPrice->id,
                     'weight' => 3.5,
-                ]
-            ]
+                ],
+            ],
         ];
 
         // Execute the approve transaction
-        app(\App\Services\TransactionService::class)->approveDeposit($deposit, $data['items'], $this->admin->id);
+        app(TransactionService::class)->approveDeposit($deposit, $data['items'], $this->admin->id);
 
         // Verify deposit updated to approved, with recalculated weight 3.5 kg and price 17,500
         $this->assertDatabaseHas('deposits', [
@@ -281,10 +285,10 @@ class BankSampahTest extends TestCase
             [
                 'id' => $item->id,
                 'weight' => 3.5,
-            ]
+            ],
         ];
 
-        app(\App\Services\TransactionService::class)->approveDeposit($deposit, $data, $this->admin->id);
+        app(TransactionService::class)->approveDeposit($deposit, $data, $this->admin->id);
 
         $this->assertDatabaseHas('users', [
             'id' => $this->nasabah->id,
@@ -310,7 +314,7 @@ class BankSampahTest extends TestCase
         ]);
 
         // Approve once
-        app(\App\Services\TransactionService::class)->approveDeposit($deposit, [['id' => $item->id, 'weight' => 3.5]], $this->admin->id);
+        app(TransactionService::class)->approveDeposit($deposit, [['id' => $item->id, 'weight' => 3.5]], $this->admin->id);
 
         // Update other fields
         $deposit->refresh();
@@ -334,7 +338,7 @@ class BankSampahTest extends TestCase
             'status' => 'pending',
         ]);
 
-        app(\App\Services\TransactionService::class)->rejectDeposit($deposit, $this->admin->id);
+        app(TransactionService::class)->rejectDeposit($deposit, $this->admin->id);
 
         $this->assertDatabaseHas('deposits', [
             'id' => $deposit->id,
@@ -365,7 +369,7 @@ class BankSampahTest extends TestCase
         ]);
 
         // Execute withdrawal approval logic
-        app(\App\Services\TransactionService::class)->approveWithdrawal($withdrawal, $this->admin->id);
+        app(TransactionService::class)->approveWithdrawal($withdrawal, $this->admin->id);
 
         // Verify withdrawal status and nasabah balance (100,000 - 40,000 = 60,000)
         $this->assertDatabaseHas('withdrawals', [
@@ -395,7 +399,7 @@ class BankSampahTest extends TestCase
 
         $exceptionThrown = false;
         try {
-            app(\App\Services\TransactionService::class)->approveWithdrawal($withdrawal, $this->admin->id);
+            app(TransactionService::class)->approveWithdrawal($withdrawal, $this->admin->id);
         } catch (\Exception $e) {
             $exceptionThrown = true;
             $this->assertStringStartsWith('Saldo nasabah tidak mencukupi untuk melakukan penarikan ini.', $e->getMessage());
@@ -434,7 +438,7 @@ class BankSampahTest extends TestCase
             'total_price' => 10000,
         ]);
 
-        app(\App\Services\TransactionService::class)->approveDeposit($deposit, [['id' => $item->id, 'weight' => 2.0]], $this->admin->id);
+        app(TransactionService::class)->approveDeposit($deposit, [['id' => $item->id, 'weight' => 2.0]], $this->admin->id);
 
         // Verify balance updated: 100,000 + 10,000 = 110,000
         $this->assertDatabaseHas('users', [
@@ -475,7 +479,7 @@ class BankSampahTest extends TestCase
             'status' => 'pending',
         ]);
 
-        app(\App\Services\TransactionService::class)->approveWithdrawal($withdrawal, $this->admin->id);
+        app(TransactionService::class)->approveWithdrawal($withdrawal, $this->admin->id);
 
         // Verify balance updated: 100,000 - 40,000 = 60,000
         $this->assertDatabaseHas('users', [
@@ -522,7 +526,7 @@ class BankSampahTest extends TestCase
             'total_price' => 10000,
         ]);
 
-        app(\App\Services\TransactionService::class)->approveDeposit($deposit, [['id' => $item->id, 'weight' => 2.0]], $this->admin->id);
+        app(TransactionService::class)->approveDeposit($deposit, [['id' => $item->id, 'weight' => 2.0]], $this->admin->id);
 
         // Verify user balance remains unchanged (100,000)
         $this->assertDatabaseHas('users', [
@@ -541,7 +545,7 @@ class BankSampahTest extends TestCase
         $this->assertDatabaseHas('activity_logs', [
             'user_id' => $this->admin->id,
             'action' => 'approve_deposit',
-            'description' => $this->admin->name . ' menyetujui setoran #' . $deposit->id . ' milik nasabah ' . $this->nasabah->name . ' (Sebagai Donasi) - Kategori: Sampah Donasi dengan total berat 2 kg/L dan total nilai Rp 10.000',
+            'description' => $this->admin->name.' menyetujui setoran #'.$deposit->id.' milik nasabah '.$this->nasabah->name.' (Sebagai Donasi) - Kategori: Sampah Donasi dengan total berat 2 kg/L dan total nilai Rp 10.000',
         ]);
     }
 
@@ -556,7 +560,7 @@ class BankSampahTest extends TestCase
         ]);
 
         $response->assertRedirect();
-        
+
         $this->assertDatabaseHas('savings_targets', [
             'user_id' => $this->nasabah->id,
             'title' => 'Beli Blender',
@@ -564,7 +568,7 @@ class BankSampahTest extends TestCase
             'is_achieved' => false,
         ]);
 
-        $target = \App\Models\SavingsTarget::where('title', 'Beli Blender')->firstOrFail();
+        $target = SavingsTarget::where('title', 'Beli Blender')->firstOrFail();
 
         // Delete target
         $responseDelete = $this->delete(route('nasabah.target.delete', $target->id));
@@ -578,7 +582,7 @@ class BankSampahTest extends TestCase
     public function test_nasabah_cannot_submit_withdrawal_outside_operational_hours()
     {
         // 17:00:00 is outside 08:00 - 16:00
-        \Illuminate\Support\Carbon::setTestNow('2026-06-20 17:00:00');
+        Carbon::setTestNow('2026-06-20 17:00:00');
 
         $response = $this->actingAs($this->nasabah)
             ->post(route('nasabah.withdraw.store'), [
@@ -590,7 +594,7 @@ class BankSampahTest extends TestCase
                 'notes' => 'Tarik uang belanja',
             ]);
 
-        \Illuminate\Support\Carbon::setTestNow();
+        Carbon::setTestNow();
 
         $response->assertSessionHasErrors(['withdrawal_method']);
         $this->assertDatabaseMissing('withdrawals', [
@@ -657,4 +661,3 @@ class BankSampahTest extends TestCase
         $response->assertRedirect(route('nasabah.dashboard'));
     }
 }
-

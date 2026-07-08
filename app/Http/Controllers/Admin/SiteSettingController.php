@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SiteSettingRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use App\Models\SiteSetting;
 use App\Models\Partner;
+use App\Models\SiteSetting;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SiteSettingController extends Controller
 {
@@ -22,6 +21,7 @@ class SiteSettingController extends Controller
     {
         $this->authorize('update', SiteSetting::class);
         $settings = SiteSetting::all()->pluck('value', 'key');
+
         return view('admin.site-settings.hero', compact('settings'));
     }
 
@@ -36,7 +36,7 @@ class SiteSettingController extends Controller
 
         if ($request->hasFile('hero_image_file')) {
             $file = $request->file('hero_image_file');
-            $filename = Str::random(40) . '_hero.' . $file->getClientOriginalExtension();
+            $filename = Str::random(40).'_hero.'.$file->getClientOriginalExtension();
             $path = $file->storeAs('images', $filename, 'public');
             SiteSetting::set('hero_image', Storage::url($path));
         }
@@ -49,6 +49,7 @@ class SiteSettingController extends Controller
     {
         $this->authorize('update', SiteSetting::class);
         $settings = SiteSetting::all()->pluck('value', 'key');
+
         return view('admin.site-settings.workflow', compact('settings'));
     }
 
@@ -74,6 +75,7 @@ class SiteSettingController extends Controller
     {
         $this->authorize('update', SiteSetting::class);
         $settings = SiteSetting::all()->pluck('value', 'key');
+
         return view('admin.site-settings.schedule', compact('settings'));
     }
 
@@ -88,7 +90,7 @@ class SiteSettingController extends Controller
 
         if ($request->hasFile('schedule_image_file')) {
             $file = $request->file('schedule_image_file');
-            $filename = Str::random(40) . '_schedule.' . $file->getClientOriginalExtension();
+            $filename = Str::random(40).'_schedule.'.$file->getClientOriginalExtension();
             $path = $file->storeAs('images', $filename, 'public');
             SiteSetting::set('schedule_image', Storage::url($path));
         }
@@ -101,6 +103,7 @@ class SiteSettingController extends Controller
     {
         $this->authorize('update', SiteSetting::class);
         $partners = Partner::ordered()->get();
+
         return view('admin.site-settings.partners', compact('partners'));
     }
 
@@ -109,7 +112,7 @@ class SiteSettingController extends Controller
         $validated = $request->validated();
 
         $file = $request->file('logo');
-        $filename = Str::random(40) . '_' . Str::slug($request->name) . '.' . $file->getClientOriginalExtension();
+        $filename = Str::random(40).'_'.Str::slug($request->name).'.'.$file->getClientOriginalExtension();
         $path = $file->storeAs('images/logo', $filename, 'public');
 
         $order = Partner::max('order') + 1;

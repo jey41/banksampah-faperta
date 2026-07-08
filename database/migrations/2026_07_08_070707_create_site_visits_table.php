@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('user_agent')->nullable();
             $table->string('referer')->nullable();
             $table->timestamp('visited_at')->useCurrent();
-            
+
             // Indexes untuk query performa
             $table->index('visited_at');
             $table->index(['ip_address', 'visited_at']);

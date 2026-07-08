@@ -15,7 +15,9 @@ class DepositApprovalTest extends TestCase
     use RefreshDatabase;
 
     private User $admin;
+
     private User $nasabah;
+
     private TrashPrice $trashPrice;
 
     protected function setUp(): void

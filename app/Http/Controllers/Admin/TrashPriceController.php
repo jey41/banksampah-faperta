@@ -32,7 +32,7 @@ class TrashPriceController extends Controller
 
     public function create()
     {
-        return view('admin.trash-prices.create', ['price' => new TrashPrice()]);
+        return view('admin.trash-prices.create', ['price' => new TrashPrice]);
     }
 
     public function store(TrashPriceRequest $request)

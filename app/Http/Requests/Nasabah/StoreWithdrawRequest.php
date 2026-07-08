@@ -19,7 +19,7 @@ class StoreWithdrawRequest extends FormRequest
         $user = Auth::user();
 
         return [
-            'amount' => 'required|integer|min:10000|max:' . $user->saldo,
+            'amount' => 'required|integer|min:10000|max:'.$user->saldo,
             'withdrawal_method' => 'required|in:tunai,transfer_bank',
             'bank_name' => 'required_if:withdrawal_method,transfer_bank|string|max:255',
             'bank_type' => 'nullable|in:btn,lainnya',
@@ -50,7 +50,7 @@ class StoreWithdrawRequest extends FormRequest
     public function withValidator(Validator $validator): void
     {
         $validator->after(function ($validator) {
-            if (!TransactionService::isWithinOperationalHours()) {
+            if (! TransactionService::isWithinOperationalHours()) {
                 $validator->errors()->add(
                     'withdrawal_method',
                     'Pengajuan penarikan hanya dapat dilakukan pada jam operasional 08:00 - 16:00.'

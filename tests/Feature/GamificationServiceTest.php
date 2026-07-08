@@ -2,15 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\TrashPrice;
 use App\Models\Deposit;
 use App\Models\DepositItem;
-use App\Models\UserBadge;
-use App\Models\PickupRequest;
-use App\Models\Mutation;
+use App\Models\TrashPrice;
+use App\Models\User;
 use App\Services\GamificationService;
-use App\Services\TransactionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,17 +15,22 @@ class GamificationServiceTest extends TestCase
     use RefreshDatabase;
 
     private User $nasabah;
+
     private User $petugas;
+
     private TrashPrice $plasticPrice;
+
     private TrashPrice $paperPrice;
+
     private TrashPrice $metalPrice;
+
     private GamificationService $gamificationService;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->gamificationService = new GamificationService();
+        $this->gamificationService = new GamificationService;
 
         // Create a nasabah
         $this->nasabah = User::create([
@@ -261,7 +262,7 @@ class GamificationServiceTest extends TestCase
         $months = [
             now()->subMonths(2),
             now()->subMonth(),
-            now()
+            now(),
         ];
 
         foreach ($months as $index => $dateTime) {

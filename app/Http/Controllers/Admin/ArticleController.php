@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -34,7 +34,7 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('admin.articles.create', ['article' => new Article()]);
+        return view('admin.articles.create', ['article' => new Article]);
     }
 
     public function store(ArticleRequest $request)
@@ -67,7 +67,7 @@ class ArticleController extends Controller
 
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika file lokal
-            if ($article->image_path && !str_starts_with($article->image_path, 'http')
+            if ($article->image_path && ! str_starts_with($article->image_path, 'http')
                 && Storage::disk('public')->exists($article->image_path)) {
                 Storage::disk('public')->delete($article->image_path);
             }
@@ -95,9 +95,9 @@ class ArticleController extends Controller
         $i = 1;
 
         while (Article::where('slug', $slug)
-            ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
+            ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))
             ->exists()) {
-            $slug = $base . '-' . $i++;
+            $slug = $base.'-'.$i++;
         }
 
         return $slug;

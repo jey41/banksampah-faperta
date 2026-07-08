@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Partner;
+use App\Models\SiteSetting;
 use Illuminate\Database\Seeder;
 
 class SiteSettingsSeeder extends Seeder
@@ -33,7 +34,7 @@ class SiteSettingsSeeder extends Seeder
         ];
 
         foreach ($settings as $key => $value) {
-            \App\Models\SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
+            SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
         $partners = [
@@ -51,11 +52,11 @@ class SiteSettingsSeeder extends Seeder
                 'name' => 'Selalu Teh',
                 'logo_path' => '/images/logo/logo-selaluteh.png',
                 'order' => 3,
-            ]
+            ],
         ];
 
         foreach ($partners as $partner) {
-            \App\Models\Partner::updateOrCreate(
+            Partner::updateOrCreate(
                 ['name' => $partner['name']],
                 $partner
             );

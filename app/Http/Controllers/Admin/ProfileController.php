@@ -20,7 +20,7 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         $data = $request->validate([
-            'name'  => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'phone' => ['nullable', 'string', 'max:255'],
         ]);
@@ -36,7 +36,7 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password'         => ['required', Password::defaults(), 'confirmed'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
         $user->update(['password' => Hash::make($validated['password'])]);

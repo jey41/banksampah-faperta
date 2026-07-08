@@ -14,6 +14,7 @@ class ArticleCrudTest extends TestCase
     use RefreshDatabase;
 
     private User $admin;
+
     private User $nasabah;
 
     protected function setUp(): void

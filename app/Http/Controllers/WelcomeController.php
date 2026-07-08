@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TrashPrice;
 use App\Models\Article;
-use App\Models\SiteSetting;
+use App\Models\Deposit;
+use App\Models\DepositItem;
 use App\Models\Partner;
+use App\Models\SiteSetting;
+use App\Models\TrashPrice;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -16,11 +18,11 @@ class WelcomeController extends Controller
         $prices = TrashPrice::orderBy('category')->orderBy('name')->take(5)->get();
         $articles = Article::where('status', 'published')->orderBy('created_at', 'desc')->take(3)->get();
 
-        $totalCarbon = \App\Models\DepositItem::whereHas('deposit', function ($query) {
+        $totalCarbon = DepositItem::whereHas('deposit', function ($query) {
             $query->where('status', 'approved');
         })->sum('total_carbon');
 
-        $totalWaste = \App\Models\Deposit::where('status', 'approved')->sum('weight_total');
+        $totalWaste = Deposit::where('status', 'approved')->sum('weight_total');
 
         $settings = SiteSetting::all()->pluck('value', 'key');
         $partners = Partner::active()->ordered()->get(['id', 'name', 'logo_path']);
@@ -28,8 +30,8 @@ class WelcomeController extends Controller
         return Inertia::render('Welcome', [
             'prices' => $prices,
             'articles' => $articles,
-            'totalCarbonContribution' => (float)$totalCarbon,
-            'totalWaste' => (float)$totalWaste,
+            'totalCarbonContribution' => (float) $totalCarbon,
+            'totalWaste' => (float) $totalWaste,
             'settings' => $settings,
             'partners' => $partners,
         ]);
@@ -68,4 +70,3 @@ class WelcomeController extends Controller
         ]);
     }
 }
-

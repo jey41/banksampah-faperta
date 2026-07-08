@@ -1,17 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\TrashPriceController;
-use App\Http\Controllers\Admin\DepositController;
-use App\Http\Controllers\Admin\WithdrawalController;
-use App\Http\Controllers\Admin\PickupRequestController;
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\BadgeController;
-use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DepositController;
+use App\Http\Controllers\Admin\PickupRequestController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SiteSettingController;
+use App\Http\Controllers\Admin\TrashPriceController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WithdrawalController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Admin CMS (Blade) Routes

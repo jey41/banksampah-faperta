@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Withdrawal;
 use App\Models\User;
+use App\Models\Withdrawal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

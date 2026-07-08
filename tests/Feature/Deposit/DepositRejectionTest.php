@@ -4,6 +4,7 @@ namespace Tests\Feature\Deposit;
 
 use App\Models\Deposit;
 use App\Models\User;
+use App\Notifications\DepositRejectedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,6 +13,7 @@ class DepositRejectionTest extends TestCase
     use RefreshDatabase;
 
     private User $admin;
+
     private User $nasabah;
 
     protected function setUp(): void
@@ -108,7 +110,7 @@ class DepositRejectionTest extends TestCase
         $this->assertDatabaseHas('notifications', [
             'notifiable_type' => User::class,
             'notifiable_id' => $this->nasabah->id,
-            'type' => \App\Notifications\DepositRejectedNotification::class,
+            'type' => DepositRejectedNotification::class,
         ]);
     }
 }

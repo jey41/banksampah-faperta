@@ -2,15 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\TrashPrice;
+use App\Models\Article;
 use App\Models\Deposit;
 use App\Models\DepositItem;
+use App\Models\TrashPrice;
+use App\Models\User;
 use App\Models\Withdrawal;
-use App\Models\Article;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {

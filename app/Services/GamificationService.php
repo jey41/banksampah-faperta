@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\DepositItem;
+use App\Models\Mutation;
 use App\Models\User;
 use App\Models\UserBadge;
-use App\Models\DepositItem;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class GamificationService
@@ -177,7 +179,7 @@ class GamificationService
         $pointsToNext = 0;
         $pointsInCurrentRange = 0;
 
-        if (!$isMaxLevel && $nextLevel) {
+        if (! $isMaxLevel && $nextLevel) {
             $rangeStart = $currentLevel['min_points'];
             $rangeEnd = $nextLevel['min_points'];
             $pointsInCurrentRange = $points - $rangeStart;
@@ -241,20 +243,20 @@ class GamificationService
         $newlyUnlocked = [];
 
         $conditions = [
-            'first_deposit'      => $stats['total_deposits'] >= 1,
+            'first_deposit' => $stats['total_deposits'] >= 1,
             'frequent_depositor' => $stats['total_deposits'] >= 15,
-            'heavy_lifter'       => $stats['total_weight'] >= 75,
-            'plastic_hero'       => $stats['plastic_weight'] >= 30,
-            'tree_friend'        => $stats['total_carbon'] >= 50,
-            'noble_donor'        => $stats['donation_count'] >= 3,
-            'streak_master'      => $stats['streak_months'] >= 5,
-            'green_millionaire'  => $stats['max_balance'] >= 100000,
-            'pickup_captain'     => $stats['completed_pickups'] >= 5,
-            'campus_legend'      => $level['key'] === 'legenda_faperta',
+            'heavy_lifter' => $stats['total_weight'] >= 75,
+            'plastic_hero' => $stats['plastic_weight'] >= 30,
+            'tree_friend' => $stats['total_carbon'] >= 50,
+            'noble_donor' => $stats['donation_count'] >= 3,
+            'streak_master' => $stats['streak_months'] >= 5,
+            'green_millionaire' => $stats['max_balance'] >= 100000,
+            'pickup_captain' => $stats['completed_pickups'] >= 5,
+            'campus_legend' => $level['key'] === 'legenda_faperta',
         ];
 
         foreach ($conditions as $badgeKey => $isUnlocked) {
-            if ($isUnlocked && !in_array($badgeKey, $existingBadges)) {
+            if ($isUnlocked && ! in_array($badgeKey, $existingBadges)) {
                 UserBadge::create([
                     'user_id' => $user->id,
                     'badge_key' => $badgeKey,
@@ -277,7 +279,7 @@ class GamificationService
             ->where('status', 'approved')
             ->orderBy('created_at', 'desc')
             ->pluck('created_at')
-            ->map(fn($date) => $date->format('Y-m'))
+            ->map(fn ($date) => $date->format('Y-m'))
             ->unique()
             ->values()
             ->toArray();
@@ -298,8 +300,8 @@ class GamificationService
         }
 
         for ($i = 0; $i < count($deposits) - 1; $i++) {
-            $current = \Carbon\Carbon::createFromFormat('Y-m', $deposits[$i]);
-            $next = \Carbon\Carbon::createFromFormat('Y-m', $deposits[$i + 1]);
+            $current = Carbon::createFromFormat('Y-m', $deposits[$i]);
+            $next = Carbon::createFromFormat('Y-m', $deposits[$i + 1]);
 
             if ($current->subMonth()->format('Y-m') === $next->format('Y-m')) {
                 $streak++;
@@ -317,8 +319,8 @@ class GamificationService
     public function calculateDiversityBonusMonths(User $user): int
     {
         $driver = DB::connection()->getDriverName();
-        $monthFormat = $driver === 'sqlite' 
-            ? "strftime('%Y-%m', d.created_at)" 
+        $monthFormat = $driver === 'sqlite'
+            ? "strftime('%Y-%m', d.created_at)"
             : "DATE_FORMAT(d.created_at, '%Y-%m')";
 
         $result = DB::select("
@@ -357,7 +359,7 @@ class GamificationService
 
         // Max balance ever reached (check mutations for highest balance_after)
         $maxBalance = (int) ($user->saldo); // Current saldo as baseline
-        $maxMutationBalance = \App\Models\Mutation::where('user_id', $user->id)
+        $maxMutationBalance = Mutation::where('user_id', $user->id)
             ->max('balance_after');
         if ($maxMutationBalance !== null) {
             $maxBalance = max($maxBalance, (int) $maxMutationBalance);
@@ -389,16 +391,16 @@ class GamificationService
     private function getBadgeProgress(string $badgeKey, array $stats): array
     {
         $progressMap = [
-            'first_deposit'      => ['current' => $stats['total_deposits'],   'target' => 1,      'unit' => 'setoran'],
+            'first_deposit' => ['current' => $stats['total_deposits'],   'target' => 1,      'unit' => 'setoran'],
             'frequent_depositor' => ['current' => $stats['total_deposits'],   'target' => 15,     'unit' => 'setoran'],
-            'heavy_lifter'       => ['current' => round($stats['total_weight'], 1),   'target' => 75,     'unit' => 'kg'],
-            'plastic_hero'       => ['current' => round($stats['plastic_weight'], 1), 'target' => 30,     'unit' => 'kg plastik'],
-            'tree_friend'        => ['current' => round($stats['total_carbon'], 1),   'target' => 50,     'unit' => 'kg CO₂e'],
-            'noble_donor'        => ['current' => $stats['donation_count'],   'target' => 3,      'unit' => 'donasi'],
-            'streak_master'      => ['current' => $stats['streak_months'],    'target' => 5,      'unit' => 'bulan'],
-            'green_millionaire'  => ['current' => $stats['max_balance'],      'target' => 100000, 'unit' => 'rupiah'],
-            'pickup_captain'     => ['current' => $stats['completed_pickups'],'target' => 5,      'unit' => 'jemput'],
-            'campus_legend'      => ['current' => 0, 'target' => 1, 'unit' => 'level'], // Special case
+            'heavy_lifter' => ['current' => round($stats['total_weight'], 1),   'target' => 75,     'unit' => 'kg'],
+            'plastic_hero' => ['current' => round($stats['plastic_weight'], 1), 'target' => 30,     'unit' => 'kg plastik'],
+            'tree_friend' => ['current' => round($stats['total_carbon'], 1),   'target' => 50,     'unit' => 'kg CO₂e'],
+            'noble_donor' => ['current' => $stats['donation_count'],   'target' => 3,      'unit' => 'donasi'],
+            'streak_master' => ['current' => $stats['streak_months'],    'target' => 5,      'unit' => 'bulan'],
+            'green_millionaire' => ['current' => $stats['max_balance'],      'target' => 100000, 'unit' => 'rupiah'],
+            'pickup_captain' => ['current' => $stats['completed_pickups'], 'target' => 5,      'unit' => 'jemput'],
+            'campus_legend' => ['current' => 0, 'target' => 1, 'unit' => 'level'], // Special case
         ];
 
         $progress = $progressMap[$badgeKey] ?? ['current' => 0, 'target' => 1, 'unit' => ''];

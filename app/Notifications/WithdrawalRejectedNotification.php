@@ -10,9 +10,7 @@ class WithdrawalRejectedNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public Withdrawal $withdrawal)
-    {
-    }
+    public function __construct(public Withdrawal $withdrawal) {}
 
     public function via(object $notifiable): array
     {
@@ -24,15 +22,15 @@ class WithdrawalRejectedNotification extends Notification
         return [
             'type' => 'withdrawal_rejected',
             'title' => 'Penarikan Ditolak',
-            'message' => "Penarikan #{$this->withdrawal->id} sebesar Rp " .
-                number_format($this->withdrawal->amount, 0, ',', '.') .
-                " telah ditolak. " .
+            'message' => "Penarikan #{$this->withdrawal->id} sebesar Rp ".
+                number_format($this->withdrawal->amount, 0, ',', '.').
+                ' telah ditolak. '.
                 ($this->withdrawal->notes
                     ? "Alasan: {$this->withdrawal->notes}"
                     : 'Silakan hubungi admin untuk informasi lebih lanjut.'),
             'withdrawal_id' => $this->withdrawal->id,
             'amount' => $this->withdrawal->amount,
-            'link' => "/nasabah/riwayat",
+            'link' => '/nasabah/riwayat',
         ];
     }
 

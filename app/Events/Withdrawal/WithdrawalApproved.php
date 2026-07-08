@@ -2,8 +2,8 @@
 
 namespace App\Events\Withdrawal;
 
-use App\Models\Withdrawal;
 use App\Models\User;
+use App\Models\Withdrawal;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

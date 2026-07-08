@@ -23,12 +23,12 @@ class SecurityHeaders
         $response = $next($request);
 
         // Only add headers to HTML responses
-        if (!$response instanceof Response) {
+        if (! $response instanceof Response) {
             return $response;
         }
 
         $contentType = $response->headers->get('Content-Type', '');
-        if (!str_contains($contentType, 'text/html') && !str_contains($contentType, 'application/json')) {
+        if (! str_contains($contentType, 'text/html') && ! str_contains($contentType, 'application/json')) {
             return $response;
         }
 

@@ -29,7 +29,7 @@ class UserController extends Controller
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('admin.users.create', ['user' => new User()]);
+        return view('admin.users.create', ['user' => new User]);
     }
 
     public function store(StoreUserRequest $request)
@@ -57,6 +57,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user->loadCount(['deposits', 'withdrawals', 'pickupRequests']);
+
         return view('admin.users.show', compact('user'));
     }
 
@@ -69,7 +70,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);

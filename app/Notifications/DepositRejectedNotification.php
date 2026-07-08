@@ -10,9 +10,7 @@ class DepositRejectedNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public Deposit $deposit)
-    {
-    }
+    public function __construct(public Deposit $deposit) {}
 
     public function via(object $notifiable): array
     {
@@ -24,12 +22,12 @@ class DepositRejectedNotification extends Notification
         return [
             'type' => 'deposit_rejected',
             'title' => 'Setoran Ditolak',
-            'message' => "Setoran #{$this->deposit->id} telah ditolak. " .
+            'message' => "Setoran #{$this->deposit->id} telah ditolak. ".
                 ($this->deposit->notes
                     ? "Alasan: {$this->deposit->notes}"
                     : 'Silakan hubungi admin untuk informasi lebih lanjut.'),
             'deposit_id' => $this->deposit->id,
-            'link' => "/nasabah/riwayat",
+            'link' => '/nasabah/riwayat',
         ];
     }
 

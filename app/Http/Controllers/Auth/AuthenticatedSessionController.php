@@ -36,6 +36,7 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
         if (in_array($user->role, ['super_admin', 'petugas'])) {
             $intended = $request->session()->pull('url.intended', route('cms.dashboard'));
+
             return Inertia::location($intended);
         }
 

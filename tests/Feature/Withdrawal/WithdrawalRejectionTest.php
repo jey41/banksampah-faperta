@@ -4,6 +4,7 @@ namespace Tests\Feature\Withdrawal;
 
 use App\Models\User;
 use App\Models\Withdrawal;
+use App\Notifications\WithdrawalRejectedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,6 +13,7 @@ class WithdrawalRejectionTest extends TestCase
     use RefreshDatabase;
 
     private User $admin;
+
     private User $nasabah;
 
     protected function setUp(): void
@@ -100,7 +102,7 @@ class WithdrawalRejectionTest extends TestCase
         $this->assertDatabaseHas('notifications', [
             'notifiable_type' => User::class,
             'notifiable_id' => $this->nasabah->id,
-            'type' => \App\Notifications\WithdrawalRejectedNotification::class,
+            'type' => WithdrawalRejectedNotification::class,
         ]);
     }
 }

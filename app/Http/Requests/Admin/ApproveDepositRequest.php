@@ -14,9 +14,9 @@ class ApproveDepositRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'items'             => ['required', 'array', 'min:1'],
-            'items.*.id'        => ['required', 'integer', 'exists:deposit_items,id'],
-            'items.*.weight'    => ['required', 'numeric', 'min:0.01'],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.id' => ['required', 'integer', 'exists:deposit_items,id'],
+            'items.*.weight' => ['required', 'numeric', 'min:0.01'],
         ];
     }
 
@@ -24,7 +24,7 @@ class ApproveDepositRequest extends FormRequest
     {
         return [
             'items.*.weight.required' => 'Berat riil setiap item wajib diisi.',
-            'items.*.weight.min'      => 'Berat riil harus lebih dari 0.',
+            'items.*.weight.min' => 'Berat riil harus lebih dari 0.',
         ];
     }
 }
