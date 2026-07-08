@@ -11,7 +11,7 @@ import {
 import PublicLayout from '@/Layouts/PublicLayout';
 import { motion, useScroll, useTransform, useInView, animate } from 'framer-motion';
 
-export default function Welcome({ prices = [], articles = [], totalCarbonContribution = 0, totalWaste = 0 }) {
+export default function Welcome({ prices = [], articles = [], totalCarbonContribution = 0, totalWaste = 0, settings = {}, partners = [] }) {
     const { auth } = usePage().props;
     const [isMobile, setIsMobile] = useState(false);
 
@@ -59,7 +59,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                     <img 
                         alt="Hero Background" 
                         className="w-full h-full object-cover opacity-15 object-center" 
-                        src="/images/hero-bfsp.jpeg"
+                        src={settings.hero_image || "/images/hero-bfsp.jpeg"}
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-background via-background/5 to-transparent"></div>
                 </motion.div>
@@ -71,10 +71,10 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                         className="space-y-md"
                     >
                         <motion.h1 variants={itemVariants} className="text-[36px] md:text-[52px] leading-[1.05] font-extrabold text-primary tracking-tight">
-                            Kelola Sampah <br/><span className="text-secondary">Jadi Berkah</span>
+                            {settings.hero_title_1 || 'Kelola Sampah'} <br/><span className="text-secondary">{settings.hero_title_2 || 'Jadi Berkah'}</span>
                         </motion.h1>
                         <motion.p variants={itemVariants} className="text-[15px] md:text-[16px] text-on-surface-variant max-w-lg leading-relaxed font-medium">
-                            Ubah kebiasaan membuang menjadi menabung. Bergabunglah dengan kami untuk melestarikan lingkungan kampus sambil mengumpulkan tabungan yang bermanfaat bagi masa depan Anda.
+                            {settings.hero_subtitle || 'Ubah kebiasaan membuang menjadi menabung. Bergabunglah dengan kami untuk melestarikan lingkungan kampus sambil mengumpulkan tabungan yang bermanfaat bagi masa depan Anda.'}
                         </motion.p>
                         <motion.div variants={itemVariants} className="pt-xs">
                             {auth.user ? (
@@ -87,7 +87,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                     </Link>
                                 ) : (
                                     <a
-                                        href="/admin"
+                                        href="/cms"
                                         className="inline-block bg-primary text-white font-semibold text-[14px] px-xl py-md rounded-full shadow-lg hover:bg-secondary transition-all no-underline"
                                     >
                                         Pergi ke Dashboard
@@ -171,8 +171,8 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
             <section id="alur" className="py-2xl bg-white border-b border-outline-variant/20">
                 <div className="max-w-container-max mx-auto px-lg md:px-xl">
                     <div className="text-center mb-2xl space-y-sm">
-                        <h2 className="text-[28px] md:text-[32px] font-bold text-primary">Alur Kerja Kami</h2>
-                        <p className="text-[14px] md:text-[16px] text-on-surface-variant max-w-2xl mx-auto">Tiga langkah mudah untuk mulai berkontribusi pada lingkungan dan ekonomi Anda.</p>
+                        <h2 className="text-[28px] md:text-[32px] font-bold text-primary">{settings.workflow_title || 'Alur Kerja Kami'}</h2>
+                        <p className="text-[14px] md:text-[16px] text-on-surface-variant max-w-2xl mx-auto">{settings.workflow_description || 'Tiga langkah mudah untuk mulai berkontribusi pada lingkungan dan ekonomi Anda.'}</p>
                     </div>
                     <motion.div 
                         variants={{
@@ -200,9 +200,9 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             <div className="w-16 h-16 mx-auto bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-lg shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
                                 <span className="material-symbols-outlined text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>app_registration</span>
                             </div>
-                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">Daftar Akun</h3>
+                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">{settings.workflow_step1_title || 'Daftar Akun'}</h3>
                             <p className="text-[13px] text-on-surface-variant leading-relaxed">
-                                Buat akun dengan mudah melalui platform kami untuk mulai melacak kontribusi tabungan sampah Anda.
+                                {settings.workflow_step1_desc || 'Buat akun dengan mudah melalui platform kami untuk mulai melacak kontribusi tabungan sampah Anda.'}
                             </p>
                         </motion.div>
                         {/* Step 2 */}
@@ -217,9 +217,9 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             <div className="w-16 h-16 mx-auto bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-lg shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
                                 <span className="material-symbols-outlined text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>recycling</span>
                             </div>
-                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">Setor Sampah</h3>
+                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">{settings.workflow_step2_title || 'Setor Sampah'}</h3>
                             <p className="text-[13px] text-on-surface-variant leading-relaxed">
-                                Bawa sampah terpilah Anda ke depo penampungan. Petugas akan menimbang dan menginput nilai rupiahnya secara riil.
+                                {settings.workflow_step2_desc || 'Bawa sampah terpilah Anda ke depo penampungan. Petugas akan menimbang dan menginput nilai rupiahnya secara riil.'}
                             </p>
                         </motion.div>
                         {/* Step 3 */}
@@ -234,9 +234,9 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             <div className="w-16 h-16 mx-auto bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-lg shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
                                 <span className="material-symbols-outlined text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>account_balance_wallet</span>
                             </div>
-                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">Tarik Saldo</h3>
+                            <h3 className="text-[18px] font-bold text-on-surface mb-sm">{settings.workflow_step3_title || 'Tarik Saldo'}</h3>
                             <p className="text-[13px] text-on-surface-variant leading-relaxed">
-                                Nikmati hasil kerja keras Anda. Tarik saldo tabungan langsung ke rekening bank atau e-wallet kapan saja Anda inginkan.
+                                {settings.workflow_step3_desc || 'Nikmati hasil kerja keras Anda. Tarik saldo tabungan langsung ke rekening bank atau e-wallet kapan saja Anda inginkan.'}
                             </p>
                         </motion.div>
                     </motion.div>
@@ -257,7 +257,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                         <div className="flex-1 space-y-lg flex flex-col justify-center">
                             <h2 className="text-[28px] md:text-[32px] font-bold text-primary tracking-tight">Jadwal Operasional</h2>
                             <p className="text-[13px] md:text-[14px] text-on-surface-variant leading-relaxed font-medium">
-                                Kunjungi depo kami pada jam operasional untuk menyetorkan sampah terpilah Anda. Tim petugas kami siap membantu proses penimbangan dan pencatatan saldo secara cepat, akurat, dan transparan.
+                                {settings.schedule_description || 'Kunjungi depo kami pada jam operasional untuk menyetorkan sampah terpilah Anda. Tim petugas kami siap membantu proses penimbangan dan pencatatan saldo secara cepat, akurat, dan transparan.'}
                             </p>
                             <div className="bg-white rounded-3xl p-lg shadow-sm border border-outline-variant/30">
                                 <div className="flex items-center justify-between border-b border-outline-variant/20 pb-md mb-md">
@@ -267,7 +267,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                         </div>
                                         <div>
                                             <h4 className="text-[14px] font-bold text-on-surface">Hari Layanan</h4>
-                                            <p className="text-[13px] text-on-surface-variant font-medium">Senin - Sabtu</p>
+                                            <p className="text-[13px] text-on-surface-variant font-medium">{settings.schedule_days || 'Senin - Sabtu'}</p>
                                         </div>
                                     </div>
                                     <span className="text-[11px] font-extrabold px-sm py-[2px] bg-primary/15 text-primary rounded-full uppercase tracking-wider">Aktif</span>
@@ -279,14 +279,14 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                                         </div>
                                         <div>
                                             <h4 className="text-[14px] font-bold text-on-surface">Jam Layanan</h4>
-                                            <p className="text-[13px] text-on-surface-variant font-medium">08:00 - 16:00 WITA</p>
+                                            <p className="text-[13px] text-on-surface-variant font-medium">{settings.schedule_hours || '08:00 - 16:00 WITA'}</p>
                                         </div>
                                     </div>
                                     <span className="text-[11px] font-extrabold px-sm py-[2px] bg-secondary/15 text-secondary rounded-full uppercase tracking-wider">Buka</span>
                                 </div>
                                 <div className="mt-lg pt-md border-t border-outline-variant/20 flex items-center gap-xs text-error font-bold text-[11px]">
                                     <span className="material-symbols-outlined text-[14px]">info</span>
-                                    Tutup pada hari Minggu dan Hari Libur Nasional.
+                                    {settings.schedule_note || 'Tutup pada hari Minggu dan Hari Libur Nasional.'}
                                 </div>
                             </div>
                         </div>
@@ -295,7 +295,7 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                             <img 
                                 alt="Fasilitas Depo" 
                                 className="absolute inset-0 w-full h-full object-cover" 
-                                src="/images/bsfpxwcid.png"
+                                src={settings.schedule_image || "/images/bsfpxwcid.png"}
                                 loading="lazy"
                             />
                         </div>
@@ -583,30 +583,22 @@ export default function Welcome({ prices = [], articles = [], totalCarbonContrib
                         <ul className="flex items-center justify-center md:justify-start sm:[&_li]:mx-12 [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll py-sm">
                             {[...Array(4)].map((_, i) => (
                                 <React.Fragment key={i}>
-                                    <li>
-                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
-                                    </li>
-                                    <li>
-                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
-                                    </li>
-                                    <li>
-                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
-                                    </li>
+                                    {partners.map((partner) => (
+                                        <li key={`${i}-${partner.id}`}>
+                                            <img src={partner.logo_path} alt={partner.name} loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        </li>
+                                    ))}
                                 </React.Fragment>
                             ))}
                         </ul>
                         <ul className="flex items-center justify-center md:justify-start sm:[&_li]:mx-12 [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll py-sm" aria-hidden="true">
                             {[...Array(4)].map((_, i) => (
                                 <React.Fragment key={i}>
-                                    <li>
-                                        <img src="/images/logo/logo-nutrifood.png" alt="Nutrifood" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
-                                    </li>
-                                    <li>
-                                        <img src="/images/logo/logo-pegadaian.png" alt="Pegadaian" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
-                                    </li>
-                                    <li>
-                                        <img src="/images/logo/logo-selaluteh.png" alt="Selalu Teh" loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
-                                    </li>
+                                    {partners.map((partner) => (
+                                        <li key={`dup-${i}-${partner.id}`}>
+                                            <img src={partner.logo_path} alt={partner.name} loading="lazy" className="h-14 md:h-18 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0" />
+                                        </li>
+                                    ))}
                                 </React.Fragment>
                             ))}
                         </ul>

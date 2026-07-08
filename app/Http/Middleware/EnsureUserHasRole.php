@@ -13,11 +13,16 @@ class EnsureUserHasRole
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string  $role
+     * @param  string  ...$roles  One or more allowed roles (e.g. role:admin,petugas)
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (Auth::check() && $role === 'nasabah' && Auth::user()->requiresVerificationApproval()) {
+        // Support comma-separated single argument (role:admin,petugas) as well as variadic.
+        if (count($roles) === 1 && str_contains($roles[0], ',')) {
+            $roles = array_map('trim', explode(',', $roles[0]));
+        }
+
+        if (Auth::check() && in_array('nasabah', $roles, true) && Auth::user()->requiresVerificationApproval()) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
@@ -27,15 +32,15 @@ class EnsureUserHasRole
                 ->with('status', 'Akun Anda masih menunggu verifikasi admin.');
         }
 
-        if (!Auth::check() || Auth::user()->role !== $role) {
+        if (!Auth::check() || !in_array(Auth::user()->role, $roles, true)) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Unauthorized.'], 403);
             }
 
             if (Auth::check()) {
                 // If user is admin or petugas, redirect to admin panel
-                if (in_array(Auth::user()->role, ['admin', 'petugas'])) {
-                    return redirect('/admin');
+                if (in_array(Auth::user()->role, ['super_admin', 'petugas'])) {
+                    return redirect()->route('cms.dashboard');
                 }
             }
 

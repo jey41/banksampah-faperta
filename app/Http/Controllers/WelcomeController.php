@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TrashPrice;
 use App\Models\Article;
+use App\Models\SiteSetting;
+use App\Models\Partner;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -20,11 +22,16 @@ class WelcomeController extends Controller
 
         $totalWaste = \App\Models\Deposit::where('status', 'approved')->sum('weight_total');
 
+        $settings = SiteSetting::all()->pluck('value', 'key');
+        $partners = Partner::active()->ordered()->get(['id', 'name', 'logo_path']);
+
         return Inertia::render('Welcome', [
             'prices' => $prices,
             'articles' => $articles,
             'totalCarbonContribution' => (float)$totalCarbon,
             'totalWaste' => (float)$totalWaste,
+            'settings' => $settings,
+            'partners' => $partners,
         ]);
     }
 

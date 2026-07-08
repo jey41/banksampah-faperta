@@ -9,27 +9,40 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
 
 #[Fillable(['name', 'email', 'password', 'role', 'status', 'phone', 'address', 'saldo', 'account_no', 'umur', 'gender', 'status_pekerjaan', 'universitas', 'fakultas', 'pendidikan_terakhir'])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Determine if the user can access the Filament panel.
-     */
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return in_array($this->role, ['admin', 'petugas']);
-    }
-
     public function requiresVerificationApproval(): bool
     {
         return $this->role === 'nasabah' && $this->status !== 'verified';
+    }
+
+    /**
+     * Determine if the user has the given role (or any of several roles).
+     */
+    public function hasRole(string ...$roles): bool
+    {
+        return in_array($this->role, $roles, true);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
+    public function isStaff(): bool
+    {
+        return in_array($this->role, ['super_admin', 'petugas'], true);
     }
 
     /**

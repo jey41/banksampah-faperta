@@ -30,6 +30,11 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'role' => 'nasabah',
+            'status' => 'verified',
+            'saldo' => 0,
+            'phone' => fake()->phoneNumber(),
+            'address' => fake()->address(),
         ];
     }
 
@@ -40,6 +45,53 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate the user is a nasabah.
+     */
+    public function nasabah(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'nasabah',
+            'status' => 'verified',
+        ]);
+    }
+
+    /**
+     * Indicate the user is a petugas (staff).
+     */
+    public function petugas(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'petugas',
+            'status' => 'verified',
+        ]);
+    }
+
+    /**
+     * Indicate the user is a super_admin.
+     * Note: Uses 'admin' for SQLite compatibility since 'super_admin'
+     * enum value is added via MySQL-specific migration.
+     */
+    public function superAdmin(): static
+    {
+        $role = config('database.default') === 'sqlite' ? 'admin' : 'super_admin';
+
+        return $this->state(fn (array $attributes) => [
+            'role' => $role,
+            'status' => 'verified',
+        ]);
+    }
+
+    /**
+     * Indicate the user has a specific saldo balance.
+     */
+    public function withSaldo(int $amount): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'saldo' => $amount,
         ]);
     }
 }

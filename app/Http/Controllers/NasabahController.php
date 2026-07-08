@@ -7,6 +7,10 @@ use App\Models\Deposit;
 use App\Models\DepositItem;
 use App\Models\Withdrawal;
 use App\Models\PickupRequest;
+use App\Models\SavingsTarget;
+use App\Http\Requests\Nasabah\StorePickupRequestRequest;
+use App\Http\Requests\Nasabah\StoreWithdrawRequest;
+use App\Http\Requests\Nasabah\StoreTargetRequest;
 use App\Services\TransactionService;
 use App\Services\GamificationService;
 use Illuminate\Http\Request;
@@ -25,27 +29,7 @@ class NasabahController extends Controller
         $withdrawals = $user->withdrawals()->orderBy('created_at', 'desc')->take(5)->get();
 
         // Map and combine them
-        $transactions = collect()
-            ->concat($deposits->map(fn($d) => [
-                'id' => $d->id,
-                'type' => 'deposit',
-                'title' => $d->is_donation ? 'Donasi Sampah' : 'Setoran Sampah',
-                'amount' => $d->total_price,
-                'weight' => $d->weight_total,
-                'status' => $d->status,
-                'date' => $d->created_at->toISOString(),
-            ]))
-            ->concat($withdrawals->map(fn($w) => [
-                'id' => $w->id,
-                'type' => 'withdrawal',
-                'title' => 'Penarikan Saldo',
-                'amount' => $w->amount,
-                'status' => $w->status,
-                'date' => $w->created_at->toISOString(),
-            ]))
-            ->sortByDesc('date')
-            ->values()
-            ->take(5);
+        $transactions = $this->mapTransactions($deposits, $withdrawals, 5);
 
         // Sum approved transactions for statistics
         $totalDeposited = $user->deposits()->where('status', 'approved')->sum('total_price');
@@ -101,34 +85,17 @@ class NasabahController extends Controller
         ]);
     }
 
-    public function storePickupRequest(Request $request)
+    public function storePickupRequest(StorePickupRequestRequest $request)
     {
-        $request->validate([
-            'pickup_address' => 'required|string|max:1000',
-            'pickup_phone' => 'required|string|max:20',
-            'pickup_date' => 'required|date|after_or_equal:today',
-            'pickup_time' => 'required|string|in:08:00-10:00,10:00-12:00,13:00-15:00',
-            'latitude' => 'nullable|numeric|between:-90,90',
-            'longitude' => 'nullable|numeric|between:-180,180',
-            'estimated_distance' => 'nullable|numeric|min:0',
-            'notes' => 'nullable|string|max:1000',
-        ]);
-
-        if ($request->estimated_distance !== null && $request->estimated_distance > 2.0) {
-            return redirect()->back()->withErrors([
-                'latitude' => 'Jarak lokasi Anda (' . $request->estimated_distance . ' km) melebihi batas maksimal penjemputan (2 km).',
-            ])->withInput();
-        }
-
         auth()->user()->pickupRequests()->create([
-            'pickup_address' => $request->pickup_address,
-            'pickup_phone' => $request->pickup_phone,
-            'pickup_date' => $request->pickup_date,
-            'pickup_time' => $request->pickup_time,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'estimated_distance' => $request->estimated_distance,
-            'notes' => $request->notes,
+            'pickup_address' => $request->validated('pickup_address'),
+            'pickup_phone' => $request->validated('pickup_phone'),
+            'pickup_date' => $request->validated('pickup_date'),
+            'pickup_time' => $request->validated('pickup_time'),
+            'latitude' => $request->validated('latitude'),
+            'longitude' => $request->validated('longitude'),
+            'estimated_distance' => $request->validated('estimated_distance'),
+            'notes' => $request->validated('notes'),
             'status' => 'pending',
         ]);
 
@@ -142,37 +109,21 @@ class NasabahController extends Controller
         ]);
     }
 
-    public function storeWithdraw(Request $request)
+    public function storeWithdraw(StoreWithdrawRequest $request)
     {
         $user = auth()->user();
-        
-        $request->validate([
-            'amount' => 'required|integer|min:10000|max:' . $user->saldo,
-            'withdrawal_method' => 'required|in:tunai,transfer_bank',
-            'bank_name' => 'required_if:withdrawal_method,transfer_bank|string|max:255',
-            'bank_type' => 'nullable|in:btn,lainnya',
-            'account_number' => 'required_if:withdrawal_method,transfer_bank|string|max:255',
-            'account_name' => 'required_if:withdrawal_method,transfer_bank|string|max:255',
-            'notes' => 'nullable|string|max:1000',
-        ]);
-
-        // Check operational hours (08:00-16:00)
-        if (!TransactionService::isWithinOperationalHours()) {
-            return redirect()->back()->withErrors([
-                'withdrawal_method' => 'Pengajuan penarikan hanya dapat dilakukan pada jam operasional 08:00 - 16:00.',
-            ])->withInput();
-        }
+        $validated = $request->validated();
 
         Withdrawal::create([
             'user_id' => $user->id,
-            'amount' => $request->amount,
-            'withdrawal_method' => $request->withdrawal_method,
-            'bank_name' => $request->withdrawal_method === 'tunai' ? 'Tunai' : $request->bank_name,
-            'bank_type' => $request->withdrawal_method === 'tunai' ? null : $request->bank_type,
-            'account_number' => $request->withdrawal_method === 'tunai' ? '-' : $request->account_number,
-            'account_name' => $request->withdrawal_method === 'tunai' ? auth()->user()->name : $request->account_name,
+            'amount' => $validated['amount'],
+            'withdrawal_method' => $validated['withdrawal_method'],
+            'bank_name' => $validated['withdrawal_method'] === 'tunai' ? 'Tunai' : $validated['bank_name'],
+            'bank_type' => $validated['withdrawal_method'] === 'tunai' ? null : ($validated['bank_type'] ?? null),
+            'account_number' => $validated['withdrawal_method'] === 'tunai' ? '-' : $validated['account_number'],
+            'account_name' => $validated['withdrawal_method'] === 'tunai' ? $user->name : $validated['account_name'],
             'status' => 'pending',
-            'notes' => $request->notes,
+            'notes' => $validated['notes'] ?? null,
         ]);
 
         return redirect()->route('nasabah.dashboard')->with('success', 'Pengajuan penarikan berhasil dibuat!');
@@ -185,6 +136,42 @@ class NasabahController extends Controller
         $deposits = $user->deposits()->orderBy('created_at', 'desc')->get();
         $withdrawals = $user->withdrawals()->orderBy('created_at', 'desc')->get();
 
+        $transactions = $this->mapTransactions($deposits, $withdrawals);
+
+        return Inertia::render('Nasabah/History', [
+            'transactions' => $transactions,
+        ]);
+    }
+
+    public function storeTarget(StoreTargetRequest $request)
+    {
+        $validated = $request->validated();
+
+        auth()->user()->savingsTargets()->create([
+            'title' => $validated['title'],
+            'target_amount' => $validated['target_amount'],
+            'is_achieved' => (auth()->user()->saldo >= $validated['target_amount']),
+        ]);
+
+        return redirect()->back()->with('success', 'Target tabungan berhasil ditambahkan!');
+    }
+
+    public function deleteTarget(Request $request, SavingsTarget $target)
+    {
+        if ($target->user_id !== auth()->id()) {
+            abort(403);
+        }
+        $target->delete();
+
+        return redirect()->back()->with('success', 'Target tabungan berhasil dihapus!');
+    }
+
+    /**
+     * Map deposits and withdrawals into a unified transaction list.
+     * Shared between dashboard() and history() to avoid duplication.
+     */
+    private function mapTransactions($deposits, $withdrawals, ?int $limit = null): \Illuminate\Support\Collection
+    {
         $transactions = collect()
             ->concat($deposits->map(fn($d) => [
                 'id' => $d->id,
@@ -206,35 +193,6 @@ class NasabahController extends Controller
             ->sortByDesc('date')
             ->values();
 
-        return Inertia::render('Nasabah/History', [
-            'transactions' => $transactions,
-        ]);
-    }
-
-    public function storeTarget(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'target_amount' => 'required|integer|min:10000',
-        ]);
-
-        auth()->user()->savingsTargets()->create([
-            'title' => $request->title,
-            'target_amount' => $request->target_amount,
-            'is_achieved' => (auth()->user()->saldo >= $request->target_amount),
-        ]);
-
-        return redirect()->back()->with('success', 'Target tabungan berhasil ditambahkan!');
-    }
-
-    public function deleteTarget(\App\Models\SavingsTarget $target)
-    {
-        if ($target->user_id !== auth()->id()) {
-            abort(403);
-        }
-
-        $target->delete();
-
-        return redirect()->back()->with('success', 'Target tabungan berhasil dihapus!');
+        return $limit ? $transactions->take($limit) : $transactions;
     }
 }

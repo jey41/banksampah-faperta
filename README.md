@@ -162,6 +162,78 @@ banksampah-faperta/
 - Public-facing educational portal
 - Category-based organization
 
+## 🐳 Docker Deployment
+
+### Production with Docker Compose
+
+```bash
+# Clone repository
+git clone https://github.com/jey41/banksampah-faperta.git
+cd banksampah-faperta
+
+# Copy production environment file
+cp .env.production.example .env
+
+# Edit .env with your production values
+# - APP_KEY (generate with: php artisan key:generate)
+# - APP_URL (your domain)
+# - DB_PASSWORD (strong password)
+# - REDIS_PASSWORD (if needed)
+
+# Build and start containers
+docker compose up -d --build
+
+# Run migrations
+docker compose exec php php artisan migrate --force
+
+# Seed initial data (optional)
+docker compose exec php php artisan db:seed --force
+
+# Cache configuration
+docker compose exec php php artisan config:cache
+docker compose exec php php artisan route:cache
+docker compose exec php php artisan view:cache
+
+# Create storage symlink
+docker compose exec php php artisan storage:link
+```
+
+### Docker Services
+
+| Service | Container | Port | Description |
+|---------|-----------|------|-------------|
+| nginx | banksampah-nginx | 80, 443 | Web server |
+| php | banksampah-php | 9000 | PHP-FPM application |
+| mysql | banksampah-mysql | 3306 | Database |
+| redis | banksampah-redis | 6379 | Cache & queue |
+| queue-worker | banksampah-queue | - | Background jobs |
+| scheduler | banksampah-scheduler | - | Cron jobs |
+
+### Useful Docker Commands
+
+```bash
+# View logs
+docker compose logs -f php
+docker compose logs -f nginx
+
+# Access PHP container
+docker compose exec php bash
+
+# Run artisan commands
+docker compose exec php php artisan [command]
+
+# Restart services
+docker compose restart
+
+# Stop all services
+docker compose down
+
+# Stop and remove volumes (WARNING: deletes data)
+docker compose down -v
+```
+
+For detailed deployment instructions, see the [Deployment Guide](docs/DEPLOYMENT_GUIDE.md).
+
 ## 🤝 Contributing
 
 We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) for details on:

@@ -57,7 +57,7 @@ class BankSampahTest extends TestCase
     public function test_nasabah_is_blocked_from_accessing_admin_panel()
     {
         $response = $this->actingAs($this->nasabah)
-            ->get('/admin');
+            ->get(route('cms.dashboard'));
 
         // It should redirect them to the nasabah dashboard
         $response->assertRedirect(route('nasabah.dashboard'));
@@ -67,7 +67,7 @@ class BankSampahTest extends TestCase
     public function test_admin_can_access_admin_panel()
     {
         $response = $this->actingAs($this->admin)
-            ->get('/admin');
+            ->get(route('cms.dashboard'));
 
         // Admin should be able to access the admin panel
         $response->assertStatus(200);
@@ -86,7 +86,7 @@ class BankSampahTest extends TestCase
         $response = $this->actingAs($this->admin)
             ->get('/dashboard');
 
-        $response->assertRedirect('/admin');
+        $response->assertRedirect(route('cms.dashboard'));
     }
 
     public function test_nasabah_cannot_access_old_deposit_page()
@@ -644,7 +644,7 @@ class BankSampahTest extends TestCase
     public function test_admin_can_view_activity_logs_index_page()
     {
         $response = $this->actingAs($this->admin)
-            ->get('/admin/activity-logs');
+            ->get(route('cms.activity-logs.index'));
 
         $response->assertStatus(200);
     }
@@ -652,7 +652,7 @@ class BankSampahTest extends TestCase
     public function test_nasabah_cannot_view_activity_logs_index_page()
     {
         $response = $this->actingAs($this->nasabah)
-            ->get('/admin/activity-logs');
+            ->get(route('cms.activity-logs.index'));
 
         $response->assertRedirect(route('nasabah.dashboard'));
     }

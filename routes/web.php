@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 // Public Routes
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/', [WelcomeController::class, 'index'])
+    ->middleware([\App\Http\Middleware\TrackSiteVisit::class])
+    ->name('welcome');
 Route::get('/harga', [WelcomeController::class, 'prices'])->name('public.prices');
 Route::get('/artikel', [WelcomeController::class, 'articles'])->name('public.articles');
 Route::get('/artikel/{slug}', [WelcomeController::class, 'article'])->name('public.article');
@@ -18,7 +20,7 @@ Route::get('/dashboard', function () {
     $user = Auth::user();
     
     if (in_array($user->role, ['admin', 'petugas'])) {
-        return \Inertia\Inertia::location(url('/admin'));
+        return redirect('/cms');
     }
     
     if ($user->role === 'nasabah') {
@@ -31,15 +33,15 @@ Route::get('/dashboard', function () {
 // Nasabah Routes
 Route::middleware(['auth', 'role:nasabah'])->prefix('nasabah')->group(function () {
     Route::get('/dashboard', [NasabahController::class, 'dashboard'])->name('nasabah.dashboard');
-    
+
     Route::get('/jemput', [NasabahController::class, 'pickupRequest'])->name('nasabah.pickup');
-    Route::post('/jemput', [NasabahController::class, 'storePickupRequest'])->name('nasabah.pickup.store');
-    
+    Route::post('/jemput', [NasabahController::class, 'storePickupRequest'])->name('nasabah.pickup.store')->middleware('throttle:10,1');
+
     Route::get('/tarik', [NasabahController::class, 'withdraw'])->name('nasabah.withdraw');
-    Route::post('/tarik', [NasabahController::class, 'storeWithdraw'])->name('nasabah.withdraw.store');
-    
+    Route::post('/tarik', [NasabahController::class, 'storeWithdraw'])->name('nasabah.withdraw.store')->middleware('throttle:10,1');
+
     Route::get('/riwayat', [NasabahController::class, 'history'])->name('nasabah.history');
-    Route::post('/target', [NasabahController::class, 'storeTarget'])->name('nasabah.target.store');
+    Route::post('/target', [NasabahController::class, 'storeTarget'])->name('nasabah.target.store')->middleware('throttle:10,1');
     Route::delete('/target/{target}', [NasabahController::class, 'deleteTarget'])->name('nasabah.target.delete');
 });
 

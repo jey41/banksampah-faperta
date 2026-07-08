@@ -1,0 +1,56 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Dependencies (will be installed during build)
+node_modules
+vendor
+
+# Build artifacts (will be built during build)
+public/build
+public/hot
+
+# Environment files
+.env
+.env.backup
+.env.production
+.env.staging
+
+# Documentation
+docs
+*.md
+CHANGELOG.md
+CONTRIBUTING.md
+README.md
+
+# Docker
+docker-compose*.yml
+Dockerfile
+docker
+
+# Tests
+tests
+phpunit.xml
+.phpunit.result.cache
+
+# Cache
+bootstrap/cache/*.php
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Other
+.github
+.gitlab-ci.yml
+Jenkinsfile

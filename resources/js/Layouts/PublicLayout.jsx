@@ -7,11 +7,12 @@ import RegisterModal from '@/Components/Auth/RegisterModal';
 export default function PublicLayout({ children }) {
     const { auth } = usePage().props;
     const { url } = usePage(); // Gets current path (e.g. /harga or /)
-    
+
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
     const [clickedId, setClickedId] = useState(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleOpenRegister = () => setIsRegisterOpen(true);
@@ -184,6 +185,22 @@ export default function PublicLayout({ children }) {
                             ))}
                         </nav>
                         
+                        {/* Mobile Menu Button */}
+                        <button
+                            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-container-low transition-colors bg-transparent border-0 cursor-pointer"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            aria-label={isMobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
+                            aria-expanded={isMobileMenuOpen}
+                        >
+                            <svg className="w-6 h-6 text-on-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                {isMobileMenuOpen ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                )}
+                            </svg>
+                        </button>
+
                         <div className="flex items-center gap-sm">
                             {auth.user ? (
                                 auth.user.role === 'nasabah' ? (
@@ -195,7 +212,7 @@ export default function PublicLayout({ children }) {
                                     </Link>
                                 ) : (
                                     <a
-                                        href="/admin"
+                                        href="/cms"
                                         className="bg-primary text-white font-semibold text-[14px] px-lg py-sm rounded-full hover:bg-opacity-90 transition-all shadow-md no-underline"
                                     >
                                         Dashboard
@@ -219,6 +236,58 @@ export default function PublicLayout({ children }) {
                             )}
                         </div>
                     </div>
+
+                    {/* Mobile Navigation Menu */}
+                    {isMobileMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="md:hidden bg-white border-t border-outline-variant/30 shadow-lg"
+                        >
+                            <nav className="flex flex-col py-sm">
+                                {navItems.map((item) => (
+                                    <Link
+                                        key={item.id}
+                                        href={item.href}
+                                        onClick={(e) => {
+                                            handleNavClick(e, item.id, item.isAnchor);
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className={`px-lg py-sm text-[14px] font-semibold no-underline transition-colors ${
+                                            activeSection === item.id
+                                                ? 'text-primary bg-primary/5'
+                                                : 'text-on-surface-variant hover:text-primary hover:bg-surface-container-low'
+                                        }`}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+                                {!auth.user && (
+                                    <div className="flex flex-col gap-xs px-lg pt-sm border-t border-outline-variant/30 mt-sm">
+                                        <button
+                                            onClick={() => {
+                                                setIsLoginOpen(true);
+                                                setIsMobileMenuOpen(false);
+                                            }}
+                                            className="text-primary font-semibold text-[14px] px-md py-sm rounded-full hover:bg-surface-container-low transition-all bg-transparent border border-primary cursor-pointer"
+                                        >
+                                            Masuk
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setIsRegisterOpen(true);
+                                                setIsMobileMenuOpen(false);
+                                            }}
+                                            className="bg-primary text-white font-semibold text-[14px] px-md py-sm rounded-full hover:bg-opacity-90 transition-all cursor-pointer border-0"
+                                        >
+                                            Daftar
+                                        </button>
+                                    </div>
+                                )}
+                            </nav>
+                        </motion.div>
+                    )}
                 </motion.header>
 
                 {/* Page Content */}

@@ -7,6 +7,10 @@ use App\Models\Withdrawal;
 use App\Models\User;
 use App\Models\Mutation;
 use App\Models\ActivityLog;
+use App\Events\Deposit\DepositApproved;
+use App\Events\Deposit\DepositRejected;
+use App\Events\Withdrawal\WithdrawalApproved;
+use App\Events\Withdrawal\WithdrawalRejected;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -17,7 +21,9 @@ class TransactionService
      */
     public function approveDeposit(Deposit $deposit, array $itemsData, int $validatorId): void
     {
-        DB::transaction(function () use ($deposit, $itemsData, $validatorId) {
+        $eventData = [];
+
+        DB::transaction(function () use ($deposit, $itemsData, $validatorId, &$eventData) {
             // Lock the deposit record to prevent concurrent updates
             $deposit = Deposit::where('id', $deposit->id)->lockForUpdate()->firstOrFail();
 
@@ -75,15 +81,29 @@ class TransactionService
             // Record Activity Log (Audit Trail)
             $validator = User::find($validatorId);
             $donationText = $deposit->is_donation ? ' (Sebagai Donasi)' : '';
-            $categoryText = $deposit->donation_category 
-                ? ' - Kategori: ' . ($deposit->donation_category === 'umum' ? 'Sampah Umum' : 'Sampah Donasi') 
+            $categoryText = $deposit->donation_category
+                ? ' - Kategori: ' . ($deposit->donation_category === 'umum' ? 'Sampah Umum' : 'Sampah Donasi')
                 : '';
             ActivityLog::create([
                 'user_id' => $validatorId,
                 'action' => 'approve_deposit',
                 'description' => "{$validator->name} menyetujui setoran #{$deposit->id} milik nasabah {$nasabah->name}{$donationText}{$categoryText} dengan total berat {$weightTotal} kg/L dan total nilai Rp " . number_format($totalPrice, 0, ',', '.'),
             ]);
+
+            // Capture data for event dispatching after transaction
+            $eventData = [
+                'balanceBefore' => $balanceBefore,
+                'balanceAfter' => $balanceAfter,
+            ];
         });
+
+        // Dispatch event after successful transaction
+        event(new DepositApproved(
+            deposit: $deposit->fresh(),
+            approver: User::find($validatorId),
+            balanceBefore: $eventData['balanceBefore'],
+            balanceAfter: $eventData['balanceAfter'],
+        ));
 
         // Sync gamification badges after deposit approval
         $nasabah = User::find($deposit->user_id);
@@ -135,6 +155,12 @@ class TransactionService
                 'description' => "{$validator->name} menolak setoran #{$deposit->id} milik nasabah {$nasabah->name}",
             ]);
         });
+
+        // Dispatch event after successful transaction
+        event(new DepositRejected(
+            deposit: $deposit->fresh(),
+            rejector: User::find($validatorId),
+        ));
     }
 
     /**
@@ -145,7 +171,9 @@ class TransactionService
      */
     public function approveWithdrawal(Withdrawal $withdrawal, int $validatorId): void
     {
-        DB::transaction(function () use ($withdrawal, $validatorId) {
+        $eventData = [];
+
+        DB::transaction(function () use ($withdrawal, $validatorId, &$eventData) {
             $withdrawal = Withdrawal::where('id', $withdrawal->id)->lockForUpdate()->firstOrFail();
 
             if ($withdrawal->status !== 'pending') {
@@ -210,7 +238,21 @@ class TransactionService
                 'action' => 'approve_withdrawal',
                 'description' => "{$validator->name} menyetujui penarikan saldo #{$withdrawal->id} milik nasabah {$nasabah->name} sebesar Rp " . number_format($withdrawal->amount, 0, ',', '.') . " (metode: {$methodLabel})" . ($adminFee > 0 ? " dengan biaya admin Rp 2.500" : ""),
             ]);
+
+            // Capture data for event dispatching after transaction
+            $eventData = [
+                'balanceBefore' => $balanceBefore,
+                'balanceAfter' => $balanceAfter,
+            ];
         });
+
+        // Dispatch event after successful transaction
+        event(new WithdrawalApproved(
+            withdrawal: $withdrawal->fresh(),
+            approver: User::find($validatorId),
+            balanceBefore: $eventData['balanceBefore'],
+            balanceAfter: $eventData['balanceAfter'],
+        ));
     }
 
     /**
@@ -245,6 +287,12 @@ class TransactionService
                 'description' => "{$validator->name} menolak penarikan saldo #{$withdrawal->id} milik nasabah {$nasabah->name} sebesar Rp " . number_format($withdrawal->amount, 0, ',', '.'),
             ]);
         });
+
+        // Dispatch event after successful transaction
+        event(new WithdrawalRejected(
+            withdrawal: $withdrawal->fresh(),
+            rejector: User::find($validatorId),
+        ));
     }
 
     /**

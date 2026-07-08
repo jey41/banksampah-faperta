@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Article extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['title', 'slug', 'content', 'image_path', 'status'];
 
     protected $appends = ['image_url'];

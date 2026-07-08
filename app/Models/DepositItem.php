@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DepositItem extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['deposit_id', 'trash_price_id', 'weight', 'price_per_unit', 'total_price', 'total_carbon'];
 
     protected $casts = [

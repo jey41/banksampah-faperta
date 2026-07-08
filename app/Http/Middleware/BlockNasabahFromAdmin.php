@@ -16,7 +16,7 @@ class BlockNasabahFromAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->is('admin*') && Auth::check() && Auth::user()->role === 'nasabah') {
+        if (Auth::check() && Auth::user()->role === 'nasabah' && ($request->is('admin*') || $request->is('cms*'))) {
             return redirect()->route('nasabah.dashboard')->with('error', 'Anda tidak memiliki akses ke panel admin.');
         }
 

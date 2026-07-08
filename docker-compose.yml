@@ -1,0 +1,117 @@
+services:
+  # Nginx Web Server
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: nginx
+    container_name: banksampah-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - banksampah
+
+  # PHP-FPM Application
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php
+    container_name: banksampah-php
+    volumes:
+      - .:/var/www
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - banksampah
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: banksampah-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-bank_sampah}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-bank_sampah_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - banksampah
+
+  # Redis Cache & Queue
+  redis:
+    image: redis:7-alpine
+    container_name: banksampah-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - banksampah
+
+  # Laravel Queue Worker
+  queue-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php
+    container_name: banksampah-queue
+    command: php artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
+    volumes:
+      - .:/var/www
+    depends_on:
+      - php
+      - redis
+      - mysql
+    networks:
+      - banksampah
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+    restart: unless-stopped
+
+  # Laravel Scheduler
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php
+    container_name: banksampah-scheduler
+    command: >
+      sh -c "while true; do php artisan schedule:run --verbose --no-interaction & sleep 60; done"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - php
+      - redis
+      - mysql
+    networks:
+      - banksampah
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  banksampah:
+    driver: bridge
